@@ -33,5 +33,7 @@ export default function convertBytesToHuman(bytes) {
 		type++;
 	}
 
-	return bytes.toFixed(2) + ' ' + types[type];
+	bytes = Math.round(bytes * 100) / 100;
+	if(parseInt(bytes) != bytes) bytes = bytes.toFixed(2);
+	return bytes + ' ' + types[type];
 }
