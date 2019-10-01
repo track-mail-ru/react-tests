@@ -1,6 +1,6 @@
 {
   "name": "atom-mail-2019-jellyb0y",
-  "homepage": "https://your_gh_login.github.io/your_repo_name",
+  "homepage": "https://chexex.github.io/cra-caddy-docker/",
   "description": "Mail.Ru Group Frontend Atom course, 2019",
   "version": "0.1.0",
   "author": "V Kisel",
@@ -81,7 +81,7 @@
     "lint": "npm run lint:js && npm run lint:dup && npm run lint:css",
     "lint-fix": "eslint --fix",
     "clean": "rm -rf dist",
-    "test": "npm run test:engine && npm run test:unit && npm run lint",
+    "test": "CI=true npm run test:engine && npm run test:unit && npm run lint",
     "test:engine": "check-engine",
     "test:sec": "npm audit || true",
     "test:unit": "cross-env NODE_ENV=test jest",
