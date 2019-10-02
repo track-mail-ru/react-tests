@@ -22,7 +22,6 @@ module.exports = {
   'testPathIgnorePatterns': [
     '/node_modules/',
     '/docker/',
-    '/src/tests/',
   ],
 
   'collectCoverage': true,
