@@ -1,29 +1,55 @@
 const template = document.createElement('template');
 template.innerHTML = `
     <style>
+        *{
+            margin: 0;
+            padding: 0;
+            --fontNormalSize: 1.1em;
+            --fontMinSize: 0.95em;
+            --fontMaxSize: 1.2em;
+            --fontMinMinSize: 0.8em;
+            box-sizing: border-box;
+        }
+
+        li{
+            list-style: none;
+        }
+
         .messageBox{
-            width: 60%;
+            display: inline-block;
+            background-color: #2C2D2F;
+            border-radius: 15px;
             padding: 10px;
-            outline: 1px solid red;
+        }
+
+        .messageBox .time{
+            width: 100%;
+            text-align: right;
+            font-size: var(--fontMinSize);
+            margin-top: 5px;
+            color: #656668;
         }
 
         .self{
             float: right;
+            background-color: #454648 !important;
+            color: #E2E3E5 !important;
+        }
+
+        .self .time{
+            color: #77787A !important;
         }
 
         .self:after{
             clear: both;
         }
-
-        a{
-            display: block;
-            color: #333;
-        }
     </style>
-    <div class="messageBox" messageID>
-        <a class="text"></a>
-        <a class="time"></a>
-    </div>
+    <li>
+        <div class="messageBox">
+            <div class="text">Какой-то текст</div>
+            <div class="time">19:05</div>
+        </div>
+    </li>
 `;
 
 class MessageForm extends HTMLElement {
@@ -58,7 +84,8 @@ class MessageForm extends HTMLElement {
 
             case 'time':
                 let time = new Date(parseInt(newValue));
-                this.$time.innerText = time.getHours() + ':' + time.getMinutes();
+                time = time.toString().split(' ')[4].split(':');
+                this.$time.innerText = time[0] + ':' + time[1];
                 break;
         }
     }

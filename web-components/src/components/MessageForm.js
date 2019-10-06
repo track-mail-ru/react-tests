@@ -1,37 +1,113 @@
 const template = document.createElement('template');
 template.innerHTML = `
     <style>
-        form-input {
+        *{
+            margin: 0;
+            padding: 0;
+            --fontNormalSize: 1.1em;
+            --fontMinSize: 0.95em;
+            --fontMaxSize: 1.2em;
+            --fontMinMinSize: 0.8em;
+            box-sizing: border-box;
+        }
+
+        li{
+            list-style: none;
+        }
+
+        html, body{
+            height: 100%;
+            font-family: -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,Noto Sans Armenian,Noto Sans Bengali,Noto Sans Cherokee,Noto Sans Devanagari,Noto Sans Ethiopic,Noto Sans Georgian,Noto Sans Hebrew,Noto Sans Kannada,Noto Sans Khmer,Noto Sans Lao,Noto Sans Osmanya,Noto Sans Tamil,Noto Sans Telugu,Noto Sans Thai,sans-serif;
+            font-size: var(--fontNormSize);
+            color: #E2E3E5;
+        }
+
+        :host{
             width: 100%;
+            height: 100%;
+            background-color: #191919;
+            display: flex;
+            flex-direction: column;
         }
 
-        .result {
-            color: red;
+        .header{
+            background-color: #2C2D2F;
+            width: 100%;
+            z-index: 1;
+            box-shadow: 0 0 2px 0 #151716;
         }
 
-        input[type=submit] {
-            visibility: collapse;
+        .content{
+            width: 100%;
+            display: flex;
+            flex: auto;
+            flex-wrap: wrap;
+            flex-direction: column-reverse;
+            align-content: flex-end;
+            z-index: 0;
+            overflow-y: auto;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        .messageWrap{
+            display: block;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-end;
+        }
+
+        message-box{
+            box-sizing: border-box;
+            width: 100%;
+            padding: 0 10px 20px 10px;
+        }
+
+        .messageDate{
+            width: 100%;
+            text-align: center;
+            font-size: var(--fontMinMinSize);
+            font-weight: 600;
+            padding: 30px 0;
+            color: #9A9B9D;
+        }
+
+        .footer{
+            width: 100%;
+            background-color: #191919;
+            outline: 1px solid #242424;
+            z-index: 1;
         }
     </style>
-    <form>
-        <div class="result"></div>
-        <form-input name="message-text" placeholder="Введите сообщеине"></form-input>
-    </form>
+    <div class="header">
+        <dialog-info></dialog-info>
+    </div>
+    <div class="content">
+        <div class="messageWrap">
+            <div class="messageDate">Сегодня, 6 октября</div>
+        </div>
+    </div>
+    <div class="footer">
+        <form-input placeholder="Ваше сообщение"></form-input>
+    </div>
 `;
 
 class MessageForm extends HTMLElement {
     constructor () {
         super();
+
         this._shadowRoot = this.attachShadow({ mode: 'open' });
         this._shadowRoot.appendChild(template.content.cloneNode(true));
-        this.$form = this._shadowRoot.querySelector('form');
-        this.$input = this._shadowRoot.querySelector('form-input');
-        this.$messages = this._shadowRoot.querySelector('.result');
-        this.dialogID = 0;
 
-        this.$form.addEventListener('submit', this._onSubmit.bind(this));
-        this.$form.addEventListener('keypress', this._onKeyPress.bind(this));
-        this.addEventListener('onClick', this._waitingForMessage.bind(this));
+        this.$input = this._shadowRoot.querySelector('form-input');
+        this.$messages = this._shadowRoot.querySelector('.messageWrap');
+
+        this.dialogID = 0;
+        
+        this.$input.addEventListener('onSubmit', this._onSubmit.bind(this));
 
         this._messageLoader();
     }
@@ -43,12 +119,13 @@ class MessageForm extends HTMLElement {
 
     _messageLoader () {
         let currentID = parseInt(localStorage.getItem(this.dialogID + '_curentID'));
-        let depth = 0;
+        let i = currentID - 100;
+        if(i < 0) i = 0;
 
         do {
-            let messageBox = JSON.parse(localStorage.getItem(this.dialogID + '_' +  currentID));
+            let messageBox = JSON.parse(localStorage.getItem('msg_' + this.dialogID + '_' + i));
             if(messageBox != null) this._renderMessage(messageBox);
-        } while (currentID-- && depth++ < 100);
+        } while (++i && i <= currentID);
     }
 
     _renderMessage (messageBox) {
@@ -63,7 +140,6 @@ class MessageForm extends HTMLElement {
     _newMessage (owner, text, additions = null) {
         let currentID = parseInt(localStorage.getItem(this.dialogID + '_curentID')) + 1;
         if(isNaN(currentID)) currentID = 0;
-        console.log(currentID);
         localStorage.setItem(this.dialogID + '_curentID', currentID);
 
         let time = new Date();
@@ -80,13 +156,8 @@ class MessageForm extends HTMLElement {
     }
 
     _onSubmit (event) {
-        event.preventDefault();
-        this._newMessage(0, this.$input.value);
-    }
-
-    _onKeyPress (event) {
-        if (event.keyCode == 13 && this.$input.value != '') {
-            this.$form.dispatchEvent(new Event('submit'));
+        if(this.$input.value != ''){
+            this._newMessage(0, this.$input.value);
             this.$input.setAttribute('value','');
         }
     }
