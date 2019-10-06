@@ -20,6 +20,9 @@ template.innerHTML = `
             background-color: #2C2D2F;
             border-radius: 15px;
             padding: 10px;
+            text-align: justify;
+            max-width: 60%;
+            word-break: break-all;
         }
 
         .messageBox .time{

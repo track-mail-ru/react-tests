@@ -26,6 +26,7 @@ template.innerHTML = `
             width: 100%;
             height: 100%;
             background-color: #191919;
+            background: url(/src/images/background.png);
             display: flex;
             flex-direction: column;
         }
@@ -106,7 +107,7 @@ class MessageForm extends HTMLElement {
         this.$messages = this._shadowRoot.querySelector('.messageWrap');
 
         this.dialogID = 0;
-        
+
         this.$input.addEventListener('onSubmit', this._onSubmit.bind(this));
 
         this._messageLoader();
