@@ -29,6 +29,7 @@ class FormInput extends HTMLElement {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
+        if(name == "value") this.$input.value = newValue;
         this.$input.setAttribute(name, newValue);
     }
 
