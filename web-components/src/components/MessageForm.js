@@ -67,19 +67,11 @@ template.innerHTML = `
             padding: 0 10px 20px 10px;
         }
 
-        .messageDate{
-            width: 100%;
-            text-align: center;
-            font-size: var(--fontMinMinSize);
-            font-weight: 600;
-            padding: 30px 0;
-            color: #9A9B9D;
-        }
-
         .footer{
             width: 100%;
             background-color: #191919;
             outline: 1px solid #242424;
+            box-shadow: 0 0 2px 0 #151716;
             z-index: 1;
         }
     </style>
@@ -87,9 +79,7 @@ template.innerHTML = `
         <dialog-info></dialog-info>
     </div>
     <div class="content">
-        <div class="messageWrap">
-            <div class="messageDate">Сегодня, 6 октября</div>
-        </div>
+        <div class="messageWrap"></div>
     </div>
     <div class="footer">
         <form-input placeholder="Ваше сообщение"></form-input>
@@ -120,13 +110,44 @@ class MessageForm extends HTMLElement {
 
     _messageLoader () {
         let currentID = parseInt(localStorage.getItem(this.dialogID + '_curentID'));
+        
         let i = currentID - 100;
         if(i < 0) i = 0;
 
+        let lastDate = {
+            year: null,
+            month: null,
+            date: null
+        };
+
         do {
             let messageBox = JSON.parse(localStorage.getItem('msg_' + this.dialogID + '_' + i));
+            let time = new Date(messageBox['time']);
+
+            let currentDate = {
+                year: time.getFullYear(),
+                month: time.getMonth(),
+                date: time.getDate()
+            }
+
+            //let currentDate = parseInt(messageBox['time'] / (86400 * 1000));
+            if(
+                currentDate['year'] != lastDate['year'] ||
+                currentDate['month'] != lastDate['month'] ||
+                currentDate['date'] != lastDate['date']
+            ){
+                this._renderDate(messageBox['time']);
+                lastDate = currentDate;
+            }
+
             if(messageBox != null) this._renderMessage(messageBox);
         } while (++i && i <= currentID);
+    }
+
+    _renderDate(time){
+        let elem = document.createElement('date-marker');
+        elem = this.$messages.appendChild(elem); 
+        elem.setAttribute('time', time);
     }
 
     _renderMessage (messageBox) {
