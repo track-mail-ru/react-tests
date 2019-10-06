@@ -30,6 +30,7 @@ template.innerHTML = `
             padding: 8px 0;
             display: flex;
             flex-direction: row;
+            justify-content: center;
         }
 
         .nameConteiner .userImage{
@@ -40,7 +41,7 @@ template.innerHTML = `
         }
 
         .nameConteiner .userName{
-            flex: auto;
+            /*flex: auto;*/
             height: 100%;
             padding-top: 5px;
         }

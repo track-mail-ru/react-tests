@@ -111,7 +111,7 @@ class MessageForm extends HTMLElement {
     _messageLoader () {
         let currentID = parseInt(localStorage.getItem(this.dialogID + '_curentID'));
         
-        let i = currentID - 100;
+        let i = currentID - 100; //временно 100
         if(i < 0) i = 0;
 
         let lastDate = {

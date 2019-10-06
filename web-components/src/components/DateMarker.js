@@ -74,9 +74,9 @@ class DialogInformation extends HTMLElement {
         };
 
         if(
-            currentDate['year'] != date['year'] ||
-            currentDate['month'] != date['month'] ||
-            currentDate['date'] != date['date']
+            currentDate['year'] == date['year'] &&
+            currentDate['month'] == date['month'] &&
+            currentDate['date'] == date['date']
         ) this.$text.innerText = "Сегодня,";
         this.$text.innerText += " " + date['date'] + " " + ruMonth[date['month']];
         if(currentDate['year'] != date['year']) this.$text.innerText += " " + date['year'];
