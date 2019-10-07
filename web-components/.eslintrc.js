@@ -14,12 +14,12 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
-        "prefer-template": 1,
-        "object-shorthand": 1,
-        "no-restricted-globals": 1,
-        "no-plusplus": 1,
-        "semi": 1,
-        "default-case": 1,
-        "no-case-declarations": 1
+        "prefer-template": 0,
+        "object-shorthand": 0,
+        "no-restricted-globals": 0,
+        "no-plusplus": 0,
+        "semi": 0,
+        "default-case": 0,
+        "no-case-declarations": 0
     }
 };
