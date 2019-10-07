@@ -5,7 +5,7 @@ node_js:
 before_install:
   - cd web-components
   - npm install
-  - npm i -D eslint-config-airbnb-base eslint-plugin-inport
+  - npm i -D eslint eslint-config-airbnb-base eslint-plugin-import
 
 cache:
   directories:
