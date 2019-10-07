@@ -89,7 +89,7 @@
     "test:engine": "check-engine",
     "test:sec": "npm audit || true",
     "test:unit": "cross-env NODE_ENV=test jest",
-    "lint:js": "./node_modules/.bin/eslint ./web-components/src/",
+    "lint:js": "eslint src/**/*.js",
     "lint:css": "stylelint 'client/**/*.{scss,css}' && stylelint --rd 'client/**/*.{scss,css}'",
     "lint:dup": "jscpd -g --threshold=1 client tests docker",
     "ci": "npm run test && npm run build && npm run test:sec"
