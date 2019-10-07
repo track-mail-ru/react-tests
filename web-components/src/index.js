@@ -1,6 +1,6 @@
 import './index.css';
 
-import './components/DateMarker.js';
+import './components/DateMarker';
 import './components/DialogInformation';
 import './components/MessageBox';
 import './components/FormInput';
