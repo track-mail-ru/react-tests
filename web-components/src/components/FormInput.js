@@ -43,6 +43,16 @@ template.innerHTML = `
     width: 30px;
     margin: 0 15px;
     cursor: pointer;
+    opacity: 0.85;
+    transition-duration: 0.15s;
+  }
+
+  .inputButton:hover{
+    opacity: 1.0;
+  }
+
+  .inputButton:active{
+    opacity: 0.6;
   }
 </style>
 <div class="inputButton additionalButton"></div>

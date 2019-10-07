@@ -74,6 +74,16 @@ template.innerHTML = `
   .backButton{
     height: 100%;
     width: 30px;
+    opcaity: 0.85;
+    transition-duration: 0.15s;
+  }
+
+  .backButton:hover{
+    opacity: 1.0;
+  }
+
+  .backButton:active{
+    opacity: 0.6;
   }
 </style>
 <div class="headerButton backButton"></div>

@@ -24,7 +24,7 @@ template.innerHTML = `
     color: #9A9B9D;
   }
 </style>
-<div class="messageDate"></div>
+<div class="messageDate">Начало диалога</div>
 `;
 
 class DialogInformation extends HTMLElement {
@@ -73,6 +73,7 @@ class DialogInformation extends HTMLElement {
       12: 'декабря',
     };
 
+    this.$text.innerText = '';
     if (
       currentDate.year === date.year
       && currentDate.month === date.month

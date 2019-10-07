@@ -79,7 +79,9 @@ template.innerHTML = `
   <dialog-info></dialog-info>
 </div>
 <div class="content">
-  <div class="messageWrap"></div>
+  <div class="messageWrap">
+    <date-marker></date-marker>
+  </div>
 </div>
 <div class="footer">
   <form-input placeholder="Ваше сообщение"></form-input>
@@ -97,6 +99,11 @@ class MessageForm extends HTMLElement {
     this.$messages = this.shadowRoot.querySelector('.messageWrap');
 
     this.dialogID = 0;
+    this.lastRenderMessageDate = {
+      year: null,
+      month: null,
+      date: null,
+    };
 
     this.$input.addEventListener('onSubmit', this.onSubmit.bind(this));
 
@@ -109,31 +116,8 @@ class MessageForm extends HTMLElement {
     let i = currentID - 100; // временно 100
     if (i < 0) i = 0;
 
-    let lastDate = {
-      year: null,
-      month: null,
-      date: null,
-    };
-
     do {
       const messageBox = JSON.parse(localStorage.getItem('msg_' + this.dialogID + '_' + i));
-      const time = new Date(messageBox.time);
-
-      const currentDate = {
-        year: time.getFullYear(),
-        month: time.getMonth(),
-        date: time.getDate(),
-      }
-
-      if (
-        currentDate.year !== lastDate.year
-        || currentDate.month !== lastDate.month
-        || currentDate.date !== lastDate.date
-      ) {
-        this.renderDate(messageBox.time);
-        lastDate = currentDate;
-      }
-
       if (messageBox != null) this.renderMessage(messageBox);
     } while (++i && i <= currentID);
   }
@@ -145,12 +129,30 @@ class MessageForm extends HTMLElement {
   }
 
   renderMessage(messageBox) {
-    this.$messages.innerHTML += `<message-box
-    messageID="${messageBox.messageID}"
-    owner="${messageBox.owner}"
-    text="${messageBox.message}"
-    time="${messageBox.time}"
-    ></message-box>`;
+    const time = new Date(messageBox.time);
+
+    const currentDate = {
+      year: time.getFullYear(),
+      month: time.getMonth(),
+      date: time.getDate(),
+    }
+
+    if (
+      currentDate.year !== this.lastRenderMessageDate.year
+      || currentDate.month !== this.lastRenderMessageDate.month
+      || currentDate.date !== this.lastRenderMessageDate.date
+    ) {
+      this.renderDate(messageBox.time);
+      this.lastRenderMessageDate = currentDate;
+    }
+
+    let elem = document.createElement('message-box');
+    elem = this.$messages.appendChild(elem);
+
+    elem.setAttribute('messageID', messageBox.messageID);
+    elem.setAttribute('owner', messageBox.owner);
+    elem.setAttribute('text', messageBox.message);
+    elem.setAttribute('time', messageBox.time);
   }
 
   newMessage(owner, text, additions = null) {
