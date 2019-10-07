@@ -4,7 +4,11 @@ node_js:
 
 before_install:
   - cd web-components
-  - npm install
+  - npm install install
+
+cache:
+  directories:
+  - node_modules
 
 script:
   - npm run test
