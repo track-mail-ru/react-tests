@@ -29,12 +29,14 @@ template.innerHTML = `
   }
 
   .additionalButton{
-    background: url(/src/images/sprait_1.png) no-repeat center center;
+    /*background: url(/src/images/sprait_1.png) no-repeat center center;*/
+    background: url(https://psv4.userapi.com/c848424/u110041918/docs/d4/b639e1f5a89b/sprait_1.png?extra=_d4-5Pu5oy0wjyMLhSHO-Wh-_n20FWFxVjnn2yKyB8B8ukt0Om4Cu25G8CF1CxNVLDGk3tKiAlnSuxWrwu1OXf5lSB7_tv-Yri2yPpWW5bdeKAHZjFhS1MBeakWuw7OEiGkdLsMS3EhX7Vw6K1r04DCg) no-repeat center center;
     background-size: 90%;
   }
 
   .sendButton{
-    background: url(/src/images/sprait_2.png) no-repeat center center;
+    /*background: url(/src/images/sprait_2.png) no-repeat center center;*/
+    background: url(https://psv4.userapi.com/c848424/u110041918/docs/d7/cc31720245b9/sprait_2.png?extra=6QPIhMjpsjsuB0PW4FfYjyPTP56aOaECuS_ONC7GLGCpdodp-Dn1McVtNn71RfdCQ16-dK7zfA7TB13gqvJsY1IyDEJhdToo0Oz2qwkcvOxBEu3wFLcdC2H0O9FqUdF6RL3zIl5qvaKyaWR82QpJUgTR) no-repeat center center;
     background-size: 90%;
   }
 

@@ -26,7 +26,8 @@ template.innerHTML = `
     width: 100%;
     height: 100%;
     background-color: #191919;
-    background: url(/src/images/background.png);
+    /*background: url(/src/images/background.png);*/
+    background: url(https://psv4.userapi.com/c848424/u110041918/docs/d13/f546180079ac/background.png?extra=OqOc6cM3IxoNxgwoO6_r-tQ6Mx0Tkpp0-WgBUUak2B7aw1M1y21yax_f6eWAAl8wYdcfKjW-9oSj3wIt-TcGy54xNlFdQpCcCAFTWlurEiDVZxiCqOoSMw-shCF_bV6FUBq-pD_SFvwfGrWqvwIq_TWp);
     display: flex;
     flex-direction: column;
   }
@@ -111,13 +112,13 @@ class MessageForm extends HTMLElement {
   }
 
   messageLoader() {
-    const currentID = parseInt(localStorage.getItem(this.dialogID + '_curentID'), 10);
+    const currentID = parseInt(localStorage.getItem(`${this.dialogID}_curentID`), 10);
 
     let i = currentID - 100; // временно 100
     if (i < 0) i = 0;
 
     do {
-      const messageBox = JSON.parse(localStorage.getItem('msg_' + this.dialogID + '_' + i));
+      const messageBox = JSON.parse(localStorage.getItem(`msg_${this.dialogID}_${i}`));
       if (messageBox != null) this.renderMessage(messageBox);
     } while (++i && i <= currentID);
   }
@@ -156,9 +157,9 @@ class MessageForm extends HTMLElement {
   }
 
   newMessage(owner, text, additions = null) {
-    let currentID = parseInt(localStorage.getItem(this.dialogID + '_curentID'), 10) + 1;
+    let currentID = parseInt(localStorage.getItem(`${this.dialogID}_curentID`), 10) + 1;
     if (isNaN(currentID)) currentID = 0;
-    localStorage.setItem(this.dialogID + '_curentID', currentID);
+    localStorage.setItem(`${this.dialogID}_curentID`, currentID);
 
     const time = new Date();
     const messageBox = {
