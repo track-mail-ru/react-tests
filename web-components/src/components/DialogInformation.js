@@ -56,18 +56,18 @@ template.innerHTML = `
   }
 
   .backButton{
-    background: url(/static/images/back.png) no-repeat center center;
+    background: url(../static/images/back.png) no-repeat center center;
     background-size: 100%;
   }
 
   .searchButton{
-    background: url(/static/images/search.png) no-repeat center center;
+    background: url(../static/images/search.png) no-repeat center center;
     background-size: 90%;
     margin-right: 0;
   }
 
   .optionsButton{
-    background: url(/static/images/options.png) no-repeat center center;
+    background: url(../static/images/options.png) no-repeat center center;
     background-size: 90%;
   }
 
@@ -88,7 +88,7 @@ template.innerHTML = `
 </style>
 <div class="headerButton backButton"></div>
 <div class="nameConteiner">
-  <div class="userImage" style="background: url(/static/images/image.jpg) no-repeat center center; background-size: cover;"></div>
+  <div class="userImage" style="background: url(../static/images/image.jpg) no-repeat center center; background-size: cover;"></div>
   <div class="userName">
     <div class="name">Виталий Кисель</div>
     <div class="status">в сети 5 минут назад</div>

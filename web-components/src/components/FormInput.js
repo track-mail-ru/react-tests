@@ -29,12 +29,12 @@ template.innerHTML = `
   }
 
   .additionalButton{
-    background: url(/static/images/sprait_1.png) no-repeat center center;
+    background: url(../static/images/sprait_1.png) no-repeat center center;
     background-size: 90%;
   }
 
   .sendButton{
-    background: url(/static/images/sprait_2.png) no-repeat center center;
+    background: url(../static/images/sprait_2.png) no-repeat center center;
     background-size: 90%;
   }
 
