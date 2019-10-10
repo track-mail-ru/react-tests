@@ -27,7 +27,7 @@ template.innerHTML = `
     height: 100%;
     background-color: #191919;
     background: url(static/images/background.png);
-    background-size: 50%;
+    background-size: 50px;
     display: flex;
     flex-direction: column;
   }
