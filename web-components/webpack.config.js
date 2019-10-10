@@ -8,6 +8,7 @@ const webpack = require('webpack');
 
 const SRC_PATH = path.resolve(__dirname, 'src');
 const BUILD_PATH = path.resolve(__dirname, 'build');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     context: SRC_PATH,
@@ -63,6 +64,7 @@ module.exports = {
         new HTMLWebpackPlugin({
             filename: 'index.html',
             template: './index.html'
-        })
+        }),
+        new CopyWebpackPlugin([{ from: 'static/', to: 'static/' }]),
     ]
 };

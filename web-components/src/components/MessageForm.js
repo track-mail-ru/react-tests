@@ -26,8 +26,7 @@ template.innerHTML = `
     width: 100%;
     height: 100%;
     background-color: #191919;
-    /*background: url(/src/images/background.png);*/
-    background: url(https://psv4.userapi.com/c848424/u110041918/docs/d13/f546180079ac/background.png?extra=OqOc6cM3IxoNxgwoO6_r-tQ6Mx0Tkpp0-WgBUUak2B7aw1M1y21yax_f6eWAAl8wYdcfKjW-9oSj3wIt-TcGy54xNlFdQpCcCAFTWlurEiDVZxiCqOoSMw-shCF_bV6FUBq-pD_SFvwfGrWqvwIq_TWp);
+    background: url(/static/images/background.png);
     display: flex;
     flex-direction: column;
   }
