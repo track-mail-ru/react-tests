@@ -47,12 +47,10 @@ template.innerHTML = `
     clear: both;
   }
 </style>
-<li>
-  <div class="messageBox">
+<div class="messageBox">
     <div class="text">Какой-то текст</div>
     <div class="time">19:05</div>
-  </div>
-</li>
+</div>
 `;
 
 class MessageForm extends HTMLElement {

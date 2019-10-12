@@ -18,3 +18,8 @@ html, body{
 	font-size: var(--fontNormSize);
 	color: #E2E3E5;
 }
+
+body{
+	background: url(static/images/background.png);
+	background-size: 60px;
+}

@@ -11,23 +11,10 @@ template.innerHTML = `
     box-sizing: border-box;
   }
 
-  li{
-    list-style: none;
-  }
-
-  html, body{
-    height: 100%;
-    font-family: -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,Noto Sans Armenian,Noto Sans Bengali,Noto Sans Cherokee,Noto Sans Devanagari,Noto Sans Ethiopic,Noto Sans Georgian,Noto Sans Hebrew,Noto Sans Kannada,Noto Sans Khmer,Noto Sans Lao,Noto Sans Osmanya,Noto Sans Tamil,Noto Sans Telugu,Noto Sans Thai,sans-serif;
-    font-size: var(--fontNormSize);
-    color: #E2E3E5;
-  }
-
   :host{
     width: 100%;
     height: 100%;
     background-color: #191919;
-    background: url(static/images/background.png);
-    background-size: 50px;
     display: flex;
     flex-direction: column;
   }
@@ -60,6 +47,8 @@ template.innerHTML = `
     display: flex;
     flex-wrap: wrap;
     align-content: flex-end;
+    background: url(static/images/background.png);
+    background-size: 50px;
   }
 
   message-box{
