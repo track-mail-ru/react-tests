@@ -18,3 +18,7 @@ html, body{
 	font-size: var(--fontNormSize);
 	color: #E2E3E5;
 }
+
+::-webkit-scrollbar {
+	width: 0px;
+}

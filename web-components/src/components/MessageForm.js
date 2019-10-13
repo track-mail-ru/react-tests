@@ -15,6 +15,8 @@ template.innerHTML = `
     width: 100%;
     height: 100%;
     background-color: #191919;
+    background: url(static/images/background.png);
+    background-size: 50px;
     display: flex;
     flex-direction: column;
   }
@@ -47,8 +49,6 @@ template.innerHTML = `
     display: flex;
     flex-wrap: wrap;
     align-content: flex-end;
-    background: url(static/images/background.png);
-    background-size: 50px;
   }
 
   message-box{
