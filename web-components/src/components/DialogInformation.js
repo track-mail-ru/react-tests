@@ -104,6 +104,13 @@ class DialogInformation extends HTMLElement {
 
     this.shadowRoot = this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
+
+    this.$backButton = this.shadowRoot.querySelector('.backButton');
+    this.$searchButton = this.shadowRoot.querySelector('.searchButton');
+    this.$optionButton = this.shadowRoot.querySelector('.optionsButton');
+
+    this.mainComponent = document.querySelector('main-component');
+    this.$backButton.addEventListener('click', () => this.mainComponent.closeChat());
   }
 
   /* static get observedAttributes() {

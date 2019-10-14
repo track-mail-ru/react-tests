@@ -23,7 +23,7 @@ template.innerHTML = `
     background-color: #1D1D1D;
   }
 
-  .userAvatar{
+  .dialogAvatar{
     width: 70px;
     height: 70px;
     border-radius: 50px;
@@ -37,11 +37,11 @@ template.innerHTML = `
     padding: 12px;
   }
 
-  .userName{
+  .dialogName{
     margin-bottom: 10px;
   }
 
-  .userName a{
+  .dialogName a{
     font-size: var(--fontMinSize);
     font-weight: bold;
   }
@@ -102,11 +102,11 @@ template.innerHTML = `
   }
 </style>
 <div class="dialog">
-  <div class="userAvatar"></div>
+  <div class="dialogAvatar"></div>
   <div class="dialogInfo">
-    <div class="userName">
+    <div class="dialogName">
       <a></a>
-      <span class="messageTime">19:07</span>
+      <span class="messageTime"></span>
     </div>
     <div class="lastMessage">
       <p></p>
@@ -116,28 +116,63 @@ template.innerHTML = `
 </div>
 `;
 
-class ObjectMessage extends HTMLElement {
+class ObjectDialog extends HTMLElement {
   constructor() {
     super();
 
     this.shadowRoot = this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-    this.$userName = this.shadowRoot.querySelector('.userName a');
+    this.$userName = this.shadowRoot.querySelector('.dialogName a');
+    this.$userAvatar = this.shadowRoot.querySelector('.dialogAvatar');
     this.$messageTime = this.shadowRoot.querySelector('.messageTime');
     this.$lastMessage = this.shadowRoot.querySelector('.lastMessage p');
     this.$messageStatus = this.shadowRoot.querySelector('.messageStatus');
-    this.$userAvatar = this.shadowRoot.querySelector('.userAvatar');
+
+    this.mainComponent = document.querySelector('main-component');
+    this.addEventListener('click', () => this.mainComponent.openChat(this.dialogID));
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
-    const messageInfo = JSON.parse(localStorage.getItem('messageList'))[newValue];
-    
-    this.$userName.innerText = messageInfo['userName'];
-    this.$lastMessage.innerText = messageInfo['lastMessage'];
-    this.$userAvatar.setAttribute('style', `background: url(${messageInfo['userAvatar']}) no-repeat center center; background-size: cover;`);
+  dialogReRender(tempDialogInfo) {
+    if(tempDialogInfo['dialogName'] != this.dialogInfo['dialogName']){
+      this.dialogInfo['dialogName'] = tempDialogInfo['dialogName'];
+      this.$userName.innerText = this.dialogInfo['dialogName'];
+    }
 
-    const messageTime = new Date(messageInfo['messageTime']);
+    if(tempDialogInfo['message'] != this.dialogInfo['message']){
+      this.dialogInfo['message'] = tempDialogInfo['message'];
+      this.$lastMessage.innerText = this.dialogInfo['message'];
+    }
+
+    if(tempDialogInfo['dialogAvatar'] != this.dialogInfo['dialogAvatar']){
+      this.dialogInfo['dialogAvatar'] = tempDialogInfo['dialogAvatar'];
+      this.$userAvatar.setAttribute('style', `background: url(${this.dialogInfo['dialogAvatar']}) no-repeat center center; background-size: cover;`);
+    }
+
+    if(tempDialogInfo['messageTime'] != this.dialogInfo['messageTime']){
+      this.dialogInfo['messageTime'] = tempDialogInfo['messageTime'];
+      this.dateRender(this.dialogInfo['messageTime']);
+    }
+
+    if(tempDialogInfo['messageStatus'] != this.dialogInfo['messageStatus']){
+      this.dialogInfo['messageStatus'] = tempDialogInfo['messageStatus'];
+      this.statusRender(this.dialogInfo['messageStatus']);
+    }
+  }
+
+  dialogRender(dialogID, dialogInfo) {
+    this.dialogID = dialogID;
+    this.dialogInfo = dialogInfo;
+
+    this.$userName.innerText = this.dialogInfo['dialogName'];
+    this.$lastMessage.innerText = this.dialogInfo['message'];
+    this.$userAvatar.setAttribute('style', `background: url(${this.dialogInfo['dialogAvatar']}) no-repeat center center; background-size: cover;`);
+    this.dateRender(this.dialogInfo['messageTime']);
+    this.statusRender(this.dialogInfo['messageStatus']);
+  }
+
+  dateRender(dialogTime) {
+    const messageTime = new Date(dialogTime);
     const messageDate = {
       year: messageTime.getFullYear(),
       month: messageTime.getMonth(),
@@ -177,23 +212,23 @@ class ObjectMessage extends HTMLElement {
       let time = messageTime.toString().split(' ');
       this.$messageTime.innerText = `${ruMonth[messageDate.month + 1]} ${time[2]} ${time[3]}`
     }
+  }
 
-    switch(messageInfo['messageStatus']) {
+  statusRender(dialogStatus) {
+    switch(dialogStatus) {
       case 'new':
+        this.$messageStatus.className = 'messageStatus';
         this.$messageStatus.classList.add('newMessages');
         this.$messageStatus.innerText = '*';
         break;
 
       default:
         this.$messageStatus.className = 'messageStatus';
-        this.$messageStatus.classList.add(messageInfo['messageStatus']);
+        this.$messageStatus.classList.add(dialogStatus);
+        this.$messageStatus.innerText = '';
         break;
     }
   }
-
-  static get observedAttributes() {
-    return ['messagetime'];
-  }
 }
 
-customElements.define('object-message', ObjectMessage);
+customElements.define('object-dialog', ObjectDialog);

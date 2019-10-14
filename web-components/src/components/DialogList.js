@@ -169,7 +169,7 @@ template.innerHTML = `
 </div>
 `;
 
-class MessageList extends HTMLElement {
+class DialogList extends HTMLElement {
   constructor() {
     super();
 
@@ -177,39 +177,40 @@ class MessageList extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     this.$content = this.shadowRoot.querySelector('.content');
-
-    this.addEventListener('messageListChanged', this.changeList.bind(this));
-
-    this.messageLoader();
   }
 
-  changeList() {
-    return ;
+  dialogUpdate(dialogID, dialogInfo) {
+    const elem = this.$content.querySelector(`#ID_${dialogID}`);
+    this.$content.insertBefore(elem, this.$content.firstChild);
+    elem.dialogReRender(dialogInfo);
   }
 
-  renderMessage(messageTime, intoFirst = true) {
-    let elem = document.createElement('object-message');
+  renderDialog(dialogID, dialogInfo, intoFirst = true) {
+    let elem = document.createElement('object-dialog');
+
     if(intoFirst) {
       elem = this.$content.insertBefore(elem, this.$content.firstChild);
     } else 
       elem = this.$content.appendChild(elem);
-    elem.setAttribute('messagetime', messageTime);
+
+    elem.setAttribute('id', `ID_${dialogID}`);
+    elem.dialogRender(dialogID, dialogInfo);
   }
 
-  messageLoader() {
-    let messageList = JSON.parse(localStorage.getItem('messageList'));
+  dialogLoader(dialogList) {
     let lastTime = 0;
-    if(messageList instanceof Object){
-      if(Object.keys(messageList).length) this.$content.innerHTML = '';
-      for(let messageTime in messageList){
+    if(dialogList instanceof Object){
+      if(Object.keys(dialogList).length) this.$content.innerHTML = '';
+      for(let dialogID in dialogList){
+        let messageTime = dialogList[dialogID]['messageTime'];
         if(messageTime > lastTime)
-          this.renderMessage(messageTime);
+          this.renderDialog(dialogID, dialogList[dialogID]);
         else 
-          this.renderMessage(messageTime, false);
+          this.renderDialog(dialogID, dialogList[dialogID], false);
         lastTime = messageTime;
       }
     }
   }
 }
 
-customElements.define('message-list', MessageList);
+customElements.define('dialog-list', DialogList);

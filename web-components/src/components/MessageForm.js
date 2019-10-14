@@ -88,7 +88,6 @@ class MessageForm extends HTMLElement {
     this.$input = this.shadowRoot.querySelector('form-input');
     this.$messages = this.shadowRoot.querySelector('.messageWrap');
 
-    this.dialogID = 0;
     this.lastRenderMessageDate = {
       year: null,
       month: null,
@@ -96,11 +95,11 @@ class MessageForm extends HTMLElement {
     };
 
     this.$input.addEventListener('onSubmit', this.onSubmit.bind(this));
-
-    this.messageLoader();
   }
 
-  messageLoader() {
+  messageLoader(dialogID) {
+    this.dialogID = dialogID;
+    
     const currentID = parseInt(localStorage.getItem(`${this.dialogID}_curentID`), 10);
 
     let i = currentID - 100; // временно 100

@@ -6,5 +6,7 @@ import './components/MessageBox';
 import './components/FormInput';
 import './components/MessageForm';
 
-import './components/ListMessage'
-import './components/MessageList'
+import './components/ObjectDialog'
+import './components/DialogList'
+
+import './components/Main'
