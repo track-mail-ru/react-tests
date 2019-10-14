@@ -98,7 +98,9 @@ template.innerHTML = `
     text-align: center;
     font-weight: bold;
     color: #E2E3E5;
-    padding-top: 4px;
+    padding: 3px 8px;
+    width: unset;
+    height: unset;
   }
 </style>
 <div class="dialog">
@@ -168,7 +170,7 @@ class ObjectDialog extends HTMLElement {
     this.$lastMessage.innerText = this.dialogInfo['message'];
     this.$userAvatar.setAttribute('style', `background: url(${this.dialogInfo['dialogAvatar']}) no-repeat center center; background-size: cover;`);
     this.dateRender(this.dialogInfo['messageTime']);
-    this.statusRender(this.dialogInfo['messageStatus']);
+    this.statusRender(this.dialogInfo['messageStatus'], this.dialogInfo['countMessages']);
   }
 
   dateRender(dialogTime) {
@@ -214,12 +216,12 @@ class ObjectDialog extends HTMLElement {
     }
   }
 
-  statusRender(dialogStatus) {
+  statusRender(dialogStatus, countMessages = '!') {
     switch(dialogStatus) {
       case 'new':
         this.$messageStatus.className = 'messageStatus';
         this.$messageStatus.classList.add('newMessages');
-        this.$messageStatus.innerText = '*';
+        this.$messageStatus.innerText = countMessages;
         break;
 
       default:

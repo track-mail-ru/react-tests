@@ -15,8 +15,6 @@ template.innerHTML = `
     width: 100%;
     height: 100%;
     background-color: #191919;
-    background: url(static/images/background.png);
-    background-size: 50px;
     display: flex;
     flex-direction: column;
   }
@@ -37,6 +35,8 @@ template.innerHTML = `
     align-content: flex-end;
     z-index: 0;
     overflow-y: auto;
+    background: url(static/images/background.png);
+    background-size: 60px;
   }
 
   ::-webkit-scrollbar {
@@ -99,7 +99,7 @@ class MessageForm extends HTMLElement {
 
   messageLoader(dialogID) {
     this.dialogID = dialogID;
-    
+
     const currentID = parseInt(localStorage.getItem(`${this.dialogID}_curentID`), 10);
 
     let i = currentID - 100; // временно 100

@@ -35,9 +35,9 @@ class Main extends HTMLElement {
   openChat(dialogID) {
     if(this.$chatForm != undefined) return false;
     this.$chatForm = document.createElement('message-form');
-    this.$chatForm.messageLoader(dialogID);
     this.$chatForm = this.$wrap.appendChild(this.$chatForm);
-    this.$chatForm.style.zIndex = 1;
+    this.$chatForm.style.zIndex = 10;
+    this.$chatForm.messageLoader(dialogID);
   }
 
   closeChat() {
@@ -94,13 +94,16 @@ class Main extends HTMLElement {
 
   newDialogMessage(dialogInfo) {
     let dialogList = JSON.parse(localStorage.getItem('dialogList'));
+    if(dialogList == null) dialogList = {};
+    
     let dialogID = dialogInfo['dialogID'];
     let dialogInfoTemp = {
       "dialogName": this.getDialogName(dialogID),
       "dialogAvatar": this.getDialogAvatar(dialogID),
       "message": dialogInfo['message'],
       "messageTime": dialogInfo['messageTime'],
-      "messageStatus": dialogInfo['messageStatus']
+      "messageStatus": dialogInfo['messageStatus'],
+      "countMessages": dialogInfo['countMessages'],
     };
     dialogList[dialogID] = dialogInfoTemp;
     localStorage.setItem('dialogList', JSON.stringify(dialogList));
@@ -122,3 +125,46 @@ class Main extends HTMLElement {
 }
 
 customElements.define('main-component', Main);
+
+const messageList = [
+  {
+    "dialogID": 0,
+    'message': 'Лол',
+    'messageTime': (new Date()),
+    'messageStatus': 'new',
+    'countMessages': 12,
+  },
+  {
+    "dialogID": 11,
+    'message': 'Привет',
+    'messageTime': (new Date()),
+    'messageStatus': 'new',
+    'countMessages': 124,
+  },
+  {
+    "dialogID": 15,
+    'message': 'Кек',
+    'messageTime': (new Date()),
+    'messageStatus': 'sent',
+  },
+  {
+    "dialogID": 12,
+    'message': 'Работает?!',
+    'messageTime': (new Date()),
+    'messageStatus': 'readed',
+  },
+  {
+    "dialogID": 16,
+    'message': 'ДА)))',
+    'messageTime': (new Date()),
+    'messageStatus': 'sending',
+    'countMessages': null,
+  },
+]
+
+let count = 0;
+let interval = setInterval(function(){
+  if(count == messageList.lenght) clearInterval(interval);
+  document.querySelector('main-component').newDialogMessage(messageList[count]);
+  count ++;
+}, 2000);
