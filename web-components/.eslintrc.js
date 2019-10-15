@@ -14,6 +14,7 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
+        "no-multi-assign": 1,
         "class-methods-use-this": 1,
         "no-unused-vars": 1,
         "consistent-return": 1,

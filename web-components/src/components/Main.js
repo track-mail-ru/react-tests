@@ -77,14 +77,12 @@ class Main extends HTMLElement {
     if (messageList === null) messageList = {};
     let lastMessageID = Math.max.apply(null, Object.keys(messageList));
 
-    messageList[++lastMessageID] = {
+    const currentMessage = messageList[++lastMessageID] = {
       text: inputLine,
       time: (new Date()).getTime(),
       owner: 'self',
       status: 'sending',
     };
-
-    const currentMessage = messageList;
 
     localStorage.setItem(`dialogID_${dialogID}`, JSON.stringify(messageList));
     this.$chatForm.renderMessage(lastMessageID, currentMessage);

@@ -106,9 +106,11 @@ class MessageForm extends HTMLElement {
     });
   }
 
-  messageChange(messageID) { // Метод перерисовки одного сообщения с указанным messageID
+  // Метод перерисовки одного сообщения с указанным messageID
+  messageChange(messageID) {
+    const elem = this.$messages.querySelector(`message-box[messageid="${messageID}"]`);
     const messageBox = JSON.parse(localStorage.getItem(`dialogID_${this.dialogID}`))[messageID];
-    this.messageSetAttributes(messageID, messageBox);
+    this.messageSetAttributes(elem, messageBox);
   }
 
   renderDate(time) {
@@ -150,9 +152,9 @@ class MessageForm extends HTMLElement {
     this.messageSetAttributes(elem, messageBox);
   }
 
-  static messageSetAttributes(elem, messageBox) {
+  messageSetAttributes(elem, messageBox) {
     Object.keys(messageBox).forEach((attribute) => {
-      elem.setAttribute(attribute.toLowerCase(), messageBox.attribute);
+      elem.setAttribute(attribute.toLowerCase(), messageBox[attribute]);
     });
   }
 
