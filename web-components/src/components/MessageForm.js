@@ -22,6 +22,9 @@ template.innerHTML = `
   .header{
     background-color: #2C2D2F;
     width: 100%;
+    height: 60px;
+    flex-shrink: 0;
+    flex-grow: 0;
     z-index: 1;
     box-shadow: 0 0 2px 0 #151716;
   }
@@ -87,29 +90,25 @@ class MessageForm extends HTMLElement {
 
     this.$input = this.shadowRoot.querySelector('form-input');
     this.$messages = this.shadowRoot.querySelector('.messageWrap');
-
-    this.lastRenderMessageDate = {
-      year: null,
-      month: null,
-      date: null,
-    };
-
-    this.$input.addEventListener('onSubmit', this.onSubmit.bind(this));
+    this.$header = this.shadowRoot.querySelector('dialog-info');
   }
 
-  messageLoader(dialogID) {
-    this.dialogID = dialogID;
+  messageLoader() { // Метод отрисовки/перерисовки всех сообщений
+    let dialogInfo = JSON.parse(localStorage.getItem(`dialogID_${this.dialogID}`));
+    if(dialogInfo == null) return false;
 
-    const currentID = parseInt(localStorage.getItem(`${this.dialogID}_curentID`), 10);
+    this.$messages.innerHTML = '';
 
-    let i = currentID - 100; // временно 100
-    if (i < 0) i = 0;
-
-    do {
-      const messageBox = JSON.parse(localStorage.getItem(`msg_${this.dialogID}_${i}`));
-      if (messageBox != null) this.renderMessage(messageBox);
-    } while (++i && i <= currentID);
+    for(messageID in dialogInfo){
+      let message = dialogInfo[messageID];
+      this.renderMessage(messageID, message);
+    }
   }
+
+  messageChange(messageID) { // Метод перерисовки одного сообщения с указанным messageID
+    const messageBox = JSON.parse(localStorage.getItem(`dialogID_${this.dialogID}`))[messageID];
+    this.messageSetAttributes(messageID, messageBox);
+  } 
 
   renderDate(time) {
     let elem = document.createElement('date-marker');
@@ -117,8 +116,15 @@ class MessageForm extends HTMLElement {
     elem.setAttribute('time', time);
   }
 
-  renderMessage(messageBox) {
+  renderMessage(messageID, messageBox) { // Метод добавления сообщения с конкретным messageID и информацией messageBox
     const time = new Date(messageBox.time);
+
+    if(!this.lastRenderMessageDate)
+      this.lastRenderMessageDate = {
+        year: null,
+        month: null,
+        date: null,
+      };
 
     const currentDate = {
       year: time.getFullYear(),
@@ -137,36 +143,20 @@ class MessageForm extends HTMLElement {
 
     let elem = document.createElement('message-box');
     elem = this.$messages.appendChild(elem);
-
-    elem.setAttribute('messageID', messageBox.messageID);
-    elem.setAttribute('owner', messageBox.owner);
-    elem.setAttribute('text', messageBox.message);
-    elem.setAttribute('time', messageBox.time);
+    this.messageSetAttributes(elem, messageBox);
   }
 
-  newMessage(owner, text, additions = null) {
-    let currentID = parseInt(localStorage.getItem(`${this.dialogID}_curentID`), 10) + 1;
-    if (isNaN(currentID)) currentID = 0;
-    localStorage.setItem(`${this.dialogID}_curentID`, currentID);
-
-    const time = new Date();
-    const messageBox = {
-      messageID: currentID,
-      owner: ((owner) ? 'enemy' : 'self'),
-      message: text,
-      additions: additions,
-      time: time.getTime(),
-    };
-
-    localStorage.setItem('msg_' + this.dialogID + '_' + currentID, JSON.stringify(messageBox));
-    this.renderMessage(messageBox);
+  messageSetAttributes(elem, messageBox) {
+    for(attribute in messageBox)
+        elem.setAttribute(attribute.toLowerCase(), messageBox[attribute]); 
   }
 
-  onSubmit() {
-    if (this.$input.value !== '') {
-      this.newMessage(0, this.$input.value);
-      this.$input.setAttribute('value', '');
-    }
+  static get observedAttributes() {
+    return ['dialogid'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    this.dialogID = newValue;
   }
 }
 

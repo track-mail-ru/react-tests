@@ -179,8 +179,48 @@ class DialogList extends HTMLElement {
     this.$content = this.shadowRoot.querySelector('.content');
   }
 
+  dialogLoader() {
+    let dialogList = JSON.parse(localStorage.getItem('dialogList'));
+    if(dialogList != null && dialogList.length) this.$content.innerHTML = '';
+
+    let lastTime = 0;
+    for(dialogID in dialogList) {
+      let messageList = JSON.parse(localStorage.getItem(`dialogID_${dialogID}`));
+      let lastMessageID = Math.max.apply(null, Object.keys(messageList));
+
+      let countOfUnreadMessages = null;
+      for(messageID in messageList) {
+        if(messageList[messageID].owner != "self" && messageList[messageID].status == 'new')
+          countOfUnreadMessages++;
+      }
+
+      let dialogInfo = messageList[lastMessageID];
+      dialogInfo.unreadMessages = countOfUnreadMessages;
+      dialogInfo.dialogName = this.dialogName(dialogID);
+      dialogInfo.dialogAvatar = this.dialogAvatar(dialogID);
+      delete dialogInfo.owner;
+
+      if(countOfUnreadMessages != null) dialogInfo.status = 'new';
+
+      let messageTime = dialogInfo.time;
+      if(messageTime > lastTime)
+        this.renderDialog(dialogID, dialogInfo);
+      else 
+        this.renderDialog(dialogID, dialogInfo, false);
+      lastTime = messageTime;
+    }
+  }
+
+  dialogAvatar(dialogID) {
+    return 'static/images/image.jpg';
+  }
+
+  dialogName(dialogID) {
+    return 'Виталий Кисель';
+  }
+
   dialogUpdate(dialogID, dialogInfo) {
-    const elem = this.$content.querySelector(`#ID_${dialogID}`);
+    const elem = this.$content.querySelector(`object-dialog[dialogid="${dialogID}"]`);
     this.$content.insertBefore(elem, this.$content.firstChild);
     elem.dialogReRender(dialogInfo);
   }
@@ -193,23 +233,8 @@ class DialogList extends HTMLElement {
     } else 
       elem = this.$content.appendChild(elem);
 
-    elem.setAttribute('id', `ID_${dialogID}`);
-    elem.dialogRender(dialogID, dialogInfo);
-  }
-
-  dialogLoader(dialogList) {
-    let lastTime = 0;
-    if(dialogList instanceof Object){
-      if(Object.keys(dialogList).length) this.$content.innerHTML = '';
-      for(let dialogID in dialogList){
-        let messageTime = dialogList[dialogID]['messageTime'];
-        if(messageTime > lastTime)
-          this.renderDialog(dialogID, dialogList[dialogID]);
-        else 
-          this.renderDialog(dialogID, dialogList[dialogID], false);
-        lastTime = messageTime;
-      }
-    }
+    elem.setAttribute('dialogid', dialogID);
+    elem.dialogRender(dialogInfo);
   }
 }
 

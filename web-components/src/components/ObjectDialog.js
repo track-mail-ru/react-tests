@@ -86,7 +86,7 @@ template.innerHTML = `
     background-size: 18px;
   }
 
-  .readed{
+  .red{
     background: url(static/images/readed.png) no-repeat center center;
     background-size: 18px;
   }
@@ -130,9 +130,6 @@ class ObjectDialog extends HTMLElement {
     this.$messageTime = this.shadowRoot.querySelector('.messageTime');
     this.$lastMessage = this.shadowRoot.querySelector('.lastMessage p');
     this.$messageStatus = this.shadowRoot.querySelector('.messageStatus');
-
-    this.mainComponent = document.querySelector('main-component');
-    this.addEventListener('click', () => this.mainComponent.openChat(this.dialogID));
   }
 
   dialogReRender(tempDialogInfo) {
@@ -141,9 +138,9 @@ class ObjectDialog extends HTMLElement {
       this.$userName.innerText = this.dialogInfo['dialogName'];
     }
 
-    if(tempDialogInfo['message'] != this.dialogInfo['message']){
-      this.dialogInfo['message'] = tempDialogInfo['message'];
-      this.$lastMessage.innerText = this.dialogInfo['message'];
+    if(tempDialogInfo['text'] != this.dialogInfo['text']){
+      this.dialogInfo['text'] = tempDialogInfo['text'];
+      this.$lastMessage.innerText = this.dialogInfo['text'];
     }
 
     if(tempDialogInfo['dialogAvatar'] != this.dialogInfo['dialogAvatar']){
@@ -151,26 +148,24 @@ class ObjectDialog extends HTMLElement {
       this.$userAvatar.setAttribute('style', `background: url(${this.dialogInfo['dialogAvatar']}) no-repeat center center; background-size: cover;`);
     }
 
-    if(tempDialogInfo['messageTime'] != this.dialogInfo['messageTime']){
-      this.dialogInfo['messageTime'] = tempDialogInfo['messageTime'];
-      this.dateRender(this.dialogInfo['messageTime']);
+    if(tempDialogInfo['time'] != this.dialogInfo['time']){
+      this.dialogInfo['time'] = tempDialogInfo['time'];
+      this.dateRender(this.dialogInfo['time']);
     }
 
-    if(tempDialogInfo['messageStatus'] != this.dialogInfo['messageStatus']){
-      this.dialogInfo['messageStatus'] = tempDialogInfo['messageStatus'];
-      this.statusRender(this.dialogInfo['messageStatus']);
+    if(tempDialogInfo['status'] != this.dialogInfo['status']){
+      this.dialogInfo['status'] = tempDialogInfo['status'];
+      this.statusRender(this.dialogInfo['status']);
     }
   }
 
-  dialogRender(dialogID, dialogInfo) {
-    this.dialogID = dialogID;
+  dialogRender(dialogInfo) {
     this.dialogInfo = dialogInfo;
-
-    this.$userName.innerText = this.dialogInfo['dialogName'];
-    this.$lastMessage.innerText = this.dialogInfo['message'];
-    this.$userAvatar.setAttribute('style', `background: url(${this.dialogInfo['dialogAvatar']}) no-repeat center center; background-size: cover;`);
-    this.dateRender(this.dialogInfo['messageTime']);
-    this.statusRender(this.dialogInfo['messageStatus'], this.dialogInfo['countMessages']);
+    this.$userName.innerText = this.dialogInfo.dialogName;
+    this.$lastMessage.innerText = this.dialogInfo.text;
+    this.$userAvatar.setAttribute('style', `background: url(${this.dialogInfo.dialogAvatar}) no-repeat center center; background-size: cover;`);
+    this.dateRender(this.dialogInfo.time);
+    this.statusRender(this.dialogInfo.status, this.dialogInfo.unreadMessages);
   }
 
   dateRender(dialogTime) {
@@ -216,12 +211,12 @@ class ObjectDialog extends HTMLElement {
     }
   }
 
-  statusRender(dialogStatus, countMessages = '!') {
+  statusRender(dialogStatus, unreadMessages = '!') {
     switch(dialogStatus) {
       case 'new':
         this.$messageStatus.className = 'messageStatus';
         this.$messageStatus.classList.add('newMessages');
-        this.$messageStatus.innerText = countMessages;
+        this.$messageStatus.innerText = unreadMessages;
         break;
 
       default:
@@ -230,6 +225,14 @@ class ObjectDialog extends HTMLElement {
         this.$messageStatus.innerText = '';
         break;
     }
+  }
+
+  get observedAttributes() {
+    return ['dialogid'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    this.dialogID = newValue;
   }
 }
 

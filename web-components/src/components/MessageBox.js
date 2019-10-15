@@ -68,15 +68,11 @@ class MessageForm extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['messageID', 'owner', 'text', 'time'];
+    return ['owner', 'text', 'time'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     switch (name) {
-      case 'messageID':
-        this.$wrap.attr('messageID', newValue);
-        break;
-
       case 'owner':
         this.$wrap.classList.add(newValue);
         break;

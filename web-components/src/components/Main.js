@@ -29,15 +29,22 @@ class Main extends HTMLElement {
     this.$wrap = this.shadowRoot.querySelector('.wrap');
     this.$dialogList = this.shadowRoot.querySelector('dialog-list');
 
-    this.dialogLoader();
+    this.$dialogList.dialogLoader();
+    this.addEventOpenDialog();
   }
 
   openChat(dialogID) {
     if(this.$chatForm != undefined) return false;
+
     this.$chatForm = document.createElement('message-form');
     this.$chatForm = this.$wrap.appendChild(this.$chatForm);
+    this.$chatForm.setAttribute('dialogid', dialogID);
+
     this.$chatForm.style.zIndex = 10;
-    this.$chatForm.messageLoader(dialogID);
+
+    this.$chatForm.messageLoader();
+    this.$chatForm.$header.addEventListener('clickBackButton', () => this.closeChat());
+    this.$chatForm.$input.addEventListener('onSubmit', () => this.onSubmitMessage(dialogID))
   }
 
   closeChat() {
@@ -46,125 +53,46 @@ class Main extends HTMLElement {
     this.$chatForm = undefined;
   }
 
-  /*
-  {
-    "dialogID": 1124,
-    "messageID": 112,
-    "userID": 1241,
-    "message": "message like blablabla",
-    "messageTime": 12125125, //UnixTime 
-    "additional": "image.jpg",
-    "messageStatus": "sent",
-  }
-
-  localStorage.setItem('dialogList', JSON.stringify({
-    0: {
-      'dialogName': 'Виталий Кисель 0',
-      'message': 'dgasdgasdgasdg',
-      'dialogAvatar': 'static/images/image.jpg',
-      'messageTime': (new Date('2019-10-12')),
-      'messageStatus': 'new',
-    },
-
-    10: {
-      'dialogName': 'Виталий Кисель 1',
-      'message': 'dgasdgasdgasdg',
-      'dialogAvatar': 'static/images/image.jpg',
-      'messageTime': (new Date('2019-10-12')),
-      'messageStatus': 'new',
-    },
-  }))
-  */
-  updateDialogInfo(dialogInfo) {
-    let dialogID = dialogInfo['dialogID'];
-    let dialogList = JSON.parse(localStorage.getItem('dialogList'));
-    let dialogInfoTemp = dialogList[dialogID];
-
-    for(let key in dialogInfo){
-      if(key == 'dialogAvatar') dialogInfoTemp['dialogAvatar'] = this.getDialogAvatar(dialogID);
-      else if(key == 'dialogName') dialogInfoTemp['dialogName'] = this.getDialogName(dialogID);
-      else dialogInfoTemp[key] = dialogInfo[key];
-    }
-
-    dialogList[dialogID] = dialogInfoTemp;
-    localStorage.setItem('dialogList', JSON.stringify(dialogList));
-
-    this.$dialogList.dialogUpdate(dialogID, dialogInfoTemp);
-  }
-
-  newDialogMessage(dialogInfo) {
-    let dialogList = JSON.parse(localStorage.getItem('dialogList'));
-    if(dialogList == null) dialogList = {};
-    
-    let dialogID = dialogInfo['dialogID'];
-    let dialogInfoTemp = {
-      "dialogName": this.getDialogName(dialogID),
-      "dialogAvatar": this.getDialogAvatar(dialogID),
-      "message": dialogInfo['message'],
-      "messageTime": dialogInfo['messageTime'],
-      "messageStatus": dialogInfo['messageStatus'],
-      "countMessages": dialogInfo['countMessages'],
-    };
-    dialogList[dialogID] = dialogInfoTemp;
-    localStorage.setItem('dialogList', JSON.stringify(dialogList));
-    this.$dialogList.renderDialog(dialogID, dialogInfoTemp);
-  }
-
-  getDialogAvatar(dialogID) {
-    return 'static/images/image.jpg';
-  }
-
-  getDialogName(dialogID) {
-    return 'Виталий Кисель';
-  }
-
-  dialogLoader() {
+  addEventOpenDialog() {
+    if(this.addedEvent == undefined) this.addedEvent = [];
     const dialogList = JSON.parse(localStorage.getItem('dialogList'));
-    this.$dialogList.dialogLoader(dialogList);
+
+    dialogList.forEach((dialogID) => {
+      if(!(dialogID in this.addedEvent)){
+        let elem = this.$dialogList.$content.querySelector(`object-dialog[dialogid="${dialogID}"]`);
+        elem.addEventListener('click', () => this.openChat(dialogID));
+        this.addedEvent.push(dialogID);
+      }
+    });
+  }
+
+  onSubmitMessage(dialogID) {
+    if(this.$chatForm == undefined) return false;
+
+    let inputLine = this.$chatForm.$input.value;
+    if(inputLine == '') return false;
+    this.$chatForm.$input.clearInput();
+
+    let messageList = JSON.parse(localStorage.getItem(`dialogID_${dialogID}`));
+    if(messageList == null) messageList = {};
+    let lastMessageID = Math.max.apply(null, Object.keys(messageList));
+
+    let currentMessage = messageList[++lastMessageID] = {
+      text: inputLine,
+      time: (new Date()).getTime(),
+      owner: "self",
+      status: "sending",
+    };
+
+    localStorage.setItem(`dialogID_${dialogID}`, JSON.stringify(messageList));
+    this.$chatForm.renderMessage(lastMessageID, currentMessage);
+
+    let dialogInfo = currentMessage;
+    dialogInfo.dialogAvatar = this.$dialogList.dialogAvatar(dialogID);
+    dialogInfo.dialogName = this.$dialogList.dialogName(dialogID);
+
+    this.$dialogList.dialogUpdate(dialogID, dialogInfo);
   }
 }
 
 customElements.define('main-component', Main);
-
-const messageList = [
-  {
-    "dialogID": 0,
-    'message': 'Лол',
-    'messageTime': (new Date()),
-    'messageStatus': 'new',
-    'countMessages': 12,
-  },
-  {
-    "dialogID": 11,
-    'message': 'Привет',
-    'messageTime': (new Date()),
-    'messageStatus': 'new',
-    'countMessages': 124,
-  },
-  {
-    "dialogID": 15,
-    'message': 'Кек',
-    'messageTime': (new Date()),
-    'messageStatus': 'sent',
-  },
-  {
-    "dialogID": 12,
-    'message': 'Работает?!',
-    'messageTime': (new Date()),
-    'messageStatus': 'readed',
-  },
-  {
-    "dialogID": 16,
-    'message': 'ДА)))',
-    'messageTime': (new Date()),
-    'messageStatus': 'sending',
-    'countMessages': null,
-  },
-]
-
-let count = 0;
-let interval = setInterval(function(){
-  if(count == messageList.lenght) clearInterval(interval);
-  document.querySelector('main-component').newDialogMessage(messageList[count]);
-  count ++;
-}, 2000);

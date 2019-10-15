@@ -12,7 +12,7 @@ template.innerHTML = `
   }
 
   :host{
-    height: 60px;
+    height: 100%;
     display: flex;
     flex-direction: row;
   }
@@ -109,8 +109,21 @@ class DialogInformation extends HTMLElement {
     this.$searchButton = this.shadowRoot.querySelector('.searchButton');
     this.$optionButton = this.shadowRoot.querySelector('.optionsButton');
 
-    this.mainComponent = document.querySelector('main-component');
-    this.$backButton.addEventListener('click', () => this.mainComponent.closeChat());
+    this.$backButton.addEventListener('click', this.backButton.bind(this));
+    this.$searchButton.addEventListener('click', this.searchButton.bind(this));
+    this.$optionButton.addEventListener('click', this.optionButton.bind(this));
+  }
+
+  backButton() {
+    this.dispatchEvent(new Event('clickBackButton'));
+  }
+
+  searchButton() {
+    this.dispatchEvent(new Event('clickSearchButton'));
+  }
+
+  optionButton() {
+    this.dispatchEvent(new Event('clickOptionButton'));
   }
 
   /* static get observedAttributes() {
