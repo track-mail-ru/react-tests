@@ -133,29 +133,29 @@ class ObjectDialog extends HTMLElement {
   }
 
   dialogReRender(tempDialogInfo) {
-    if(tempDialogInfo['dialogName'] != this.dialogInfo['dialogName']){
-      this.dialogInfo['dialogName'] = tempDialogInfo['dialogName'];
-      this.$userName.innerText = this.dialogInfo['dialogName'];
+    if (tempDialogInfo.dialogName !== this.dialogInfo.dialogName) {
+      this.dialogInfo.dialogName = tempDialogInfo.dialogName;
+      this.$userName.innerText = this.dialogInfo.dialogName;
     }
 
-    if(tempDialogInfo['text'] != this.dialogInfo['text']){
-      this.dialogInfo['text'] = tempDialogInfo['text'];
-      this.$lastMessage.innerText = this.dialogInfo['text'];
+    if (tempDialogInfo.text !== this.dialogInfo.text) {
+      this.dialogInfo.text = tempDialogInfo.text;
+      this.$lastMessage.innerText = this.dialogInfo.text;
     }
 
-    if(tempDialogInfo['dialogAvatar'] != this.dialogInfo['dialogAvatar']){
-      this.dialogInfo['dialogAvatar'] = tempDialogInfo['dialogAvatar'];
-      this.$userAvatar.setAttribute('style', `background: url(${this.dialogInfo['dialogAvatar']}) no-repeat center center; background-size: cover;`);
+    if (tempDialogInfo.dialogAvatar !== this.dialogInfo.dialogAvatar) {
+      this.dialogInfo.dialogAvatar = tempDialogInfo.dialogAvatar;
+      this.$userAvatar.setAttribute('style', `background: url(${this.dialogInfo.dialogAvatar}) no-repeat center center; background-size: cover;`);
     }
 
-    if(tempDialogInfo['time'] != this.dialogInfo['time']){
-      this.dialogInfo['time'] = tempDialogInfo['time'];
-      this.dateRender(this.dialogInfo['time']);
+    if (tempDialogInfo.time !== this.dialogInfo.time) {
+      this.dialogInfo.time = tempDialogInfo.time;
+      this.dateRender(this.dialogInfo.time);
     }
 
-    if(tempDialogInfo['status'] != this.dialogInfo['status']){
-      this.dialogInfo['status'] = tempDialogInfo['status'];
-      this.statusRender(this.dialogInfo['status']);
+    if (tempDialogInfo.status !== this.dialogInfo.status) {
+      this.dialogInfo.status = tempDialogInfo.status;
+      this.statusRender(this.dialogInfo.status);
     }
   }
 
@@ -203,16 +203,14 @@ class ObjectDialog extends HTMLElement {
       currentDate.year === messageDate.year
       && currentDate.month === messageDate.month
       && currentDate.date === messageDate.date
-    ) 
-      this.$messageTime.innerText = messageDate.time[0] + ':' + messageDate.time[1];
-    else {
-      let time = messageTime.toString().split(' ');
-      this.$messageTime.innerText = `${ruMonth[messageDate.month + 1]} ${time[2]} ${time[3]}`
+    ) { this.$messageTime.innerText = `${messageDate.time[0]}:${messageDate.time[1]}`; } else {
+      const time = messageTime.toString().split(' ');
+      this.$messageTime.innerText = `${ruMonth[messageDate.month + 1]} ${time[2]} ${time[3]}`;
     }
   }
 
   statusRender(dialogStatus, unreadMessages = '!') {
-    switch(dialogStatus) {
+    switch (dialogStatus) {
       case 'new':
         this.$messageStatus.className = 'messageStatus';
         this.$messageStatus.classList.add('newMessages');
@@ -227,7 +225,7 @@ class ObjectDialog extends HTMLElement {
     }
   }
 
-  get observedAttributes() {
+  static get observedAttributes() {
     return ['dialogid'];
   }
 

@@ -180,36 +180,36 @@ class DialogList extends HTMLElement {
   }
 
   dialogLoader() {
-    let dialogList = JSON.parse(localStorage.getItem('dialogList'));
-    if(dialogList != null && dialogList.length) this.$content.innerHTML = '';
+    const dialogList = JSON.parse(localStorage.getItem('dialogList'));
+    if (dialogList != null && dialogList.length) this.$content.innerHTML = '';
 
     let lastTime = 0;
-    for(dialogID in dialogList) {
-      let messageList = JSON.parse(localStorage.getItem(`dialogID_${dialogID}`));
-      let lastMessageID = Math.max.apply(null, Object.keys(messageList));
+    Object.keys(dialogList).forEach((dialogID) => {
+      const messageList = JSON.parse(localStorage.getItem(`dialogID_${dialogID}`));
+      const lastMessageID = Math.max.apply(null, Object.keys(messageList));
 
       let countOfUnreadMessages = null;
-      for(messageID in messageList) {
-        if(messageList[messageID].owner != "self" && messageList[messageID].status == 'new')
-          countOfUnreadMessages++;
-      }
 
-      let dialogInfo = messageList[lastMessageID];
+      Object.keys(messageList).forEach((messageID) => {
+        if (messageList[messageID].owner !== 'self' && messageList[messageID].status === 'new') countOfUnreadMessages++;
+      });
+
+      const dialogInfo = messageList[lastMessageID];
       dialogInfo.unreadMessages = countOfUnreadMessages;
       dialogInfo.dialogName = this.dialogName(dialogID);
       dialogInfo.dialogAvatar = this.dialogAvatar(dialogID);
       delete dialogInfo.owner;
 
-      if(countOfUnreadMessages != null) dialogInfo.status = 'new';
+      if (countOfUnreadMessages != null) dialogInfo.status = 'new';
 
-      let messageTime = dialogInfo.time;
-      if(messageTime > lastTime)
-        this.renderDialog(dialogID, dialogInfo);
-      else 
-        this.renderDialog(dialogID, dialogInfo, false);
+      const messageTime = dialogInfo.time;
+      if (messageTime > lastTime) this.renderDialog(dialogID, dialogInfo);
+      else { this.renderDialog(dialogID, dialogInfo, false); }
       lastTime = messageTime;
-    }
+    });
   }
+
+  // Временные функции за отсутствием бекэнда
 
   dialogAvatar(dialogID) {
     return 'static/images/image.jpg';
@@ -228,10 +228,9 @@ class DialogList extends HTMLElement {
   renderDialog(dialogID, dialogInfo, intoFirst = true) {
     let elem = document.createElement('object-dialog');
 
-    if(intoFirst) {
+    if (intoFirst) {
       elem = this.$content.insertBefore(elem, this.$content.firstChild);
-    } else 
-      elem = this.$content.appendChild(elem);
+    } else { elem = this.$content.appendChild(elem); }
 
     elem.setAttribute('dialogid', dialogID);
     elem.dialogRender(dialogInfo);

@@ -34,7 +34,7 @@ class Main extends HTMLElement {
   }
 
   openChat(dialogID) {
-    if(this.$chatForm != undefined) return false;
+    if (this.$chatForm !== undefined) return false;
 
     this.$chatForm = document.createElement('message-form');
     this.$chatForm = this.$wrap.appendChild(this.$chatForm);
@@ -44,22 +44,22 @@ class Main extends HTMLElement {
 
     this.$chatForm.messageLoader();
     this.$chatForm.$header.addEventListener('clickBackButton', () => this.closeChat());
-    this.$chatForm.$input.addEventListener('onSubmit', () => this.onSubmitMessage(dialogID))
+    this.$chatForm.$input.addEventListener('onSubmit', () => this.onSubmitMessage(dialogID));
   }
 
   closeChat() {
-    if(this.$chatForm == undefined) return false;
+    if (this.$chatForm === undefined) return false;
     this.$wrap.removeChild(this.$chatForm);
     this.$chatForm = undefined;
   }
 
   addEventOpenDialog() {
-    if(this.addedEvent == undefined) this.addedEvent = [];
+    if (this.addedEvent === undefined) this.addedEvent = [];
     const dialogList = JSON.parse(localStorage.getItem('dialogList'));
 
     dialogList.forEach((dialogID) => {
-      if(!(dialogID in this.addedEvent)){
-        let elem = this.$dialogList.$content.querySelector(`object-dialog[dialogid="${dialogID}"]`);
+      if (!(dialogID in this.addedEvent)) {
+        const elem = this.$dialogList.$content.querySelector(`object-dialog[dialogid="${dialogID}"]`);
         elem.addEventListener('click', () => this.openChat(dialogID));
         this.addedEvent.push(dialogID);
       }
@@ -67,27 +67,29 @@ class Main extends HTMLElement {
   }
 
   onSubmitMessage(dialogID) {
-    if(this.$chatForm == undefined) return false;
+    if (this.$chatForm === undefined) return false;
 
-    let inputLine = this.$chatForm.$input.value;
-    if(inputLine == '') return false;
+    const inputLine = this.$chatForm.$input.value;
+    if (inputLine === '') return false;
     this.$chatForm.$input.clearInput();
 
     let messageList = JSON.parse(localStorage.getItem(`dialogID_${dialogID}`));
-    if(messageList == null) messageList = {};
+    if (messageList === null) messageList = {};
     let lastMessageID = Math.max.apply(null, Object.keys(messageList));
 
-    let currentMessage = messageList[++lastMessageID] = {
+    messageList[++lastMessageID] = {
       text: inputLine,
       time: (new Date()).getTime(),
-      owner: "self",
-      status: "sending",
+      owner: 'self',
+      status: 'sending',
     };
+
+    const currentMessage = messageList;
 
     localStorage.setItem(`dialogID_${dialogID}`, JSON.stringify(messageList));
     this.$chatForm.renderMessage(lastMessageID, currentMessage);
 
-    let dialogInfo = currentMessage;
+    const dialogInfo = currentMessage;
     dialogInfo.dialogAvatar = this.$dialogList.dialogAvatar(dialogID);
     dialogInfo.dialogName = this.$dialogList.dialogName(dialogID);
 

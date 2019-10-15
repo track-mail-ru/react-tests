@@ -14,6 +14,10 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
+        "class-methods-use-this": 1,
+        "no-unused-vars": 1,
+        "consistent-return": 1,
+        "prefer-const": 1,
         "prefer-template": 1,
         "object-shorthand": 1,
         "no-restricted-globals": 1,

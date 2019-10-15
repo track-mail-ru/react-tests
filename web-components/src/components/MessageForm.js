@@ -93,22 +93,23 @@ class MessageForm extends HTMLElement {
     this.$header = this.shadowRoot.querySelector('dialog-info');
   }
 
-  messageLoader() { // Метод отрисовки/перерисовки всех сообщений
-    let dialogInfo = JSON.parse(localStorage.getItem(`dialogID_${this.dialogID}`));
-    if(dialogInfo == null) return false;
+  // Метод отрисовки/перерисовки всех сообщений
+  messageLoader() {
+    const dialogInfo = JSON.parse(localStorage.getItem(`dialogID_${this.dialogID}`));
+    if (dialogInfo == null) return false;
 
     this.$messages.innerHTML = '';
 
-    for(messageID in dialogInfo){
-      let message = dialogInfo[messageID];
+    Object.keys(dialogInfo).forEach((messageID) => {
+      const message = dialogInfo[messageID];
       this.renderMessage(messageID, message);
-    }
+    });
   }
 
   messageChange(messageID) { // Метод перерисовки одного сообщения с указанным messageID
     const messageBox = JSON.parse(localStorage.getItem(`dialogID_${this.dialogID}`))[messageID];
     this.messageSetAttributes(messageID, messageBox);
-  } 
+  }
 
   renderDate(time) {
     let elem = document.createElement('date-marker');
@@ -116,21 +117,24 @@ class MessageForm extends HTMLElement {
     elem.setAttribute('time', time);
   }
 
-  renderMessage(messageID, messageBox) { // Метод добавления сообщения с конкретным messageID и информацией messageBox
+  // Метод добавления сообщения с конкретным messageID
+  // и информацией messageBox
+  renderMessage(messageID, messageBox) {
     const time = new Date(messageBox.time);
 
-    if(!this.lastRenderMessageDate)
+    if (!this.lastRenderMessageDate) {
       this.lastRenderMessageDate = {
         year: null,
         month: null,
         date: null,
       };
+    }
 
     const currentDate = {
       year: time.getFullYear(),
       month: time.getMonth(),
       date: time.getDate(),
-    }
+    };
 
     if (
       currentDate.year !== this.lastRenderMessageDate.year
@@ -146,9 +150,10 @@ class MessageForm extends HTMLElement {
     this.messageSetAttributes(elem, messageBox);
   }
 
-  messageSetAttributes(elem, messageBox) {
-    for(attribute in messageBox)
-        elem.setAttribute(attribute.toLowerCase(), messageBox[attribute]); 
+  static messageSetAttributes(elem, messageBox) {
+    Object.keys(messageBox).forEach((attribute) => {
+      elem.setAttribute(attribute.toLowerCase(), messageBox.attribute);
+    });
   }
 
   static get observedAttributes() {
