@@ -200,7 +200,7 @@ class DialogList extends HTMLElement {
       dialogInfo.dialogAvatar = this.dialogAvatar(dialogID);
       delete dialogInfo.owner;
 
-      if (countOfUnreadMessages != null) dialogInfo.status = 'new';
+      //if (countOfUnreadMessages != null) dialogInfo.status = 'new';
 
       const messageTime = dialogInfo.time;
       if (messageTime > lastTime) this.renderDialog(dialogID, dialogInfo);
