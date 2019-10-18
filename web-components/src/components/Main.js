@@ -75,7 +75,7 @@ class Main extends HTMLElement {
 
     let messageList = JSON.parse(localStorage.getItem(`dialogID_${dialogID}`));
     if (messageList === null) messageList = {};
-    let lastMessageID = Math.max.apply(null, Object.keys(messageList));
+    let lastMessageID = Math.max(...Object.keys(messageList));
 
     const currentMessage = messageList[++lastMessageID] = {
       text: inputLine,
