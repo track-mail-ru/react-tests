@@ -82,7 +82,7 @@ template.innerHTML = `
     opacity: 0.6;
     background-color: #61A0C4;
     border-radius: 30px;
-    transition-duration: 0.2s;
+    transition-duration: 0.4s;
     cursor: pointer;
     animation-name: pencil;
     animation-duration:  3s;
@@ -93,6 +93,7 @@ template.innerHTML = `
 
   .buttonNew:hover{
     opacity: 1.0;
+    animation: none;
   }
 
   .pen{
@@ -150,6 +151,25 @@ template.innerHTML = `
       bottom: 30px;
       right: 30px;
       transform: rotate(0deg);
+    }
+  }
+
+  object-dialog{
+    display: block;
+    overflow: hidden;
+    animation-name: objectDialogApearence;
+    animation-duration: 0.4s;
+  }
+
+  @keyframes objectDialogApearence{
+    from{
+      height: 0;
+      opacity: 0;
+    }
+
+    to{
+      height: 90px;
+      opacity: 1;
     }
   }
 </style>

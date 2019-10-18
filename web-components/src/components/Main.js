@@ -89,7 +89,7 @@ class Main extends HTMLElement {
     };
 
     localStorage.setItem(`dialogID_${dialogID}`, JSON.stringify(messageList));
-    this.$chatForm.renderMessage(lastMessageID, currentMessage);
+    this.$chatForm.renderMessage(lastMessageID, currentMessage, true);
 
     const dialogInfo = currentMessage;
     dialogInfo.dialogAvatar = this.$dialogList.dialogAvatar(dialogID);
