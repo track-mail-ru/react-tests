@@ -181,16 +181,14 @@ class DialogList extends HTMLElement {
 
   dialogLoader() {
     let dialogList = [];
-    try {dialogList = JSON.parse(localStorage.getItem('dialogList'))}
-    catch(SyntaxError) {console.log('It can not to parse dialog list.')}
+    try { dialogList = JSON.parse(localStorage.getItem('dialogList')); } catch (SyntaxError) { console.log('It can not to parse dialog list.'); }
 
     if (dialogList != null && dialogList.length) { this.$content.innerHTML = ''; }
 
     let lastTime = 0;
     Object.keys(dialogList).forEach((dialogID) => {
       let messageList = {};
-      try { messageList = JSON.parse(localStorage.getItem(`dialogID_${dialogID}`)) }
-      catch(SyntaxError) { console.log('It can not to parse dialog.') }
+      try { messageList = JSON.parse(localStorage.getItem(`dialogID_${dialogID}`)); } catch (SyntaxError) { console.log('It can not to parse dialog.'); }
       if (messageList === null) { messageList = {}; }
 
       const lastMessageID = Math.max.apply(null, Object.keys(messageList));
@@ -207,11 +205,14 @@ class DialogList extends HTMLElement {
       dialogInfo.dialogAvatar = this.dialogAvatar(dialogID);
       delete dialogInfo.owner;
 
-      //if (countOfUnreadMessages != null) dialogInfo.status = 'new';
+      // if (countOfUnreadMessages != null) dialogInfo.status = 'new';
 
       const messageTime = dialogInfo.time;
-      if (messageTime > lastTime) { this.renderDialog(dialogID, dialogInfo); }
-      else { this.renderDialog(dialogID, dialogInfo, false); }
+      if (messageTime > lastTime) {
+        this.renderDialog(dialogID, dialogInfo);
+      } else {
+        this.renderDialog(dialogID, dialogInfo, false);
+      }
       lastTime = messageTime;
     });
   }

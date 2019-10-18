@@ -57,8 +57,7 @@ class Main extends HTMLElement {
     if (this.addedEvent === undefined) { this.addedEvent = []; }
 
     let dialogList = [];
-    try {dialogList = JSON.parse(localStorage.getItem('dialogList'))}
-    catch(SyntaxError) {console.log('It can not to parse dialog list.')}
+    try { dialogList = JSON.parse(localStorage.getItem('dialogList')); } catch (SyntaxError) { console.log('It can not to parse dialog list.'); }
 
     dialogList.forEach((dialogID) => {
       if (!(dialogID in this.addedEvent)) {
@@ -77,8 +76,7 @@ class Main extends HTMLElement {
     this.$chatForm.$input.clearInput();
 
     let messageList = {};
-    try {messageList = JSON.parse(localStorage.getItem(`dialogID_${dialogID}`))}
-    catch(SyntaxError) {console.log('It can not to parse dialog messages.')}
+    try { messageList = JSON.parse(localStorage.getItem(`dialogID_${dialogID}`)); } catch (SyntaxError) { console.log('It can not to parse dialog messages.'); }
     if (messageList === null) messageList = {};
 
     let lastMessageID = Math.max(...Object.keys(messageList));

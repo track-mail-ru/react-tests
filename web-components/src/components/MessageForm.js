@@ -95,8 +95,7 @@ class MessageForm extends HTMLElement {
   // Метод отрисовки/перерисовки всех сообщений
   messageLoader() {
     let dialogInfo = {};
-    try {dialogInfo = JSON.parse(localStorage.getItem(`dialogID_${this.dialogID}`))}
-    catch(SyntaxError) {console.log('It can not to parse dialog messages.')}
+    try { dialogInfo = JSON.parse(localStorage.getItem(`dialogID_${this.dialogID}`)); } catch (SyntaxError) { console.log('It can not to parse dialog messages.'); }
     if (dialogInfo == null) { return false; }
 
     this.$messages.innerHTML = '';
@@ -112,8 +111,7 @@ class MessageForm extends HTMLElement {
     const elem = this.$messages.querySelector(`message-box[messageid="${messageID}"]`);
 
     let messageBox = {};
-    try {messageBox = JSON.parse(localStorage.getItem(`dialogID_${dialogID}`))[messageID]}
-    catch(SyntaxError) {console.log('It can not to parse dialog messages.')}
+    try { messageBox = JSON.parse(localStorage.getItem(`dialogID_${this.dialogID}`))[messageID]; } catch (SyntaxError) { console.log('It can not to parse dialog messages.'); }
     if (messageBox === null) { messageBox = {}; }
 
     this.messageSetAttributes(elem, messageBox);
