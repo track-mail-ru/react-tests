@@ -81,7 +81,7 @@ class Main extends HTMLElement {
     catch(SyntaxError) {console.log('It can not to parse dialog messages.')}
     if (messageList === null) messageList = {};
 
-    let lastMessageID = Math.max.apply(null, Object.keys(messageList));
+    let lastMessageID = Math.max(...Object.keys(messageList));
 
     const currentMessage = messageList[++lastMessageID] = {
       text: inputLine,
