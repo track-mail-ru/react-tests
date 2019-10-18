@@ -4,10 +4,6 @@ template.innerHTML = `
   *{
     margin: 0;
     padding: 0;
-    --fontNormalSize: 1.1em;
-    --fontMinSize: 0.95em;
-    --fontMaxSize: 1.2em;
-    --fontMinMinSize: 0.8em;
     box-sizing: border-box;
   }
 
