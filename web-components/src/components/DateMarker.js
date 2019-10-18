@@ -80,7 +80,7 @@ class DialogInformation extends HTMLElement {
       && currentDate.date === date.date
     ) this.$text.innerText = 'Сегодня,';
     this.$text.innerText += ` ${date.date} ${ruMonth[date.month]}`;
-    if (currentDate.year !== date.year) this.$text.innerText += ` ${date.year}`;
+    if (currentDate.year !== date.year) { this.$text.innerText += ` ${date.year}`; }
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
