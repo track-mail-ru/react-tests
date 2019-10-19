@@ -77,14 +77,16 @@ class Main extends HTMLElement {
   }
 
   openChat(dialogID) {
+    this.openedDialogID = dialogID;
     this.$chatForm.setAttribute('dialogid', dialogID);
 
     this.$chatForm.classList.remove('disapear');
     this.$chatForm.classList.add('apear');
 
+    this.$chatForm.clearChat();
     this.$chatForm.messageLoader();
     this.$chatForm.$header.addEventListener('clickBackButton', () => this.closeChat());
-    this.$chatForm.$input.addEventListener('onSubmit', () => this.onSubmitMessage(dialogID));
+    this.$chatForm.$input.addEventListener('onSubmit', () => this.onSubmitMessage(this.openedDialogID));
   }
 
   closeChat() {

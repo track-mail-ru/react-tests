@@ -181,6 +181,13 @@ class MessageForm extends HTMLElement {
     if (newFlag) { elem.classList.add('newBox'); }
   }
 
+  clearChat() {
+    delete this.lastRenderMessageDate;
+
+    let elem = document.createElement('date-marker');
+    elem = this.$messages.appendChild(elem);
+  }
+
   messageSetAttributes(elem, messageBox) {
     Object.keys(messageBox).forEach((attribute) => {
       elem.setAttribute(attribute.toLowerCase(), messageBox[attribute]);
