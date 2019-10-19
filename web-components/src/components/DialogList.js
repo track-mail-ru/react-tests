@@ -109,6 +109,7 @@ template.innerHTML = `
       bottom: 30px;
       right: 30px;
       transform: rotate(0deg);
+      box-shadow: 0 0 0 0 #1E4C66;
     }
 
     7.5%{
@@ -121,12 +122,14 @@ template.innerHTML = `
       bottom: 30px;
       right: 30px;
       transform: rotate(-30deg);
+      box-shadow: 0 0 0 15px #1E4C66;
     }
 
     22.5%{
       bottom: 30px;
       right: 30px;
       transform: rotate(15deg);
+      box-shadow: 0 0 0 20px transparent;
     }
 
     30%{

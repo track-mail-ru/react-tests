@@ -2,7 +2,7 @@ const template = document.createElement('template');
 template.innerHTML = `
 <style>
   .wrap{
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     position: relative;
   }
