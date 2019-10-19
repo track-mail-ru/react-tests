@@ -16,6 +16,10 @@ template.innerHTML = `
     transition-duration: 0.2s;
   }
 
+  .dialog{
+    background-color: #1B1B1B;
+  }
+
   .dialog:hover{
     background-color: #1D1D1D;
   }

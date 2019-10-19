@@ -5,6 +5,7 @@ template.innerHTML = `
     width: 100vw;
     height: 100vh;
     position: relative;
+    background: url(static/images/backgroundChat.png);
   }
 
   .wrap *{
@@ -34,24 +35,24 @@ template.innerHTML = `
   @keyframes chatDisapear{
     from{
       right: 0;
-      opacity: 1;
+      /*opacity: 1;*/
     }
 
     to{
       right: -100%;
-      opacity: 0.8;
+      /*opacity: 0.9;*/
     }
   }
 
   @keyframes chatApearence{
     from{
       right: -100%;
-      opacity: 0.8;
+      /*opacity: 0.9;*/
     }
 
     to{
       right: 0;
-      opacity: 1;
+      /*opacity: 1;*/
     }
   }
 </style>

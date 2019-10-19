@@ -34,8 +34,8 @@ template.innerHTML = `
     align-content: flex-end;
     z-index: 0;
     overflow-y: auto;
-    background: url(static/images/background.png);
-    background-size: 60px;
+    background: url(static/images/background_4.png);
+    /*background-size: 60px;*/
   }
 
   ::-webkit-scrollbar {

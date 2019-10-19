@@ -53,7 +53,7 @@ template.innerHTML = `
 
   .content{
     flex: auto;
-    background-color: #1A1A1A;
+    background: url(static/images/backgroundMain.png);
     overflow-y: auto;
     z-index: 0;
   }
