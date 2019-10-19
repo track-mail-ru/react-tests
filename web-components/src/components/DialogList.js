@@ -45,6 +45,7 @@ template.innerHTML = `
     float: left;
     color: #A9A9AC;
     font-weight: bold;
+    text-shadow: 1px 1px 0 #222;
   }
 
   .formName:after{

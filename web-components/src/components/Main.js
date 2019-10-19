@@ -5,7 +5,7 @@ template.innerHTML = `
     width: 100vw;
     height: 100vh;
     position: relative;
-    background: url(static/images/backgroundChat.png);
+    background: url(static/images/backgroundMain.png);
   }
 
   .wrap *{

@@ -34,7 +34,7 @@ template.innerHTML = `
     align-content: flex-end;
     z-index: 0;
     overflow-y: auto;
-    background: url(static/images/background_4.png);
+    background: url(static/images/backgroundChat.png);
     /*background-size: 60px;*/
   }
 

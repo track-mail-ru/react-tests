@@ -40,6 +40,7 @@ template.innerHTML = `
     /*flex: auto;*/
     height: 100%;
     padding-top: 5px;
+    text-shadow: 1px 1px 0 #222;
   }
 
   .userName .name{
