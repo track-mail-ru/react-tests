@@ -3,7 +3,7 @@ template.innerHTML = `
 <style>
   .wrap{
     width: 100%;
-    height: 100%;
+    height: 100vh;
     position: relative;
   }
 
@@ -11,11 +11,53 @@ template.innerHTML = `
     position: absolute;
     height: 100%;
     width: 100%;
+    overflow: hidden;
     z-index: 0;
+  }
+
+  message-form{
+    z-index: 1;
+    right: -100%;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+  }
+
+  message-form.apear{
+    animation-name: chatApearence;
+  }
+
+  message-form.disapear{
+    animation-name: chatDisapear;
+  }
+
+  @keyframes chatDisapear{
+    from{
+      right: 0;
+      opacity: 1;
+    }
+
+    to{
+      right: -100%;
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes chatApearence{
+    from{
+      right: -100%;
+      opacity: 0.8;
+    }
+
+    to{
+      right: 0;
+      opacity: 1;
+    }
   }
 </style>
 <div class="wrap">
   <dialog-list></dialog-list>
+  <message-form></message-form>
 </div>
 `;
 
@@ -28,19 +70,17 @@ class Main extends HTMLElement {
 
     this.$wrap = this.shadowRoot.querySelector('.wrap');
     this.$dialogList = this.shadowRoot.querySelector('dialog-list');
+    this.$chatForm = this.shadowRoot.querySelector('message-form');
 
     this.$dialogList.dialogLoader();
     this.addEventOpenDialog();
   }
 
   openChat(dialogID) {
-    if (this.$chatForm !== undefined) { return false; }
-
-    this.$chatForm = document.createElement('message-form');
-    this.$chatForm = this.$wrap.appendChild(this.$chatForm);
     this.$chatForm.setAttribute('dialogid', dialogID);
 
-    this.$chatForm.style.zIndex = 10;
+    this.$chatForm.classList.remove('disapear');
+    this.$chatForm.classList.add('apear');
 
     this.$chatForm.messageLoader();
     this.$chatForm.$header.addEventListener('clickBackButton', () => this.closeChat());
@@ -48,9 +88,8 @@ class Main extends HTMLElement {
   }
 
   closeChat() {
-    if (this.$chatForm === undefined) { return false; }
-    this.$wrap.removeChild(this.$chatForm);
-    this.$chatForm = undefined;
+    this.$chatForm.classList.remove('apear');
+    this.$chatForm.classList.add('disapear');
   }
 
   addEventOpenDialog() {

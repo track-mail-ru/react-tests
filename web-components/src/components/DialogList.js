@@ -157,6 +157,9 @@ template.innerHTML = `
   object-dialog{
     display: block;
     overflow: hidden;
+  }
+  
+  /*object-dialog.newDialog{
     animation-name: objectDialogApearence;
     animation-duration: 0.4s;
   }
@@ -171,7 +174,7 @@ template.innerHTML = `
       height: 90px;
       opacity: 1;
     }
-  }
+  }*/
 </style>
 <div class="header">
   <div class="menu"></div>
