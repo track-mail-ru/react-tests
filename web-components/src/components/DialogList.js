@@ -45,6 +45,7 @@ template.innerHTML = `
     float: left;
     color: #A9A9AC;
     font-weight: bold;
+    text-shadow: 1px 1px 0 #222;
   }
 
   .formName:after{
@@ -53,7 +54,7 @@ template.innerHTML = `
 
   .content{
     flex: auto;
-    background-color: #1A1A1A;
+    background: url(static/images/backgroundMain.png);
     overflow-y: auto;
     z-index: 0;
   }
@@ -82,7 +83,7 @@ template.innerHTML = `
     opacity: 0.6;
     background-color: #61A0C4;
     border-radius: 30px;
-    transition-duration: 0.2s;
+    transition-duration: 0.4s;
     cursor: pointer;
     animation-name: pencil;
     animation-duration:  3s;
@@ -93,6 +94,7 @@ template.innerHTML = `
 
   .buttonNew:hover{
     opacity: 1.0;
+    animation: none;
   }
 
   .pen{
@@ -108,6 +110,7 @@ template.innerHTML = `
       bottom: 30px;
       right: 30px;
       transform: rotate(0deg);
+      box-shadow: 0 0 0 0 #1E4C66;
     }
 
     7.5%{
@@ -120,12 +123,14 @@ template.innerHTML = `
       bottom: 30px;
       right: 30px;
       transform: rotate(-30deg);
+      box-shadow: 0 0 0 15px #1E4C66;
     }
 
     22.5%{
       bottom: 30px;
       right: 30px;
       transform: rotate(15deg);
+      box-shadow: 0 0 0 20px transparent;
     }
 
     30%{
@@ -152,6 +157,28 @@ template.innerHTML = `
       transform: rotate(0deg);
     }
   }
+
+  object-dialog{
+    display: block;
+    overflow: hidden;
+  }
+  
+  /*object-dialog.newDialog{
+    animation-name: objectDialogApearence;
+    animation-duration: 0.4s;
+  }
+
+  @keyframes objectDialogApearence{
+    from{
+      height: 0;
+      opacity: 0;
+    }
+
+    to{
+      height: 90px;
+      opacity: 1;
+    }
+  }*/
 </style>
 <div class="header">
   <div class="menu"></div>

@@ -13,6 +13,11 @@ template.innerHTML = `
     width: 100%;
     height: 90px;
     cursor: pointer;
+    transition-duration: 0.2s;
+  }
+
+  .dialog{
+    background-color: #1B1B1B;
   }
 
   .dialog:hover{
@@ -23,7 +28,9 @@ template.innerHTML = `
     width: 70px;
     height: 70px;
     border-radius: 50px;
-    margin: 0 20px;
+    margin: 0 12px;
+    flex-shrink: 0;
+    flex-grow: 0;
   }
 
   .dialogInfo{
@@ -31,6 +38,7 @@ template.innerHTML = `
     height: 100%;
     border-bottom: 1px solid #242424;
     padding: 12px;
+    width: calc(100% - 108px);
   }
 
   .dialogName{
@@ -70,6 +78,8 @@ template.innerHTML = `
     height: 18px;
     width: 18px;
     display: inline-block;
+    flex-shrink: 0;
+    flex-grow: 0;
   }
 
   .sending{

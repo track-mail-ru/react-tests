@@ -34,8 +34,8 @@ template.innerHTML = `
     align-content: flex-end;
     z-index: 0;
     overflow-y: auto;
-    background: url(static/images/background.png);
-    background-size: 60px;
+    background: url(static/images/backgroundChat.png);
+    /*background-size: 60px;*/
   }
 
   ::-webkit-scrollbar {
@@ -51,8 +51,15 @@ template.innerHTML = `
 
   message-box{
     box-sizing: border-box;
-    width: 100%;
     padding: 0 10px 20px 10px;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+  }
+
+  message-box.newBox{
+    animation-name: messageBoxApearence;
+    animation-duration: 0.4s;
   }
 
   .footer{
@@ -61,6 +68,26 @@ template.innerHTML = `
     outline: 1px solid #242424;
     box-shadow: 0 0 2px 0 #151716;
     z-index: 1;
+  }
+
+  @keyframes messageBoxApearence{
+    from{
+      max-height: 0;
+      opacity: 0;
+      padding-top: 0;
+      padding-right: 0;
+      padding-left: 0;
+      padding-bottom: 0;
+    }
+
+    to{
+      max-height: 100%;
+      opacity: 1;
+      padding-top: 0;
+      padding-right: 10px;
+      padding-left: 10px;
+      padding-bottom: 20px;
+    }
   }
 </style>
 <div class="header">
@@ -121,7 +148,7 @@ class MessageForm extends HTMLElement {
 
   // Метод добавления сообщения с конкретным messageID
   // и информацией messageBox
-  renderMessage(messageID, messageBox) {
+  renderMessage(messageID, messageBox, newFlag = false) {
     const time = new Date(messageBox.time);
 
     if (!this.lastRenderMessageDate) {
@@ -150,6 +177,15 @@ class MessageForm extends HTMLElement {
     let elem = document.createElement('message-box');
     elem = this.$messages.appendChild(elem);
     this.messageSetAttributes(elem, messageBox);
+
+    if (newFlag) { elem.classList.add('newBox'); }
+  }
+
+  clearChat() {
+    delete this.lastRenderMessageDate;
+
+    let elem = document.createElement('date-marker');
+    elem = this.$messages.appendChild(elem);
   }
 
   messageSetAttributes(elem, messageBox) {

@@ -39,7 +39,7 @@ template.innerHTML = `
     width: 30px;
     margin: 0 15px;
     cursor: pointer;
-    opacity: 0.85;
+    opacity: 0.5;
     transition-duration: 0.15s;
   }
 
@@ -48,7 +48,7 @@ template.innerHTML = `
   }
 
   .inputButton:active{
-    opacity: 0.6;
+    opacity: 0.7;
   }
 </style>
 <div class="inputButton additionalButton"></div>
@@ -97,7 +97,7 @@ class FormInput extends HTMLElement {
   }
 
   get value() {
-    return this.$input.value;
+    return this.$input.value.trim();
   }
 }
 

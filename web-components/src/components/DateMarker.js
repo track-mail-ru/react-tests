@@ -18,6 +18,7 @@ template.innerHTML = `
     font-weight: 600;
     padding: 30px 0;
     color: #9A9B9D;
+    text-shadow: 1px 1px 0 #000;
   }
 </style>
 <div class="messageDate">Начало диалога</div>

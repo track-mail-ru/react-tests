@@ -40,6 +40,7 @@ template.innerHTML = `
     /*flex: auto;*/
     height: 100%;
     padding-top: 5px;
+    text-shadow: 1px 1px 0 #222;
   }
 
   .userName .name{
@@ -67,19 +68,19 @@ template.innerHTML = `
     background-size: 90%;
   }
 
-  .backButton{
+  .headerButton{
     height: 100%;
     width: 30px;
-    opcaity: 0.85;
+    opacity: 0.5;
     transition-duration: 0.15s;
   }
 
-  .backButton:hover{
+  .headerButton:hover{
     opacity: 1.0;
   }
 
-  .backButton:active{
-    opacity: 0.6;
+  .headerButton:active{
+    opacity: 0.7;
   }
 </style>
 <div class="headerButton backButton"></div>
