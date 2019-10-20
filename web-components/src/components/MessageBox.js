@@ -4,10 +4,6 @@ template.innerHTML = `
   *{
     margin: 0;
     padding: 0;
-    --fontNormalSize: 1.1em;
-    --fontMinSize: 0.95em;
-    --fontMaxSize: 1.2em;
-    --fontMinMinSize: 0.8em;
     box-sizing: border-box;
   }
 
@@ -68,15 +64,11 @@ class MessageForm extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['messageID', 'owner', 'text', 'time'];
+    return ['owner', 'text', 'time'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     switch (name) {
-      case 'messageID':
-        this.$wrap.attr('messageID', newValue);
-        break;
-
       case 'owner':
         this.$wrap.classList.add(newValue);
         break;
@@ -88,7 +80,7 @@ class MessageForm extends HTMLElement {
       case 'time':
         let date = new Date(parseInt(newValue, 10));
         date = date.toString().split(' ')[4].split(':');
-        this.$time.innerText = date[0] + ':' + date[1];
+        this.$time.innerText = `${date[0]}:${date[1]}`;
         break;
     }
   }

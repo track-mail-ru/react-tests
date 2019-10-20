@@ -4,15 +4,11 @@ template.innerHTML = `
   *{
     margin: 0;
     padding: 0;
-    --fontNormalSize: 1.1em;
-    --fontMinSize: 0.95em;
-    --fontMaxSize: 1.2em;
-    --fontMinMinSize: 0.8em;
     box-sizing: border-box;
   }
 
   :host{
-    height: 60px;
+    height: 100%;
     display: flex;
     flex-direction: row;
   }
@@ -104,6 +100,26 @@ class DialogInformation extends HTMLElement {
 
     this.shadowRoot = this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
+
+    this.$backButton = this.shadowRoot.querySelector('.backButton');
+    this.$searchButton = this.shadowRoot.querySelector('.searchButton');
+    this.$optionButton = this.shadowRoot.querySelector('.optionsButton');
+
+    this.$backButton.addEventListener('click', this.backButton.bind(this));
+    this.$searchButton.addEventListener('click', this.searchButton.bind(this));
+    this.$optionButton.addEventListener('click', this.optionButton.bind(this));
+  }
+
+  backButton() {
+    this.dispatchEvent(new Event('clickBackButton'));
+  }
+
+  searchButton() {
+    this.dispatchEvent(new Event('clickSearchButton'));
+  }
+
+  optionButton() {
+    this.dispatchEvent(new Event('clickOptionButton'));
   }
 
   /* static get observedAttributes() {

@@ -4,10 +4,6 @@ template.innerHTML = `
   *{
     margin: 0;
     padding: 0;
-    --fontNormalSize: 1.1em;
-    --fontMinSize: 0.95em;
-    --fontMaxSize: 1.2em;
-    --fontMinMinSize: 0.8em;
     box-sizing: border-box;
   }
 
@@ -66,7 +62,7 @@ class DialogInformation extends HTMLElement {
       5: 'мая',
       6: 'июня',
       7: 'июля',
-      8: 'фвгуста',
+      8: 'августа',
       9: 'сентября',
       10: 'октября',
       11: 'ноября',
@@ -79,8 +75,8 @@ class DialogInformation extends HTMLElement {
       && currentDate.month === date.month
       && currentDate.date === date.date
     ) this.$text.innerText = 'Сегодня,';
-    this.$text.innerText += ' ' + date.date + ' ' + ruMonth[date.month];
-    if (currentDate.year !== date.year) this.$text.innerText += ' ' + date.year;
+    this.$text.innerText += ` ${date.date} ${ruMonth[date.month]}`;
+    if (currentDate.year !== date.year) { this.$text.innerText += ` ${date.year}`; }
   }
 
   attributeChangedCallback(name, oldValue, newValue) {

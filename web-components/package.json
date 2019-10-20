@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "test": "./node_modules/.bin/eslint ./src/",
+    "test-fix": "./node_modules/.bin/eslint ./src/ --fix",
     "start": "webpack-dev-server --mode=development --hot",
     "build": "webpack --mode=development"
   },

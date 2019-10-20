@@ -4,10 +4,6 @@ template.innerHTML = `
   *{
     margin: 0;
     padding: 0;
-    --fontNormalSize: 1.1em;
-    --fontMinSize: 0.95em;
-    --fontMaxSize: 1.2em;
-    --fontMinMinSize: 0.8em;
     box-sizing: border-box;
   }
 
@@ -85,16 +81,19 @@ class FormInput extends HTMLElement {
   }
 
   onKeyPress(event) {
-    if (event.keyCode === 13) this.onSubmit();
+    if (event.keyCode === 13) { this.onSubmit(); }
   }
 
   static get observedAttributes() {
     return ['name', 'value', 'placeholder', 'disabled'];
   }
 
+  clearInput() {
+    this.$input.value = '';
+  }
+
   attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'value') this.$input.value = newValue;
-    this.$input.setAttribute(name, newValue);
+    if (name === 'value') { this.$input.value = newValue; } else { this.$input.setAttribute(name, newValue); }
   }
 
   get value() {
