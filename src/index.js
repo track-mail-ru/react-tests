@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import './static/styles/index.css';
 import './static/styles/Main.css';
 import { ChatList } from './components/ChatList';
+import { ChatForm } from './components/ChatForm';
 
 export class Main extends React.Component {
 	constructor(props) {
@@ -32,7 +33,8 @@ export class Main extends React.Component {
 	render() {
 		return (
 			<div className='wrap'>
-				<ChatList chatsList={ this.state.chatsList } />
+				{/*<ChatList chatsList={ this.state.chatsList } />*/}
+				<ChatForm />
 			</div>
 		);
 	}
@@ -99,15 +101,27 @@ localStorage.setItem('messageList', JSON.stringify({
 	1: [
 		{
 			id: 0,
-			time: 123544332553,
-			text: 'Какое-то сообщение',
-			status: 0, // 0 - прочитано, 1 - ошибка 
+			time: (new Date()).getTime() - 366666,
+			text: 'Привет',
+			status: 0, // 0 - непрочитано, 1 - прочитано, 2 - ошибка 
 		},
 		{
-			id: 1,
-			time: 123544332544,
-			text: 'Последнее сообщение',
-			status: 0, // 0 - прочитано, 1 - ошибка 
+			id: 0,
+			time: (new Date()).getTime() - 366666,
+			text: 'Что ты будешь Паше дарить?',
+			status: 0, // 0 - непрочитано, 1 - прочитано, 2 - ошибка 
+		},
+		{
+			id: 0,
+			time: (new Date()).getTime() - 366666,
+			text: 'Давай что-то подарим вместе?',
+			status: 0, // 0 - непрочитано, 1 - прочитано, 2 - ошибка 
+		},
+		{
+			id: 0,
+			time: (new Date()).getTime() - 366666,
+			text: 'Ты чего игноришь???',
+			status: 0, // 0 - непрочитано, 1 - прочитано, 2 - ошибка 
 		},
 	],
 	2: [
