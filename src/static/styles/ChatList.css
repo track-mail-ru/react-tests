@@ -1,0 +1,154 @@
+.chat-list{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-content: flex-end;
+	position: absolute;
+	overflow: hidden;
+	z-index: 0;
+
+}
+
+.header{
+	background-color: #2C2D2F;
+	width: 100%;
+	height: 60px;
+	z-index: 1;
+	box-shadow: 0 0 2px 0 #151716;
+	flex-shrink: 0;
+	padding-left: 30px;
+}
+
+.header .menu{
+	width: 30px;
+	height: 100%;
+	display: inline-block;
+	margin-right: 20px;
+	background: url(../images/menu.png) no-repeat center center;
+	background-size: 30px;
+	float: left;
+}
+
+.header .form-name{
+	line-height: 60px;
+	float: left;
+	color: #A9A9AC;
+	font-weight: bold;
+	text-shadow: 1px 1px 0 #222;
+}
+
+.form-name:after{
+	clear: both;
+}
+
+.content{
+	flex: auto;
+	background: url(../images/backgroundMain.png);
+	overflow-y: auto;
+	z-index: 0;
+}
+
+.none-messages{
+	width: 100%;
+	text-align: center;
+	padding-top: 40vh;
+	font-size: var(--fontMinSize);
+	color: #4C4C4D;
+}
+
+.dialog-wrap{
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	overflow-y: auto; 
+}
+
+.button-new{
+	position: absolute;
+	bottom: 30px;
+	right: 30px;
+	width: 60px;
+	height: 60px;
+	opacity: 0.6;
+	background-color: #61A0C4;
+	border-radius: 30px;
+	transition-duration: 0.4s;
+	cursor: pointer;
+	animation-name: pencil;
+	animation-duration:  3s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	animation-delay: 1s;
+}
+
+.button-new:hover{
+	opacity: 1.0;
+	animation: none;
+}
+
+.pen{
+	background: url(../images/pen.png) no-repeat center center;
+	background-size: 30px;
+	width: 30px;
+	height: 60px;
+	margin: auto;
+}
+
+@keyframes pencil{
+	from{
+		bottom: 30px;
+		right: 30px;
+		transform: rotate(0deg);
+		box-shadow: 0 0 0 0 #1E4C66;
+	}
+
+	7.5%{
+		bottom: 30px;
+		right: 30px;
+		transform: rotate(60deg);
+	}
+
+	15%{
+		bottom: 30px;
+		right: 30px;
+		transform: rotate(-30deg);
+		box-shadow: 0 0 0 15px #1E4C66;
+	}
+
+	22.5%{
+		bottom: 30px;
+		right: 30px;
+		transform: rotate(15deg);
+		box-shadow: 0 0 0 20px transparent;
+	}
+
+	30%{
+		bottom: 30px;
+		right: 30px;
+		transform: rotate(-7.5deg);
+	}
+
+	37.5%{
+		bottom: 30px;
+		right: 30px;
+		transform: rotate(3.25deg);
+	}
+
+	45%{
+		bottom: 30px;
+		right: 30px;
+		transform: rotate(-1.625deg);
+	}
+
+	50%{
+		bottom: 30px;
+		right: 30px;
+		transform: rotate(0deg);
+	}
+}
+
+.chat{
+	display: block;
+	overflow: hidden;
+}
