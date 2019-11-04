@@ -16,14 +16,13 @@
 	z-index: 1;
 	box-shadow: 0 0 2px 0 #151716;
 	flex-shrink: 0;
-	padding-left: 30px;
 }
 
 .menu {
 	width: 30px;
 	height: 100%;
 	display: inline-block;
-	margin-right: 20px;
+	margin: 0 15px;
 	background: url(../images/menu.png) no-repeat center center;
 	background-size: 30px;
 	float: left;

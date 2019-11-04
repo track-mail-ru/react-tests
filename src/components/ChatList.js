@@ -3,6 +3,8 @@ import { Chat } from './Chat.js';
 import styles from './../static/styles/ChatList.module.css';
 
 export function ChatList(props) {
+	const style = props.style;
+
 	let chatsList = props.chatsList;
 	let list = [];
 	if (!chatsList) {
@@ -22,7 +24,7 @@ export function ChatList(props) {
 	}
 
 	return (
-		<div className={styles.chatList}>
+		<div style={style} className={styles.chatList}>
 			<div className={styles.header}>
 				<div className={styles.menu}></div>
 				<span className={styles.formName}>Сообщения</span>

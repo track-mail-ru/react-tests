@@ -1,5 +1,6 @@
 import React from 'react';
 import { TimeToDate } from '../lib/TimeToDate';
+import Parent from './Parent.Context';
 import styles from './../static/styles/Chat.module.css';
 
 export function Chat(props) {
@@ -51,23 +52,28 @@ export function Chat(props) {
 		avatarStyle.backgroundImage = `url(${require('../static/images/default.png')})`;
 	}
 
-	console.log(status);
-
 	return (
-		<div className={styles.chat}>
-			<div className={styles.chatAvatar} style={avatarStyle}></div>
-			<div className={styles.chatInfo}>
-				<div className={styles.chatName}>
-					<span className={styles.name}>{chatInfo.chatName}</span>
-					<span className={styles.messageTime}>{time}</span>
+		<Parent.Consumer>
+			{(value) => (
+				<div
+					onClick={value.openChat.bind(value, chatInfo.id)}
+					className={styles.chat}
+				>
+					<div className={styles.chatAvatar} style={avatarStyle}></div>
+					<div className={styles.chatInfo}>
+						<div className={styles.chatName}>
+							<span className={styles.name}>{chatInfo.chatName}</span>
+							<span className={styles.messageTime}>{time}</span>
+						</div>
+						<div className={styles.lastMessage}>
+							<p>{chatInfo.lastMessage}</p>
+							<span className={styles.messageStatus + ' ' + status}>
+								{statusContent}
+							</span>
+						</div>
+					</div>
 				</div>
-				<div className={styles.lastMessage}>
-					<p>{chatInfo.lastMessage}</p>
-					<span className={styles.messageStatus + ' ' + status}>
-						{statusContent}
-					</span>
-				</div>
-			</div>
-		</div>
+			)}
+		</Parent.Consumer>
 	);
 }
