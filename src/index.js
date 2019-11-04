@@ -48,6 +48,7 @@ export class Main extends React.Component {
 			time: new Date().getTime(),
 			text: value,
 			self: true,
+			status: 0,
 		});
 		this.setState({
 			messageList: messageList,

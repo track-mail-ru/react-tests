@@ -11,7 +11,7 @@ export function ChatForm(props) {
 	const style = props.style;
 	const messageList = props.messageList;
 	const chatInfo = props.chatInfo;
-	const myInfo = props.myInfo;
+	/*const myInfo = props.myInfo;*/
 
 	if (!chatInfo) {
 		return '';
