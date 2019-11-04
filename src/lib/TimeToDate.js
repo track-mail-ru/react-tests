@@ -40,5 +40,5 @@ export function TimeToDate(dialogTime) {
 		return `${messageDate.time[0]}:${messageDate.time[1]}`;
 	}
 	const time = messageTime.toString().split(' ');
-	return `${ruMonth[messageDate.month + 1]} ${time[2]} ${time[3]}`;
+	return `${time[2]} ${ruMonth[messageDate.month + 1]} ${time[3]}`;
 }
