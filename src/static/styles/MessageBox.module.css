@@ -49,6 +49,7 @@
 	bottom: 18px;
 	right: -18px;
 	transition-duration: 0.2s;
+	opacity: 0.8;
 }
 
 .self .status {

@@ -3,28 +3,29 @@ import { FormInput } from './FormInput';
 import { DateMarker } from './DateMarker';
 import { MessageBox } from './MessageBox';
 import { ChatHeader } from './ChatHeader';
-import { ItIsThatDay } from './../lib/ItIsThatDay';
+import { ItIsThatDay } from '../lib/ItIsThatDay';
 import Parent from './Parent.Context';
-import styles from './../static/styles/ChatForm.module.css';
+import styles from '../static/styles/ChatForm.module.css';
 
 export function ChatForm(props) {
-	const style = props.style;
-	const messageList = props.messageList;
-	const chatInfo = props.chatInfo;
-	/*const myInfo = props.myInfo;*/
+	const {
+		style,
+		messageList,
+		chatInfo,
+		/* myInfo, */
+	} = props;
 
 	if (!chatInfo) {
 		return '';
 	}
 
 	let lastTime = null;
-	let list = [];
+	const list = [];
 	let $i = 0;
-	for (let id in messageList) {
-		let elem = messageList[id];
-		let currentTime = elem.time;
+	messageList.forEach((elem) => {
+		const currentTime = elem.time;
 
-		let Message = <MessageBox key={$i++} info={elem} />;
+		const Message = <MessageBox key={$i++} info={elem} />;
 		let Marker = null;
 		if (!ItIsThatDay(currentTime, lastTime)) {
 			Marker = <DateMarker key={$i++} time={currentTime} />;
@@ -36,7 +37,7 @@ export function ChatForm(props) {
 		list.push(Message);
 
 		lastTime = currentTime;
-	}
+	});
 
 	return (
 		<div style={style} className={styles.chatForm}>

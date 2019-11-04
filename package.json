@@ -7,7 +7,10 @@
 	"dependencies": {
 		"@emotion/core": "^10.0.22",
 		"@emotion/styled": "^10.0.22",
+		"babel-plugin-lodash": "^3.3.4",
+		"babel-plugin-styled-components": "^1.10.6",
 		"cross-env": "^6.0.3",
+		"jest-transform-stub": "^2.0.0",
 		"node-sass": "^4.13.0",
 		"prop-types": "^15.7.2",
 		"react": "^16.11.0",
@@ -17,7 +20,8 @@
 		"react-scripts": "^3.2.0",
 		"redux": "^4.0.4",
 		"redux-devtools-extension": "^2.13.8",
-		"redux-thunk": "^2.3.0"
+		"redux-thunk": "^2.3.0",
+		"stylefmt": "^6.0.3"
 	},
 	"devDependencies": {
 		"@wemake-services/stylelint-config-scss": "^0.1.4",
@@ -69,8 +73,9 @@
 		"test:engine": "check-engine",
 		"test:sec": "npm audit || true",
 		"test:unit": "cross-env NODE_ENV=test jest",
-		"lint:js": "eslint src/**/*.js -c eslintrc.json",
-		"lint:css": "stylelint 'client/**/*.{scss,css}' && stylelint --rd 'client/**/*.{scss,css}'",
+		"lint-fix:js": "eslint src/**/*.js -c .eslintrc.json --fix",
+		"lint:js": "eslint src/**/*.js -c .eslintrc.json",
+		"lint:css": "stylelint src/**/*.{scss,css} && stylelint --rd src/**/*.{scss,css}",
 		"lint:dup": "jscpd -g --threshold=1 client tests docker",
 		"ci": "npm run test && npm run build && npm run test:sec"
 	},

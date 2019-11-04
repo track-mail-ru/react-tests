@@ -1,15 +1,16 @@
 export function ItIsThatDay(time, lastTime = false) {
 	const date = new Date(time);
+	let lastTime_ = lastTime;
 
-	if (!lastTime) {
-		lastTime = {
+	if (!lastTime_) {
+		lastTime_ = {
 			year: null,
 			month: null,
 			date: null,
 		};
 	} else {
-		let lastDate = new Date(lastTime);
-		lastTime = {
+		const lastDate = new Date(lastTime_);
+		lastTime_ = {
 			year: lastDate.getFullYear(),
 			month: lastDate.getMonth(),
 			date: lastDate.getDate(),
@@ -23,9 +24,9 @@ export function ItIsThatDay(time, lastTime = false) {
 	};
 
 	if (
-		currentDate.year !== lastTime.year ||
-		currentDate.month !== lastTime.month ||
-		currentDate.date !== lastTime.date
+		currentDate.year !== lastTime_.year ||
+		currentDate.month !== lastTime_.month ||
+		currentDate.date !== lastTime_.date
 	) {
 		return false;
 	}

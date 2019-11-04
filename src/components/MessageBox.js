@@ -1,11 +1,12 @@
 import React from 'react';
-import { TimeToTime } from './../lib/TimeToTime';
-import styles from './../static/styles/MessageBox.module.css';
+import { TimeToTime } from '../lib/TimeToTime';
+import styles from '../static/styles/MessageBox.module.css';
 
 export function MessageBox(props) {
-	const info = props.info;
+	const { info } = props;
+	let boxStyle = null;
 	if (info.self) {
-		var boxStyle = styles.self;
+		boxStyle = styles.self;
 	}
 
 	let conteinerClass = null;
@@ -28,11 +29,11 @@ export function MessageBox(props) {
 	}
 
 	return (
-		<div className={styles.messageConteiner + ' ' + conteinerClass}>
-			<div className={styles.messageBox + ' ' + boxStyle}>
+		<div className={`${styles.messageConteiner} ${conteinerClass}`}>
+			<div className={`${styles.messageBox} ${boxStyle}`}>
 				<div className={styles.text}>{info.text}</div>
 				<div className={styles.time}>{TimeToTime(info.time)}</div>
-				<div style={{ backgroundColor: color }} className={styles.status}></div>
+				<div style={{ backgroundColor: color }} className={styles.status} />
 			</div>
 		</div>
 	);

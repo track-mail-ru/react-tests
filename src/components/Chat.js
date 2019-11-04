@@ -1,10 +1,10 @@
 import React from 'react';
 import { TimeToDate } from '../lib/TimeToDate';
 import Parent from './Parent.Context';
-import styles from './../static/styles/Chat.module.css';
+import styles from '../static/styles/Chat.module.css';
 
 export function Chat(props) {
-	const chatInfo = props.chatInfo;
+	const { chatInfo } = props;
 	const time = TimeToDate(chatInfo.lastMessageTime);
 
 	let status = null;
@@ -39,7 +39,7 @@ export function Chat(props) {
 			break;
 	}
 
-	let avatarStyle = {
+	const avatarStyle = {
 		backgroundImage: null,
 		backgroundPosition: 'center center',
 		backgroundRepeat: 'no-repeat',
@@ -59,7 +59,7 @@ export function Chat(props) {
 					onClick={value.openChat.bind(value, chatInfo.id)}
 					className={styles.chat}
 				>
-					<div className={styles.chatAvatar} style={avatarStyle}></div>
+					<div className={styles.chatAvatar} style={avatarStyle} />
 					<div className={styles.chatInfo}>
 						<div className={styles.chatName}>
 							<span className={styles.name}>{chatInfo.chatName}</span>
@@ -67,7 +67,7 @@ export function Chat(props) {
 						</div>
 						<div className={styles.lastMessage}>
 							<p>{chatInfo.lastMessage}</p>
-							<span className={styles.messageStatus + ' ' + status}>
+							<span className={`${styles.messageStatus} ${status}`}>
 								{statusContent}
 							</span>
 						</div>

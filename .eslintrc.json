@@ -1,5 +1,11 @@
 {
-	"extends": ["airbnb", "react-app", "prettier", "prettier/react", "plugin:react/recommended"],
+	"extends": [
+		"airbnb",
+		"react-app",
+		"prettier",
+		"prettier/react",
+		"plugin:react/recommended"
+	],
 	"root": true,
 	"plugins": ["import", "babel", "react", "prettier"],
 	"parser": "babel-eslint",
@@ -30,6 +36,15 @@
 		"DEBUG": false
 	},
 	"rules": {
+		"react/jsx-no-bind": 0,
+		"global-require": 1,
+		"import/no-dynamic-require": 1,
+		"no-plusplus": 0,
+		"jsx-a11y/no-static-element-interactions": 0,
+		"jsx-a11y/click-events-have-key-events": 0,
+		"class-methods-use-this": 1,
+		"no-underscore-dangle": 0,
+		"react/prop-types": 0,
 		"import/no-named-as-default": 0,
 		"react/jsx-filename-extension": [
 			1,
