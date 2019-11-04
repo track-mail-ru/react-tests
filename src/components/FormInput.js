@@ -1,12 +1,12 @@
 import React from 'react';
-import './../static/styles/FormInput.css';
+import styles from './../static/styles/FormInput.module.css';
 
 export function FormInput(props) {
 	return (
-		<div className='form-input'>
-			<div className='inputButton additionalButton'></div>
-			<input placeholder={ props.placeholder }/>
-			<div className='inputButton sendButton'></div>
+		<div className={styles.formInput}>
+			<div className={styles.inputButton + ' ' + styles.additionalButton}></div>
+			<input placeholder={props.placeholder} />
+			<div className={styles.inputButton + ' ' + styles.sendButton}></div>
 		</div>
 	);
 }

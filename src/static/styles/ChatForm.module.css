@@ -1,4 +1,4 @@
-.chat-form {
+.chatForm {
 	width: 100%;
 	height: 100%;
 	background-color: #191919;
@@ -31,22 +31,14 @@
 	/*background-size: 60px;*/
 }
 
-.message-wrap {
+.messageWrap {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
 	align-content: flex-end;
 }
 
-message-box {
-	box-sizing: border-box;
-	padding: 0 10px 20px 10px;
-	width: 100%;
-	display: block;
-	overflow: hidden;
-}
-
-message-box.newBox {
+.newBox {
 	animation-name: messageBoxApearence;
 	animation-duration: 0.4s;
 }
@@ -81,14 +73,14 @@ message-box.newBox {
 
 /* FormInfo */
 
-.header-button {
+.headerButton {
 	height: 100%;
 	width: 30px;
 	margin: 0 15px;
 	cursor: pointer;
 }
 
-.name-conteiner {
+.nameConteiner {
 	flex: auto;
 	height: 100%;
 	padding: 8px 0;
@@ -97,56 +89,56 @@ message-box.newBox {
 	justify-content: center;
 }
 
-.name-conteiner .user-image {
+.userImage {
 	height: 44px;
 	width: 44px;
 	border-radius: 25px;
 	margin-right: 15px;
 }
 
-.name-conteiner .user-name {
+.userName {
 	/*flex: auto;*/
 	height: 100%;
 	padding-top: 5px;
 	text-shadow: 1px 1px 0 #222;
 }
 
-.user-name .name {
+.name {
 	font-size: var(--fontMinSize);
 }
 
-.user-name .status {
+.status {
 	font-size: var(--fontMinMinSize);
 	color: #9a9b9d;
 }
 
-.back-button {
+.backButton {
 	background: url(../images/back.png) no-repeat center center;
 	background-size: 100%;
 }
 
-.search-button {
+.searchButton {
 	background: url(../images/search.png) no-repeat center center;
 	background-size: 90%;
 	margin-right: 0;
 }
 
-.options-button {
+.optionsButton {
 	background: url(../images/options.png) no-repeat center center;
 	background-size: 90%;
 }
 
-.header-button {
+.headerButton {
 	height: 100%;
 	width: 30px;
 	opacity: 0.5;
 	transition-duration: 0.15s;
 }
 
-.header-button:hover {
+.headerButton:hover {
 	opacity: 1;
 }
 
-.header-button:active {
+.headerButton:active {
 	opacity: 0.7;
 }

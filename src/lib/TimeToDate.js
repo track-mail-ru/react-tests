@@ -1,10 +1,13 @@
-export function timeToDate(dialogTime) {
+export function TimeToDate(dialogTime) {
 	const messageTime = new Date(dialogTime);
 	const messageDate = {
 		year: messageTime.getFullYear(),
 		month: messageTime.getMonth(),
 		date: messageTime.getDate(),
-		time: messageTime.toString().split(' ')[4].split(':'),
+		time: messageTime
+			.toString()
+			.split(' ')[4]
+			.split(':'),
 	};
 
 	let currentDate = new Date();
@@ -30,10 +33,12 @@ export function timeToDate(dialogTime) {
 	};
 
 	if (
-		currentDate.year === messageDate.year
-		&& currentDate.month === messageDate.month
-		&& currentDate.date === messageDate.date
-	) { return `${ messageDate.time[0] }:${ messageDate.time[1] }`; } else {
+		currentDate.year === messageDate.year &&
+		currentDate.month === messageDate.month &&
+		currentDate.date === messageDate.date
+	) {
+		return `${messageDate.time[0]}:${messageDate.time[1]}`;
+	} else {
 		const time = messageTime.toString().split(' ');
 		return `${ruMonth[messageDate.month + 1]} ${time[2]} ${time[3]}`;
 	}

@@ -1,18 +1,18 @@
-.chat{
+.chat {
 	display: flex;
 	padding: 10px 10px 0 10px;
 	width: 100%;
 	height: 90px;
 	cursor: pointer;
 	transition-duration: 0.2s;
-	background-color: #1B1B1B;
+	background-color: #1b1b1b;
 }
 
-.chat:hover{
-	background-color: #1D1D1D;
+.chat:hover {
+	background-color: #1d1d1d;
 }
 
-.chat-avatar{
+.chatAvatar {
 	width: 70px;
 	height: 70px;
 	border-radius: 50px;
@@ -21,7 +21,7 @@
 	flex-grow: 0;
 }
 
-.chat-info{
+.chatInfo {
 	flex: auto;
 	height: 100%;
 	border-bottom: 1px solid #242424;
@@ -29,31 +29,31 @@
 	width: calc(100% - 108px);
 }
 
-.chat-name{
+.chatName {
 	margin-bottom: 10px;
 }
 
-.chat-name span{
+.name {
 	font-size: var(--fontMinSize);
 	font-weight: bold;
 }
 
-.message-time{
+.messageTime {
 	color: #939395;
 	font-size: var(--fontMinMinSize);
 	float: right;
 }
 
-.message-time:after{
+.messageTime:after {
 	clear: both;
 }
 
-.last-message{
+.lastMessage {
 	color: #939395;
 	display: flex;
 }
 
-.last-message p{
+.lastMessage p {
 	flex: auto;
 	overflow: hidden;
 	margin-right: 20px;
@@ -62,7 +62,7 @@
 	white-space: nowrap;
 }
 
-.message-status{
+.messageStatus {
 	height: 18px;
 	width: 18px;
 	display: inline-block;
@@ -70,40 +70,40 @@
 	flex-grow: 0;
 }
 
-.sending{
+.sending {
 	background: url(../images/sending.png) no-repeat center center;
 	background-size: 18px;
 }
 
-.sent{
+.sent {
 	background: url(../images/sent.png) no-repeat center center;
 	background-size: 18px;
 }
 
-.red{
+.red {
 	background: url(../images/readed.png) no-repeat center center;
 	background-size: 18px;
 }
 
-.new-message{
+.newMessage {
 	background-color: #497994;
 	border-radius: 12px;
 	font-size: var(--fontMinMinSize);
 	text-align: center;
 	font-weight: bold;
-	color: #E2E3E5;
+	color: #e2e3e5;
 	padding: 3px 8px;
 	width: unset;
 	height: unset;
 }
 
-.error{
-	background-color: #DC143C;
+.error {
+	background-color: #dc143c;
 	border-radius: 12px;
 	font-size: var(--fontMinMinSize);
 	text-align: center;
 	font-weight: bold;
-	color: #E2E3E5;
+	color: #e2e3e5;
 	padding: 3px 8px;
 	width: unset;
 	height: unset;

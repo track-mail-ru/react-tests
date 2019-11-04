@@ -1,6 +1,14 @@
 import React from 'react';
-import './../static/styles/DateMarker.css';
+import { TimeToStringDate } from './../lib/TimeToStringDate';
+import styles from './../static/styles/DateMarker.module.css';
 
 export function DateMarker(props) {
-	return <div className="messageDate">Начало диалога</div>;
+	const time = props.time;
+
+	let timeStatus = 'Начало диалога';
+	if (time) {
+		timeStatus = TimeToStringDate(time);
+	}
+
+	return <div className={styles.messageDate}>{timeStatus}</div>;
 }
