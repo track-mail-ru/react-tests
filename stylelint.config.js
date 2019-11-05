@@ -10,16 +10,7 @@ module.exports = {
 	],
 	plugins: ['stylelint-no-unsupported-browser-features', 'stylelint-a11y'],
 
-	rules: {
-		'selector-max-id': 1,
-		'declaration-property-value-blacklist': 0,
-		'rule-empty-line-before': 1,
-		'number-leading-zero': 0,
-		'function-url-quotes': 0,
-		'comment-whitespace-inside': 1,
-		'selector-pseudo-element-colon-notation': 1,
-		'csstools/use-nesting': 0,
-		'comment-empty-line-before': 0,
+	/*rules: {
 		'a11y/media-prefers-reduced-motion': 0,
 		'plugin/no-low-performance-animation-properties': 0,
 		// ignore special `var-` css variables for `:export`
@@ -41,5 +32,24 @@ module.exports = {
 
 		// a11y
 		'a11y/content-property-no-static-value': true,
+	},*/
+	rules: {
+		'selector-max-id': 1,
+		'block-no-empty': true,
+		'color-no-invalid-hex': true,
+		'declaration-colon-space-after': 'always',
+		'declaration-colon-space-before': 'never',
+		'function-comma-space-after': 'always',
+		'media-feature-colon-space-after': 'always',
+		'media-feature-colon-space-before': 'never',
+		'media-feature-name-no-vendor-prefix': true,
+		'max-empty-lines': 5,
+		'number-leading-zero': 'always',
+		'number-no-trailing-zeros': true,
+		'property-no-vendor-prefix': true,
+		'selector-list-comma-space-before': 'never',
+		'selector-list-comma-newline-after': 'always',
+		'string-quotes': 'double',
+		'value-no-vendor-prefix': true,
 	},
 };
