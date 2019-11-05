@@ -3,10 +3,10 @@
 
 module.exports = {
 	extends: [
-		/*'@wemake-services/stylelint-config-scss',
+		/*'@wemake-services/stylelint-config-scss',*/
 		'stylelint-config-css-modules',
-		'stylelint-a11y/recommended',*/
-		'stylelint-config-airbnb',
+		/*'stylelint-a11y/recommended',*/
+		/*'stylelint-config-airbnb',*/
 	],
 	plugins: ['stylelint-no-unsupported-browser-features', 'stylelint-a11y'],
 
