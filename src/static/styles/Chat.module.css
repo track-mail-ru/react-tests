@@ -37,6 +37,11 @@
 .name {
 	font-size: var(--fontMinSize);
 	font-weight: bold;
+	flex: auto;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	padding-right: 20px;
 }
 
 .messageTime {
