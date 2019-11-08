@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChatList } from './ChatList';
 import { ChatForm } from './ChatForm';
+import { Profile } from './Profile';
 import Parent from './Parent.Context';
 import styles from '../static/styles/Main.module.css';
 
@@ -103,6 +104,7 @@ export class Main extends React.Component {
 							state.activeChat && state.messageList[state.activeChat - 1]
 						}
 					/>
+					<Profile />
 				</div>
 			</Parent.Provider>
 		);

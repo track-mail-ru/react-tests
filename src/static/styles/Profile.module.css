@@ -1,0 +1,103 @@
+.topInfo {
+	width: 100%;
+	height: 400px;
+	background-color: #212121;
+	box-shadow: 0 0 4px 0 #131313;
+	margin-bottom: 8px;
+}
+
+.photo {
+	width: 100%;
+	background: linear-gradient(to top, #1c1c1c, #252525);
+	padding: 20px;
+	display: flex;
+	position: relative;
+}
+
+.photoButton {
+	position: absolute;
+	width: 70px;
+	height: 70px;
+	border-radius: 35px;
+	background-color: #466c82;
+	bottom: -25px;
+	right: 35px;
+	box-shadow: 0 0 4px 0 #131313;
+	cursor: pointer;
+	transition-duration: 0.15s;
+	opacity: 0.8;
+}
+
+.photoButton:hover {
+	background-color: #5185a3;
+}
+
+.photoButton:active {
+	animation: buttonClick;
+	animation-duration: 0.3s;
+}
+
+@keyframes buttonClick {
+	from {
+		box-shadow: 0 0 0 0 #1e4c66;
+	}
+
+	80% {
+		box-shadow: 0 0 0 15px #1e4c66;
+	}
+
+	to {
+		box-shadow: 0 0 0 0 #1e4c66;
+	}
+}
+
+.phImage {
+	background: url(./../images/add-photo.png);
+	background-repeat: no-repeat;
+	background-size: 40px;
+	background-position: center center;
+	width: 100%;
+	height: 100%;
+}
+
+.userConteiner {
+	width: 100%;
+	display: flex;
+}
+
+.image {
+	width: 90px;
+	height: 90px;
+	border-radius: 50px;
+	margin-right: 30px;
+	flex-grow: 0;
+	flex-shrink: 0;
+}
+
+.loginConteiner {
+	flex: auto;
+	width: 0;
+}
+
+.fullName {
+	width: 100%;
+	overflow: hidden;
+	font-weight: bold;
+	margin-top: 25px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.status {
+	width: 100%;
+	margin-top: 5px;
+	font-size: var(--fontMinMinSize);
+}
+
+.middleInfo {
+	width: 100%;
+	height: 300px;
+	box-shadow: 0 0 4px 0 #131313;
+	margin-bottom: 8px;
+	background-color: #212121;
+}

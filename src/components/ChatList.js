@@ -1,6 +1,7 @@
 import React from 'react';
 import { Chat } from './Chat.js';
 import styles from '../static/styles/ChatList.module.css';
+import BaseForm from '../static/styles/BaseForm.module.css';
 
 export function ChatList(props) {
 	const { style, chatsList } = props;
@@ -22,12 +23,12 @@ export function ChatList(props) {
 	}
 
 	return (
-		<div style={style} className={styles.chatList}>
-			<div className={styles.header}>
-				<div className={styles.menu} />
-				<span className={styles.formName}>Сообщения</span>
+		<div style={style} className={BaseForm.conteiner}>
+			<div className={BaseForm.header}>
+				<div className={BaseForm.menu} />
+				<span className={BaseForm.formName}>Сообщения</span>
 			</div>
-			<div className={styles.content}>{list}</div>
+			<div className={BaseForm.content}>{list}</div>
 			<div className={styles.buttonNew}>
 				<div className={styles.pen} />
 			</div>

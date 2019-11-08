@@ -19,8 +19,6 @@ export function FormInput(props) {
 		}
 	};
 
-	console.log(formEntered);
-
 	return (
 		<div className={styles.formInput}>
 			<div className={`${styles.inputButton} ${styles.additionalButton}`} />
