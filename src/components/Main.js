@@ -72,6 +72,8 @@ export class Main extends React.Component {
 		const { state } = this;
 		return (
 			<Parent.Provider value={this}>
+				<Router>
+				{ console.log(this.props.location) }
 				<div className={styles.wrap}>
 					<ChatList
 						style={state.frameStyles.ChatList}
@@ -86,6 +88,7 @@ export class Main extends React.Component {
 						}
 					/>
 				</div>
+				</Router>
 			</Parent.Provider>
 		);
 	}
