@@ -42,9 +42,9 @@ export function ChatForm(props) {
 	return (
 		<div style={style} className={styles.chatForm}>
 			<Parent.Consumer>
-				{(value) => (
+				{(context) => (
 					<ChatHeader
-						backToList={value.closeChat.bind(value)}
+						backToList={context.closeChat.bind(context)}
 						chatInfo={chatInfo}
 					/>
 				)}
@@ -57,9 +57,9 @@ export function ChatForm(props) {
 			</div>
 			<div className={styles.footer}>
 				<Parent.Consumer>
-					{(value) => (
+					{(context) => (
 						<FormInput
-							formEntered={value.formEntered.bind(value)}
+							formEntered={context.formEntered.bind(context)}
 							placeholder="Ваше сообщение"
 						/>
 					)}

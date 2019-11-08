@@ -20,6 +20,19 @@ export class Main extends React.Component {
 		};
 	}
 
+	myRouter() {
+		let path = this.props.location.pathname;
+		switch (true) {
+			case /chat\/\d\/?$/.test(path):
+				let chat_id = parseInt(path.match(/\d+/));
+				this.openChat(chat_id);
+				break;
+			default:
+				this.closeChat();
+				break;
+		}
+	}
+
 	getInfo() {
 		let info = null;
 		try {
@@ -43,7 +56,9 @@ export class Main extends React.Component {
 		state.frameStyles.ChatForm = {
 			animationName: styles.chatDisapear,
 		};
-		this.setState(state);
+		if (state !== this.state) {
+			this.setState(state);
+		}
 	}
 
 	openChat(chatId) {
@@ -52,7 +67,9 @@ export class Main extends React.Component {
 			animationName: styles.chatApear,
 		};
 		state.activeChat = chatId;
-		this.setState(state);
+		if (state !== this.state) {
+			this.setState(state);
+		}
 	}
 
 	formEntered(value) {
@@ -69,11 +86,10 @@ export class Main extends React.Component {
 	}
 
 	render() {
+		this.myRouter();
 		const { state } = this;
 		return (
 			<Parent.Provider value={this}>
-				<Router>
-				{ console.log(this.props.location) }
 				<div className={styles.wrap}>
 					<ChatList
 						style={state.frameStyles.ChatList}
@@ -88,7 +104,6 @@ export class Main extends React.Component {
 						}
 					/>
 				</div>
-				</Router>
 			</Parent.Provider>
 		);
 	}

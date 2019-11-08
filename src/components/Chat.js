@@ -1,6 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { TimeToDate } from '../lib/TimeToDate';
-import Parent from './Parent.Context';
 import styles from '../static/styles/Chat.module.css';
 
 export function Chat(props) {
@@ -53,27 +53,25 @@ export function Chat(props) {
 	}
 
 	return (
-		<Parent.Consumer>
-			{(value) => (
-				<div
-					onClick={value.openChat.bind(value, chatInfo.id)}
-					className={styles.chat}
-				>
-					<div className={styles.chatAvatar} style={avatarStyle} />
-					<div className={styles.chatInfo}>
-						<div className={styles.chatName}>
-							<span className={styles.name}>{chatInfo.chatName}</span>
-							<span className={styles.messageTime}>{time}</span>
-						</div>
-						<div className={styles.lastMessage}>
-							<p>{chatInfo.lastMessage}</p>
-							<span className={`${styles.messageStatus} ${status}`}>
-								{statusContent}
-							</span>
-						</div>
+		<Link to={`/chat/${chatInfo.id}`}>
+			<div
+				/*onClick={value.openChat.bind(value, chatInfo.id)}*/
+				className={styles.chat}
+			>
+				<div className={styles.chatAvatar} style={avatarStyle} />
+				<div className={styles.chatInfo}>
+					<div className={styles.chatName}>
+						<span className={styles.name}>{chatInfo.chatName}</span>
+						<span className={styles.messageTime}>{time}</span>
+					</div>
+					<div className={styles.lastMessage}>
+						<p>{chatInfo.lastMessage}</p>
+						<span className={`${styles.messageStatus} ${status}`}>
+							{statusContent}
+						</span>
 					</div>
 				</div>
-			)}
-		</Parent.Consumer>
+			</div>
+		</Link>
 	);
 }

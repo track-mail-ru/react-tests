@@ -38,3 +38,8 @@ body {
 ::-webkit-scrollbar {
 	width: 0px;
 }
+
+a {
+	color: unset;
+	text-decoration: none;
+}
