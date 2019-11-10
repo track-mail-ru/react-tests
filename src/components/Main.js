@@ -69,21 +69,22 @@ export class Main extends React.Component {
 	}
 
 	render() {
-		const { state } = this;
+		const {
+			activeChat,
+			frameStyles,
+			chatsList,
+			messageList,
+			myInfo,
+		} = this.state;
 		return (
 			<Parent.Provider value={this}>
 				<div className={styles.wrap}>
-					<ChatList
-						style={state.frameStyles.ChatList}
-						chatsList={state.chatsList}
-					/>
+					<ChatList style={frameStyles.ChatList} chatsList={chatsList} />
 					<ChatForm
-						style={state.frameStyles.ChatForm}
-						myInfo={state.myInfo}
-						chatInfo={state.activeChat && state.chatsList[state.activeChat - 1]}
-						messageList={
-							state.activeChat && state.messageList[state.activeChat - 1]
-						}
+						style={frameStyles.ChatForm}
+						myInfo={myInfo}
+						chatInfo={activeChat && chatsList[activeChat - 1]}
+						messageList={activeChat && messageList[activeChat - 1]}
 					/>
 				</div>
 			</Parent.Provider>

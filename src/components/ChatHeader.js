@@ -19,7 +19,7 @@ export function ChatHeader(props) {
 	try {
 		avatar = require(`../static/images/${chatInfo.avatar}`);
 	} catch {
-		avatar = require(`../static/images/default.png`);
+		avatar = require('../static/images/default.png');
 	}
 
 	const userImageStyles = {
