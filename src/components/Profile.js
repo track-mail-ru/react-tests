@@ -1,4 +1,5 @@
 import React from 'react';
+import { InfoInput } from './InfoInput';
 import styles from './../static/styles/Profile.module.css';
 import BaseForm from './../static/styles/BaseForm.module.css';
 
@@ -29,9 +30,27 @@ export function Profile(props) {
 							<div className={styles.phImage}></div>
 						</div>
 					</div>
-					<div className={styles.info}></div>
+					<div className={styles.info}>
+						<InfoInput 
+							className={styles.InfoInput}
+							placeholder='Никнейм' 
+							value='@jellyb0y'
+							onChange={null} 
+						/>
+						<InfoInput 
+							className={styles.InfoInput}
+							placeholder='Почта' 
+							value='test@mail.ru'
+							onChange={null} 
+						/>
+						<InfoInput 
+							className={styles.InfoInput}
+							placeholder='О себе' 
+							value='Разработчик этого приложения'
+							onChange={null} 
+						/>
+					</div>
 				</div>
-				<div className={styles.middleInfo}></div>
 			</div>
 		</div>
 	);

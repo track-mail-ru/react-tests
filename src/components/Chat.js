@@ -55,7 +55,7 @@ export function Chat(props) {
 	return (
 		<Link to={`/chat/${chatInfo.id}`}>
 			<div
-				/*onClick={value.openChat.bind(value, chatInfo.id)}*/
+				/* onClick={value.openChat.bind(value, chatInfo.id)} */
 				className={styles.chat}
 			>
 				<div className={styles.chatAvatar} style={avatarStyle} />

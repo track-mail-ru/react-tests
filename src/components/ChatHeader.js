@@ -4,7 +4,7 @@ import { TimeToDate } from '../lib/TimeToDate';
 import styles from '../static/styles/ChatHeader.module.css';
 
 export function ChatHeader(props) {
-	const { backToList, chatInfo } = props;
+	const { chatInfo } = props;
 
 	let onlineStatus = 'групповой чат';
 	if (!chatInfo.isGroupChat) {
@@ -20,7 +20,7 @@ export function ChatHeader(props) {
 	try {
 		avatar = require(`../static/images/${chatInfo.avatar}`);
 	} catch {
-		avatar = require(`../static/images/default.png`);
+		avatar = require('../static/images/default.png');
 	}
 
 	const userImageStyles = {

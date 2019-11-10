@@ -1,6 +1,5 @@
 .topInfo {
 	width: 100%;
-	height: 400px;
 	background-color: #212121;
 	box-shadow: 0 0 4px 0 #131313;
 	margin-bottom: 8px;
@@ -100,4 +99,17 @@
 	box-shadow: 0 0 4px 0 #131313;
 	margin-bottom: 8px;
 	background-color: #212121;
+}
+
+.info {
+	width: 100%;
+	padding: 30px 15px;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.InfoInput {
+	width: 100%;
+	padding: 15px 5%;
 }

@@ -1,0 +1,29 @@
+.inputBlock {
+	width: 100%;
+	position: relative;
+}
+
+.placeholder {
+	position: absolute;
+	font-size: var(--fontNormSize);
+	color: #5185a3;
+	bottom: 13px;
+	left: 16px;
+	transition-duration: 0.1s;
+	z-index: 0;
+}
+
+.active .placeholder {
+	font-size: var(--fontMinMinSize);
+	bottom: 35px;
+}
+
+.input {
+	display: block;
+	flex: none;
+	width: 100%;
+	padding: 12px 15px;
+	border-bottom: 2px solid #5185a3;
+	z-index: 1;
+	position: relative;
+}
