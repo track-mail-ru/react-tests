@@ -22,65 +22,6 @@ export class Main extends React.Component {
 		};
 	}
 
-	myRouter() {
-		let path = this.props.location.pathname;
-		switch (true) {
-			case /chat\/\d\/?$/.test(path):
-				let chat_id = parseInt(path.match(/\d+/));
-				this.apearFrame('ChatForm', {
-					activeChat: chat_id,
-				});
-				break;
-			case /profile\/?/.test(path):
-				this.apearFrame('Profile');
-				break;
-			default:
-				this.disapearFrame();
-				break;
-		}
-	}
-
-	apearFrame(framename, new_state = null) {
-		let { state } = this;
-		state.frameStyles[framename] = {
-			animationName: styles.chatApear,
-		};
-
-		if (new_state && new_state instanceof Object) {
-			state = Object.assign(state, new_state)
-		}
-
-		if (state !== this.state) {
-			this.setState(state);
-		}
-	}
-
-	disapearFrame(framename = null) {
-		let { state } = this;
-
-		const style = {
-			animationName: styles.chatDisapear,
-		};
-
-		if (!framename) {
-			let frameStyles = state.frameStyles;
-			for (const frame in frameStyles) {
-				if (frameStyles[frame]) {
-					frameStyles[frame] = style;
-				}
-			}
-			state.frameStyles = frameStyles;
-		} else {
-			if (state.frameStyles[framename]) {
-				state.frameStyles[framename] = style;
-			}
-		}
-
-		if (state !== this.state) {
-			this.setState(state);
-		}
-	}
-
 	getInfo() {
 		let info = null;
 		try {
@@ -97,6 +38,65 @@ export class Main extends React.Component {
 			};
 		}
 		return info;
+	}
+
+	apearFrame(framename, newState = null) {
+		let { state } = this;
+		state.frameStyles[framename] = {
+			animationName: styles.chatApear,
+		};
+
+		if (newState && newState instanceof Object) {
+			state = Object.assign(state, newState);
+		}
+
+		if (state !== this.state) {
+			this.setState(state);
+		}
+	}
+
+	disapearFrame(framename = null) {
+		const { state } = this;
+
+		const style = {
+			animationName: styles.chatDisapear,
+		};
+
+		if (!framename) {
+			const {frameStyles} = state;
+			for (const frame in frameStyles) {
+				if (frameStyles[frame]) {
+					frameStyles[frame] = style;
+				}
+			}
+			state.frameStyles = frameStyles;
+		} else if (state.frameStyles[framename]) {
+			state.frameStyles[framename] = style;
+		}
+
+		if (state !== this.state) {
+			this.setState(state);
+		}
+	}
+
+	myRouter() {
+		const { 
+			pathname,
+		} = this.props.location;
+		switch (true) {
+			case /chat\/\d\/?$/.test(pathname):
+				const chatId = parseInt(pathname.match(/\d+/));
+				this.apearFrame('ChatForm', {
+					activeChat: chatId,
+				});
+				break;
+			case /profile\/?/.test(pathname):
+				this.apearFrame('Profile');
+				break;
+			default:
+				this.disapearFrame();
+				break;
+		}
 	}
 
 	formEntered(value) {

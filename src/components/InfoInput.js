@@ -1,11 +1,12 @@
 import React from 'react';
-import styles from './../static/styles/InfoInput.module.css';
+import styles from '../static/styles/InfoInput.module.css';
 
 export function InfoInput(props) {
 	const {
 		placeholder,
 		/* onChange, */
-		value
+		value,
+		className,
 	} = props;
 
 	let default_ = null;
@@ -14,16 +15,16 @@ export function InfoInput(props) {
 	}
 
 	const [active, setActive] = React.useState(default_);
-	let handler = (event) => {
+	const handler = (event) => {
 		if (event.target.value.trim() !== '') {
 			setActive(styles.active);
 		} else {
 			setActive(null);
-		} 
-	}
+		}
+	};
 
 	return (
-		<div className={`${props.className}`}>
+		<div className={className}>
 			<div className={`${styles.inputBlock} ${active}`}>
 				<div className={styles.placeholder}>{placeholder}</div>
 				<input

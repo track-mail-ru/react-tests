@@ -1,14 +1,14 @@
 import React from 'react';
 import { InfoInput } from './InfoInput';
-import styles from './../static/styles/Profile.module.css';
-import BaseForm from './../static/styles/BaseForm.module.css';
+import styles from '../static/styles/Profile.module.css';
+import BaseForm from '../static/styles/BaseForm.module.css';
 
 export function Profile(props) {
 	const {
 		style,
 	} = props;
 
-	let imageStyle = {
+	const imageStyle = {
 		backgroundImage: `url(${require('./../static/images/image.jpg')})`,
 		backgroundSize: 'cover',
 		backgroundPosition: 'cetner center',
@@ -24,14 +24,14 @@ export function Profile(props) {
 				<div className={styles.topInfo}>
 					<div className={styles.photo}>
 						<div className={styles.userConteiner}>
-							<div style={imageStyle} className={styles.image}></div>
+							<div style={imageStyle} className={styles.image} />
 							<div className={styles.loginConteiner}>
 								<div className={styles.fullName}>Виталий Кисель</div>
 								<div className={styles.status}>онлайн</div>
 							</div>
 						</div>
 						<div className={styles.photoButton}>
-							<div className={styles.phImage}></div>
+							<div className={styles.phImage} />
 						</div>
 					</div>
 					<div className={styles.info}>
