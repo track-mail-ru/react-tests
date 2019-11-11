@@ -1,4 +1,4 @@
-import nonUniqueElements from './../../nonUniqueElements';
+import nonUniqueElements from '../../nonUniqueElements';
 
 test('Возвращает не уникальные элементы', () => {
 	expect(nonUniqueElements([1, 2, 3, 1, 3])).toEqual([1, 3, 1, 3]);
