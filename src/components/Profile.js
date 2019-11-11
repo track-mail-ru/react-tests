@@ -4,6 +4,10 @@ import styles from './../static/styles/Profile.module.css';
 import BaseForm from './../static/styles/BaseForm.module.css';
 
 export function Profile(props) {
+	const {
+		style,
+	} = props;
+
 	let imageStyle = {
 		backgroundImage: `url(${require('./../static/images/image.jpg')})`,
 		backgroundSize: 'cover',
@@ -11,7 +15,7 @@ export function Profile(props) {
 		backgroundRepeat: 'no-repeat',
 	};
 	return (
-		<div className={BaseForm.conteiner}>
+		<div className={styles.conteiner} style={style}>
 			<div className={BaseForm.header}>
 				<div className={BaseForm.menu} />
 				<span className={BaseForm.formName}>Профиль</span>

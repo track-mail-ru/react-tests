@@ -4,7 +4,7 @@ import styles from './../static/styles/InfoInput.module.css';
 export function InfoInput(props) {
 	const {
 		placeholder,
-		onChange,
+		/* onChange, */
 		value
 	} = props;
 

@@ -17,6 +17,7 @@ export class Main extends React.Component {
 			frameStyles: {
 				ChatForm: null,
 				ChatList: null,
+				Profile: null,
 			},
 		};
 	}
@@ -26,11 +27,57 @@ export class Main extends React.Component {
 		switch (true) {
 			case /chat\/\d\/?$/.test(path):
 				let chat_id = parseInt(path.match(/\d+/));
-				this.openChat(chat_id);
+				this.apearFrame('ChatForm', {
+					activeChat: chat_id,
+				});
+				break;
+			case /profile\/?/.test(path):
+				this.apearFrame('Profile');
 				break;
 			default:
-				this.closeChat();
+				this.disapearFrame();
 				break;
+		}
+	}
+
+	apearFrame(framename, new_state = null) {
+		let { state } = this;
+		state.frameStyles[framename] = {
+			animationName: styles.chatApear,
+		};
+
+		if (new_state && new_state instanceof Object) {
+			state = Object.assign(state, new_state)
+		}
+
+		if (state !== this.state) {
+			this.setState(state);
+		}
+	}
+
+	disapearFrame(framename = null) {
+		let { state } = this;
+
+		const style = {
+			animationName: styles.chatDisapear,
+		};
+
+		if (!framename) {
+			let frameStyles = state.frameStyles;
+			for (const frame in frameStyles) {
+				if (frameStyles[frame]) {
+					frameStyles[frame] = style;
+				}
+			}
+			state.frameStyles = frameStyles;
+		} else {
+			if (state.frameStyles[framename]) {
+				state.frameStyles[framename] = style;
+			}
+		}
+
+		if (state !== this.state) {
+			this.setState(state);
 		}
 	}
 
@@ -52,27 +99,6 @@ export class Main extends React.Component {
 		return info;
 	}
 
-	closeChat() {
-		const { state } = this;
-		state.frameStyles.ChatForm = {
-			animationName: styles.chatDisapear,
-		};
-		if (state !== this.state) {
-			this.setState(state);
-		}
-	}
-
-	openChat(chatId) {
-		const { state } = this;
-		state.frameStyles.ChatForm = {
-			animationName: styles.chatApear,
-		};
-		state.activeChat = chatId;
-		if (state !== this.state) {
-			this.setState(state);
-		}
-	}
-
 	formEntered(value) {
 		const { activeChat, messageList } = this.state;
 		messageList[activeChat - 1].push({
@@ -88,23 +114,26 @@ export class Main extends React.Component {
 
 	render() {
 		this.myRouter();
-		const { state } = this;
+
+		const {
+			activeChat,
+			frameStyles,
+			chatsList,
+			messageList,
+			myInfo,
+		} = this.state;
+
 		return (
 			<Parent.Provider value={this}>
 				<div className={styles.wrap}>
-					<ChatList
-						style={state.frameStyles.ChatList}
-						chatsList={state.chatsList}
-					/>
+					<ChatList style={frameStyles.ChatList} chatsList={chatsList} />
 					<ChatForm
-						style={state.frameStyles.ChatForm}
-						myInfo={state.myInfo}
-						chatInfo={state.activeChat && state.chatsList[state.activeChat - 1]}
-						messageList={
-							state.activeChat && state.messageList[state.activeChat - 1]
-						}
+						style={frameStyles.ChatForm}
+						myInfo={myInfo}
+						chatInfo={activeChat && chatsList[activeChat - 1]}
+						messageList={activeChat && messageList[activeChat - 1]}
 					/>
-					<Profile />
+					<Profile style={frameStyles.Profile} />
 				</div>
 			</Parent.Provider>
 		);
