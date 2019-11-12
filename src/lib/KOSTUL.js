@@ -4,11 +4,10 @@ import img2 from '../static/images/pie.png';
 
 const list = {
 	'image.jpg': img1,
-	'default.png': def,
 	'pie.png': img2,
 };
 
 export function giveMeImage(imageName) {
-	if (!(imageName in list)) { return false; }
+	if (!(imageName in list)) { return def; }
 	return list[imageName];
 }

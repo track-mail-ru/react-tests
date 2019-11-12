@@ -41,11 +41,8 @@ export function Chat(props) {
 			break;
 	}
 
-	let img = giveMeImage(chatInfo.avatar);
-	if (!img) { img = giveMeImage('default.png'); }
-
 	const avatarStyle = {
-		backgroundImage: `url(${img})`,
+		backgroundImage: `url(${giveMeImage(chatInfo.avatar)})`,
 		backgroundPosition: 'center center',
 		backgroundRepeat: 'no-repeat',
 		backgroundSize: 'cover',

@@ -17,11 +17,8 @@ export function ChatHeader(props) {
 		}
 	}
 
-	let img = giveMeImage(chatInfo.avatar);
-	if (!img) { img = giveMeImage('default.png'); }
-
 	const userImageStyles = {
-		backgroundImage: `url(${img})`,
+		backgroundImage: `url(${giveMeImage(chatInfo.avatar)})`,
 		backgroundRepeat: 'no-repeat',
 		backgroundPosition: 'center center',
 		backgroundSize: 'cover',
