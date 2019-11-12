@@ -2,6 +2,8 @@ import React from 'react';
 import { TimeToDate } from '../lib/TimeToDate';
 import styles from '../static/styles/ChatHeader.module.css';
 
+import { giveMeImage } from '../lib/KOSTUL';
+
 export function ChatHeader(props) {
 	const { backToList, chatInfo } = props;
 
@@ -15,15 +17,11 @@ export function ChatHeader(props) {
 		}
 	}
 
-	let avatar = null;
-	try {
-		avatar = require(`../static/images/${chatInfo.avatar}`);
-	} catch {
-		avatar = require('../static/images/default.png');
-	}
+	let img = giveMeImage(chatInfo.avatar);
+	if (!img) { img = giveMeImage('default.png'); }
 
 	const userImageStyles = {
-		backgroundImage: `url(${avatar})`,
+		backgroundImage: `url(${img})`,
 		backgroundRepeat: 'no-repeat',
 		backgroundPosition: 'center center',
 		backgroundSize: 'cover',

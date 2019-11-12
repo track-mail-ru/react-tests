@@ -3,6 +3,8 @@ import { TimeToDate } from '../lib/TimeToDate';
 import Parent from './Parent.Context';
 import styles from '../static/styles/Chat.module.css';
 
+import { giveMeImage } from '../lib/KOSTUL';
+
 export function Chat(props) {
 	const { chatInfo } = props;
 	const time = TimeToDate(chatInfo.lastMessageTime);
@@ -39,18 +41,15 @@ export function Chat(props) {
 			break;
 	}
 
+	let img = giveMeImage(chatInfo.avatar);
+	if (!img) { img = giveMeImage('default.png'); }
+
 	const avatarStyle = {
-		backgroundImage: null,
+		backgroundImage: `url(${img})`,
 		backgroundPosition: 'center center',
 		backgroundRepeat: 'no-repeat',
 		backgroundSize: 'cover',
 	};
-
-	try {
-		avatarStyle.backgroundImage = `url(${require(`../static/images/${chatInfo.avatar}`)})`;
-	} catch {
-		avatarStyle.backgroundImage = `url(${require('../static/images/default.png')})`;
-	}
 
 	return (
 		<Parent.Consumer>
