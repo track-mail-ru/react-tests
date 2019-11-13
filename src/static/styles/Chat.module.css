@@ -1,0 +1,110 @@
+.chat {
+	display: flex;
+	padding: 10px 10px 0 10px;
+	width: 100%;
+	height: 90px;
+	cursor: pointer;
+	transition-duration: 0.2s;
+	background-color: #1b1b1b;
+}
+
+.chat:hover {
+	background-color: #1d1d1d;
+}
+
+.chatAvatar {
+	width: 70px;
+	height: 70px;
+	border-radius: 50px;
+	margin: 0 12px;
+	flex-shrink: 0;
+	flex-grow: 0;
+}
+
+.chatInfo {
+	flex: auto;
+	height: 100%;
+	border-bottom: 1px solid #242424;
+	padding: 12px;
+	width: calc(100% - 108px);
+}
+
+.chatName {
+	margin-bottom: 10px;
+}
+
+.name {
+	font-size: var(--fontMinSize);
+	font-weight: bold;
+}
+
+.messageTime {
+	color: #939395;
+	font-size: var(--fontMinMinSize);
+	float: right;
+}
+
+.messageTime:after {
+	clear: both;
+}
+
+.lastMessage {
+	color: #939395;
+	display: flex;
+}
+
+.lastMessage p {
+	flex: auto;
+	overflow: hidden;
+	margin-right: 20px;
+	text-overflow: ellipsis;
+	font-size: var(--fontMinSize);
+	white-space: nowrap;
+}
+
+.messageStatus {
+	height: 18px;
+	width: 18px;
+	display: inline-block;
+	flex-shrink: 0;
+	flex-grow: 0;
+}
+
+.sending {
+	background: url(../images/sending.png) no-repeat center center;
+	background-size: 18px;
+}
+
+.sent {
+	background: url(../images/sent.png) no-repeat center center;
+	background-size: 18px;
+}
+
+.red {
+	background: url(../images/readed.png) no-repeat center center;
+	background-size: 18px;
+}
+
+.newMessage {
+	background-color: #497994;
+	border-radius: 12px;
+	font-size: var(--fontMinMinSize);
+	text-align: center;
+	font-weight: bold;
+	color: #e2e3e5;
+	padding: 3px 8px;
+	width: unset;
+	height: unset;
+}
+
+.error {
+	background-color: #dc143c;
+	border-radius: 12px;
+	font-size: var(--fontMinMinSize);
+	text-align: center;
+	font-weight: bold;
+	color: #e2e3e5;
+	padding: 3px 8px;
+	width: unset;
+	height: unset;
+}

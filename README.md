@@ -1,3 +1,1 @@
-# 2019-2-Atom-Frontend-V-Kisel
-
-Репозиторий с домашней работой
+# Atom Mail 2019 Jellyb0y

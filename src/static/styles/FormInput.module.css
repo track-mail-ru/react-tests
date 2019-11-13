@@ -1,0 +1,48 @@
+.formInput {
+	display: flex;
+	height: 50px;
+	flex-direction: row;
+}
+
+input {
+	color: #aaaeb1;
+	border: 0px;
+	outline: 0;
+	flex: auto;
+	height: 100%;
+	background-color: transparent;
+	font-family: -apple-system, BlinkMacSystemFont, Roboto, Open Sans,
+		Helvetica Neue, Noto Sans Armenian, Noto Sans Bengali, Noto Sans Cherokee,
+		Noto Sans Devanagari, Noto Sans Ethiopic, Noto Sans Georgian,
+		Noto Sans Hebrew, Noto Sans Kannada, Noto Sans Khmer, Noto Sans Lao,
+		Noto Sans Osmanya, Noto Sans Tamil, Noto Sans Telugu, Noto Sans Thai,
+		sans-serif;
+	font-size: var(--fontNormSize);
+}
+
+.additionalButton {
+	background: url(../images/sprait_1.png) no-repeat center center;
+	background-size: 90%;
+}
+
+.sendButton {
+	background: url(../images/sprait_2.png) no-repeat center center;
+	background-size: 90%;
+}
+
+.inputButton {
+	height: 100%;
+	width: 30px;
+	margin: 0 15px;
+	cursor: pointer;
+	opacity: 0.5;
+	transition-duration: 0.15s;
+}
+
+.inputButton:hover {
+	opacity: 1;
+}
+
+.inputButton:active {
+	opacity: 0.7;
+}

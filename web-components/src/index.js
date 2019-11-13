@@ -9,6 +9,6 @@ import './components/MessageForm';
 import './components/ObjectDialog';
 import './components/DialogList';
 
-import './components/test';
+import './components/testModule';
 
 import './components/Main';
