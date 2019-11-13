@@ -9,7 +9,7 @@ import './components/testModule.js';
 
 render(
 	<Router>
-		<Route path="/2019-2-Atom-Frontend-V-Kisel/" component={Main} />
+		<Route path="/" component={Main} />
 	</Router>,
 	document.getElementById('root'),
 );
