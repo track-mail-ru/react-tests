@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { TimeToDate } from '../lib/TimeToDate';
 import styles from '../static/styles/Chat.module.css';
 
+import { giveMeImage } from '../lib/KOSTUL';
+
 export function Chat(props) {
 	const { chatInfo } = props;
 	const time = TimeToDate(chatInfo.lastMessageTime);
@@ -40,17 +42,11 @@ export function Chat(props) {
 	}
 
 	const avatarStyle = {
-		backgroundImage: null,
+		backgroundImage: `url(${giveMeImage(chatInfo.avatar)})`,
 		backgroundPosition: 'center center',
 		backgroundRepeat: 'no-repeat',
 		backgroundSize: 'cover',
 	};
-
-	try {
-		avatarStyle.backgroundImage = `url(${require(`../static/images/${chatInfo.avatar}`)})`;
-	} catch {
-		avatarStyle.backgroundImage = `url(${require('../static/images/default.png')})`;
-	}
 
 	return (
 		<Link to={`/chat/${chatInfo.id}`}>

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { TimeToDate } from '../lib/TimeToDate';
 import styles from '../static/styles/ChatHeader.module.css';
 
+import { giveMeImage } from '../lib/KOSTUL';
+
 export function ChatHeader(props) {
 	const { chatInfo } = props;
 
@@ -16,15 +18,8 @@ export function ChatHeader(props) {
 		}
 	}
 
-	let avatar = null;
-	try {
-		avatar = require(`../static/images/${chatInfo.avatar}`);
-	} catch {
-		avatar = require('../static/images/default.png');
-	}
-
 	const userImageStyles = {
-		backgroundImage: `url(${avatar})`,
+		backgroundImage: `url(${giveMeImage(chatInfo.avatar)})`,
 		backgroundRepeat: 'no-repeat',
 		backgroundPosition: 'center center',
 		backgroundSize: 'cover',
