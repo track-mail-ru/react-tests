@@ -17,8 +17,11 @@ export function MessageBox(props) {
 			color = '#9DD4F3';
 			break;
 		case 1:
+			color = '#3958F3';
+			break;
 		case 3:
 			color = '#3958F3';
+			conteinerClass = styles.newBox;
 			break;
 		case 4:
 			color = '#F32626';

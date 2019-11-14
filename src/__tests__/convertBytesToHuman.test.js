@@ -7,7 +7,7 @@
  * convertBytesToHuman(5) === '5 B'
  */
 
-import convertBytesToHuman from './../../convertBytesToHuman';
+import convertBytesToHuman from '../../convertBytesToHuman';
 
 test('Возвращает false для неправильного типа данных', () => {
 	expect(convertBytesToHuman(-1)).toBe(false);

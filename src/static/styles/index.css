@@ -6,6 +6,7 @@
 	--fontMaxSize: 1.2em;
 	--fontMinMinSize: 0.8em;
 	box-sizing: border-box;
+	user-select: none;
 }
 
 li {
@@ -37,4 +38,9 @@ body {
 
 ::-webkit-scrollbar {
 	width: 0px;
+}
+
+a {
+	color: unset;
+	text-decoration: none;
 }

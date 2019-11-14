@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { TimeToDate } from '../lib/TimeToDate';
 import styles from '../static/styles/ChatHeader.module.css';
 
 import { giveMeImage } from '../lib/KOSTUL';
 
 export function ChatHeader(props) {
-	const { backToList, chatInfo } = props;
+	const { chatInfo } = props;
 
 	let onlineStatus = 'групповой чат';
 	if (!chatInfo.isGroupChat) {
@@ -26,10 +27,9 @@ export function ChatHeader(props) {
 
 	return (
 		<div className={styles.header}>
-			<div
-				onClick={backToList}
-				className={`${styles.headerButton} ${styles.backButton}`}
-			/>
+			<Link to="/">
+				<div className={`${styles.headerButton} ${styles.backButton}`} />
+			</Link>
 			<div className={styles.nameConteiner}>
 				<div className={styles.userImage} style={userImageStyles} />
 				<div className={styles.userName}>

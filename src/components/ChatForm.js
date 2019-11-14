@@ -42,12 +42,7 @@ export function ChatForm(props) {
 	return (
 		<div style={style} className={styles.chatForm}>
 			<Parent.Consumer>
-				{(value) => (
-					<ChatHeader
-						backToList={value.closeChat.bind(value)}
-						chatInfo={chatInfo}
-					/>
-				)}
+				{(value) => <ChatHeader chatInfo={chatInfo} />}
 			</Parent.Consumer>
 			<div className={styles.content}>
 				<div className={styles.messageWrap}>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChatList } from './ChatList';
 import { ChatForm } from './ChatForm';
+import { Profile } from './Profile';
 import Parent from './Parent.Context';
 import styles from '../static/styles/Main.module.css';
 
@@ -16,6 +17,7 @@ export class Main extends React.Component {
 			frameStyles: {
 				ChatForm: null,
 				ChatList: null,
+				Profile: null,
 			},
 		};
 	}
@@ -38,21 +40,63 @@ export class Main extends React.Component {
 		return info;
 	}
 
-	closeChat() {
-		const { state } = this;
-		state.frameStyles.ChatForm = {
-			animationName: styles.chatDisapear,
-		};
-		this.setState(state);
-	}
-
-	openChat(chatId) {
-		const { state } = this;
-		state.frameStyles.ChatForm = {
+	apearFrame(framename, newState = null) {
+		let { state } = this;
+		state.frameStyles[framename] = {
 			animationName: styles.chatApear,
 		};
-		state.activeChat = chatId;
-		this.setState(state);
+
+		if (newState && newState instanceof Object) {
+			state = Object.assign(state, newState);
+		}
+
+		if (state !== this.state) {
+			this.setState(state);
+		}
+	}
+
+	disapearFrame(framename = null) {
+		const { state } = this;
+
+		const style = {
+			animationName: styles.chatDisapear,
+		};
+
+		if (!framename) {
+			const {frameStyles} = state;
+			for (const frame in frameStyles) {
+				if (frameStyles[frame]) {
+					frameStyles[frame] = style;
+				}
+			}
+			state.frameStyles = frameStyles;
+		} else if (state.frameStyles[framename]) {
+			state.frameStyles[framename] = style;
+		}
+
+		if (state !== this.state) {
+			this.setState(state);
+		}
+	}
+
+	myRouter() {
+		const { 
+			pathname,
+		} = this.props.location;
+		switch (true) {
+			case /chat\/\d\/?$/.test(pathname):
+				const chatId = parseInt(pathname.match(/\d+/));
+				this.apearFrame('ChatForm', {
+					activeChat: chatId,
+				});
+				break;
+			case /profile\/?/.test(pathname):
+				this.apearFrame('Profile');
+				break;
+			default:
+				this.disapearFrame();
+				break;
+		}
 	}
 
 	formEntered(value) {
@@ -69,6 +113,8 @@ export class Main extends React.Component {
 	}
 
 	render() {
+		this.myRouter();
+
 		const {
 			activeChat,
 			frameStyles,
@@ -76,6 +122,7 @@ export class Main extends React.Component {
 			messageList,
 			myInfo,
 		} = this.state;
+
 		return (
 			<Parent.Provider value={this}>
 				<div className={styles.wrap}>
@@ -86,6 +133,7 @@ export class Main extends React.Component {
 						chatInfo={activeChat && chatsList[activeChat - 1]}
 						messageList={activeChat && messageList[activeChat - 1]}
 					/>
+					<Profile style={frameStyles.Profile} />
 				</div>
 			</Parent.Provider>
 		);

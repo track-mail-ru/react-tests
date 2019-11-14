@@ -4,4 +4,3 @@ build/
 !.eslintrc.js
 src/registerServiceWorker.js
 src/utils/serviceWorker.js
-src/**/__tests__/**

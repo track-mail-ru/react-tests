@@ -36,6 +36,9 @@
 		"DEBUG": false
 	},
 	"rules": {
+		"react/destructuring-assignment": 1,
+		"no-case-declarations": 1,
+		"radix": 0,
 		"react/jsx-no-bind": 0,
 		"global-require": 1,
 		"import/no-dynamic-require": 1,
