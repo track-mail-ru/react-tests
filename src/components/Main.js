@@ -99,14 +99,24 @@ export class Main extends React.Component {
 		}
 	}
 
-	formEntered(value) {
-		const { activeChat, messageList } = this.state;
-		messageList[activeChat - 1].push({
+	formEntered(value, additions = null) {
+		const {
+			activeChat,
+			messageList
+		} = this.state;
+
+		let currentMessage = {
 			time: new Date().getTime(),
 			text: value,
 			self: true,
 			status: 0,
-		});
+		};
+
+		if (additions) {
+			currentMessage['additions'] = additions;
+		}
+
+		messageList[activeChat - 1].push(currentMessage);
 		this.setState({
 			messageList,
 		});

@@ -1,7 +1,16 @@
+.wrap {
+	position: relative;
+	background-color: #191919;
+	outline: 1px solid #242424;
+	box-shadow: 0 0 2px 0 #151716;
+}
+
 .formInput {
 	display: flex;
 	height: 50px;
 	flex-direction: row;
+	background-color: #191919;
+	z-index: 1;
 }
 
 input {
@@ -18,6 +27,7 @@ input {
 		Noto Sans Osmanya, Noto Sans Tamil, Noto Sans Telugu, Noto Sans Thai,
 		sans-serif;
 	font-size: var(--fontNormSize);
+	z-index: 1;
 }
 
 .additionalButton {
@@ -37,6 +47,7 @@ input {
 	cursor: pointer;
 	opacity: 0.5;
 	transition-duration: 0.15s;
+	z-index: 1;
 }
 
 .inputButton:hover {
@@ -45,4 +56,125 @@ input {
 
 .inputButton:active {
 	opacity: 0.7;
+}
+
+.menu {
+	height: 0;
+	transition-duration: 0.3s;
+	border-radius: 20px 20px 0 0;
+	background-color: #191919;
+	position: absolute;
+	bottom: 50px;
+	left: 10px;
+	z-index: 1;
+	overflow: hidden;
+}
+
+.menu ul {
+	width: 100%;
+	display: block;
+}
+
+.menu ul li {
+	width: 100%;
+	height: 40px;
+	font-size: var(--fontMinSize);
+	transition-duration: 0.2s;
+	cursor: pointer;
+	color: #aaaeb1;
+	display: flex;
+	padding: 0 15px;
+	opacity: 0.5;
+}
+
+.menuButton {
+	width: 30px;
+	height: 100%;
+	background-position: center center;
+	background-size: 25px;
+	background-repeat: no-repeat;
+	margin-right: 15px;
+}
+
+.span {
+	line-height: 40px;
+}
+
+.menuImage {
+	background-image: url(../images/image.png);
+}
+
+.menuDocument {
+	background-image: url(../images/document.png);
+}
+
+.menuGeo {
+	background-image: url(../images/geo.png);
+}
+
+.menu ul li:hover {
+	background-color: #222222;
+	opacity: 0.7;
+}
+
+.menu ul li:active {
+	opacity: 1.0;
+}
+
+.additionsBox {
+	width: 100%;
+	height: 0;
+	background-color: #191919;
+	transition-duration: 0.2s;
+	overflow-x: auto;
+}
+
+.additionsBoxUl {
+	display: flex;
+	height: 100%;
+}
+
+.additionsBoxUl li {
+	width: 120px;
+	height: 100%;
+	padding: 10px;
+	padding-left: 0;
+	flex-grow: 0;
+	flex-shrink: 0;
+	position: relative;
+}
+
+.additionsBoxUl li:nth-child(1) {
+	padding-left: 10px !important;
+}
+
+.image {
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+	background-color: #222222;
+	box-shadow: 0 0 5px 0 #151716;
+}
+
+.imageName {
+	font-size: var(--fontMinMinSize);
+	white-space: nowrap;
+	width: 80px;
+	margin: 5px 10px 0 10px;
+	display: inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.remove {
+	padding: 0px 7px 3px 7px;
+	font-weight: bold;
+	border-radius: 40px;
+	background-color: #343434;
+	box-shadow: 0 0 5px 0 #151716;
+	top: 5px;
+	right: 5px;
+	display: inline;
+	position: absolute;
+	cursor: pointer;
 }
