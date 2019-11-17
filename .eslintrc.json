@@ -36,6 +36,8 @@
 		"DEBUG": false
 	},
 	"rules": {
+		"react/no-array-index-key": 1,
+		"jsx-a11y/no-noninteractive-element-interactions": 0,
 		"react/destructuring-assignment": 1,
 		"no-case-declarations": 1,
 		"radix": 0,

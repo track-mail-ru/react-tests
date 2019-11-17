@@ -118,7 +118,7 @@ input {
 }
 
 .menu ul li:active {
-	opacity: 1.0;
+	opacity: 1;
 }
 
 .additionsBox {

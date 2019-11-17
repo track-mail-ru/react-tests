@@ -4,10 +4,7 @@ import docImg from '../static/images/docImg.png';
 import geoImg from '../static/images/geoImg.png';
 
 export function FormInput(props) {
-	const { 
-		placeholder,
-		formEntered
-	} = props;
+	const { placeholder, formEntered } = props;
 
 	const input = React.useRef(null);
 	const doc = React.useRef(null);
@@ -34,23 +31,32 @@ export function FormInput(props) {
 
 	const onFillImg = (event) => {
 		let additionsList = event.target.files;
-		if (!additionsList.length) { return false; }
+		if (!additionsList.length) {
+			return false;
+		}
 
 		let flag = false;
 		additionsList = [...additionsList].map((file) => {
-			if (file.size > 5 * 1024 * 1024) { flag = true }
-			return {
-				name: file.name, 
-				path: window.URL.createObjectURL(file),
+			if (file.size > 5 * 1024 * 1024) {
+				flag = true;
 			}
+			return {
+				name: file.name,
+				path: window.URL.createObjectURL(file),
+			};
 		});
 
 		if (flag) {
 			return false; // Поставить вывод ошибок
 		}
 
-		if (additions) { additionsList = [...additions.list, ...additionsList]; }
-		if (additionsList.length > 10 || (additions && additions.type !== 'images')) {
+		if (additions) {
+			additionsList = [...additions.list, ...additionsList];
+		}
+		if (
+			additionsList.length > 10 ||
+			(additions && additions.type !== 'images')
+		) {
 			return false;
 		}
 
@@ -58,27 +64,38 @@ export function FormInput(props) {
 			type: 'images',
 			list: additionsList,
 		});
+
+		return false;
 	};
 
 	const onFillDoc = (event) => {
 		let additionsList = event.target.files;
-		if (!additionsList.length) { return false; }
+		if (!additionsList.length) {
+			return false;
+		}
 
 		let flag = false;
 		additionsList = [...additionsList].map((file) => {
-			if (file.size > 5 * 1024 * 1024) { flag = true }
-			return {
-				name: file.name, 
-				path: window.URL.createObjectURL(file),
+			if (file.size > 5 * 1024 * 1024) {
+				flag = true;
 			}
+			return {
+				name: file.name,
+				path: window.URL.createObjectURL(file),
+			};
 		});
 
 		if (flag) {
 			return false; // Поставить вывод ошибок
 		}
 
-		if (additions) { additionsList = [...additions.list, ...additionsList]; }
-		if (additionsList.length > 10 || (additions && additions.type !== 'documents')) {
+		if (additions) {
+			additionsList = [...additions.list, ...additionsList];
+		}
+		if (
+			additionsList.length > 10 ||
+			(additions && additions.type !== 'documents')
+		) {
 			return false;
 		}
 
@@ -86,42 +103,54 @@ export function FormInput(props) {
 			type: 'documents',
 			list: additionsList,
 		});
+
+		return false;
 	};
 
 	const removeFile = (i) => {
-		let additionsList = additions.list;
+		const additionsList = additions.list;
 		additionsList.splice(i, 1);
 		if (additionsList.length) {
 			setAdditions({
 				type: additions.type,
 				list: additionsList,
 			});
-		} else { setAdditions(null); }
+		} else {
+			setAdditions(null);
+		}
 	};
 
 	const geoLocation = () => {
 		if ('geolocation' in navigator) {
-			var geoOptions = {
+			const geoOptions = {
 				enableHighAccuracy: true,
 				maximumAge: 30000,
 				timeout: 27000,
-			}; 
+			};
 
-			navigator.geolocation.getCurrentPosition((pos) => {
-				let latitude = pos.coords.latitude;
-				let longitude = pos.coords.longitude;
+			navigator.geolocation.getCurrentPosition(
+				(pos) => {
+					const { latitude } = pos.coords;
+					const { longitude } = pos.coords;
 
-				setAdditions({
-					type: 'geolocation',
-					list: [{
-						name: 'Геопозиция',
-						path: `https://yandex.ru/maps/?ll=${longitude}%2C${latitude}&z=15`,
-					}],
-				});
-			}, console.log, geoOptions);
+					setAdditions({
+						type: 'geolocation',
+						list: [
+							{
+								name: 'Геопозиция',
+								path: `https://yandex.ru/maps/?ll=${longitude}%2C${latitude}&z=15`,
+							},
+						],
+					});
+				},
+				console.log,
+				geoOptions,
+			);
 		} else {
 			return false; // Заменить на ошибку
 		}
+
+		return false;
 	};
 
 	if (additions) {
@@ -130,7 +159,7 @@ export function FormInput(props) {
 		};
 
 		list = additions.list.map((file, i) => {
-			let addStyle = {
+			const addStyle = {
 				backgroundRepeat: 'no-repeat',
 				backgroundSize: 'cover',
 				backgroundPosition: 'center center',
@@ -139,23 +168,27 @@ export function FormInput(props) {
 
 			switch (additions.type) {
 				case 'images':
-					addStyle['backgroundImage'] = `url(${file.path})`;
+					addStyle.backgroundImage = `url(${file.path})`;
 					break;
 				case 'documents':
-					addStyle['backgroundImage'] = `url(${docImg})`;
+					addStyle.backgroundImage = `url(${docImg})`;
 					break;
 				case 'geolocation':
-					addStyle['backgroundImage'] = `url(${geoImg})`;
+					addStyle.backgroundImage = `url(${geoImg})`;
 					break;
 				default:
 					break;
 			}
 
-			return (<li key={i}>
-				<div onClick={removeFile.bind(null, i)} className={styles.remove}>-</div>
-				<div style={addStyle} className={styles.image} />
-				<span className={styles.imageName}>{file.name}</span>
-			</li>);
+			return (
+				<li key={i}>
+					<div onClick={removeFile.bind(null, i)} className={styles.remove}>
+						-
+					</div>
+					<div style={addStyle} className={styles.image} />
+					<span className={styles.imageName}>{file.name}</span>
+				</li>
+			);
 		});
 	}
 
@@ -165,45 +198,72 @@ export function FormInput(props) {
 				<ul className={styles.additionsBoxUl}>{list}</ul>
 			</div>
 			<div className={styles.formInput}>
-				<div onClick={() => {
-					setMenuStyle({
-						height: '120px',
-						boxShadow: '0 0 60px 10px #151716',
-					});
-				}} className={`${styles.inputButton} ${styles.additionalButton}`} />
-				<input type='text' onKeyPress={onKeyPress} ref={input} placeholder={placeholder} />
+				<div
+					onClick={() => {
+						setMenuStyle({
+							height: '120px',
+							boxShadow: '0 0 60px 10px #151716',
+						});
+					}}
+					className={`${styles.inputButton} ${styles.additionalButton}`}
+				/>
+				<input
+					type="text"
+					onKeyPress={onKeyPress}
+					ref={input}
+					placeholder={placeholder}
+				/>
 				<div
 					onClick={onSubmit}
 					className={`${styles.inputButton} ${styles.sendButton}`}
 				/>
 			</div>
 			<div style={menuStyle} className={styles.menu}>
-					<ul>
-						<li onClick={() => {
+				<ul>
+					<li
+						onClick={() => {
 							setMenuStyle(null);
-							img.current.click(); 
-						}}>
-							<div className={`${styles.menuButton} ${styles.menuImage}`} />
-							<span className={styles.span}>изображение</span>
-							<input onChange={onFillImg} ref={img} type='file' multiple style={{display: 'none'}} accept='image/*'/>
-						</li>
-						<li onClick={() => {
+							img.current.click();
+						}}
+					>
+						<div className={`${styles.menuButton} ${styles.menuImage}`} />
+						<span className={styles.span}>изображение</span>
+						<input
+							onChange={onFillImg}
+							ref={img}
+							type="file"
+							multiple
+							style={{ display: 'none' }}
+							accept="image/*"
+						/>
+					</li>
+					<li
+						onClick={() => {
 							setMenuStyle(null);
 							doc.current.click();
-						}}>
-							<div className={`${styles.menuButton} ${styles.menuDocument}`} />
-							<span className={styles.span}>документ</span>
-							<input onChange={onFillDoc} ref={doc} type='file' multiple style={{display: 'none'}} />
-						</li>
-						<li onClick={() => {
+						}}
+					>
+						<div className={`${styles.menuButton} ${styles.menuDocument}`} />
+						<span className={styles.span}>документ</span>
+						<input
+							onChange={onFillDoc}
+							ref={doc}
+							type="file"
+							multiple
+							style={{ display: 'none' }}
+						/>
+					</li>
+					<li
+						onClick={() => {
 							setMenuStyle(null);
 							geoLocation();
-						}}>
-							<div className={`${styles.menuButton} ${styles.menuGeo}`} />
-							<span className={styles.span}>геолокация</span>
-						</li>
-					</ul>
-				</div>
+						}}
+					>
+						<div className={`${styles.menuButton} ${styles.menuGeo}`} />
+						<span className={styles.span}>геолокация</span>
+					</li>
+				</ul>
+			</div>
 		</div>
 	);
 }

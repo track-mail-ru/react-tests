@@ -63,7 +63,7 @@ export class Main extends React.Component {
 		};
 
 		if (!framename) {
-			const {frameStyles} = state;
+			const { frameStyles } = state;
 			for (const frame in frameStyles) {
 				if (frameStyles[frame]) {
 					frameStyles[frame] = style;
@@ -80,9 +80,7 @@ export class Main extends React.Component {
 	}
 
 	myRouter() {
-		const { 
-			pathname,
-		} = this.props.location;
+		const { pathname } = this.props.location;
 		switch (true) {
 			case /chat\/\d\/?$/.test(pathname):
 				const chatId = parseInt(pathname.match(/\d+/));
@@ -100,12 +98,9 @@ export class Main extends React.Component {
 	}
 
 	formEntered(value, additions = null) {
-		const {
-			activeChat,
-			messageList
-		} = this.state;
+		const { activeChat, messageList } = this.state;
 
-		let currentMessage = {
+		const currentMessage = {
 			time: new Date().getTime(),
 			text: value,
 			self: true,
@@ -113,7 +108,7 @@ export class Main extends React.Component {
 		};
 
 		if (additions) {
-			currentMessage['additions'] = additions;
+			currentMessage.additions = additions;
 		}
 
 		messageList[activeChat - 1].push(currentMessage);
