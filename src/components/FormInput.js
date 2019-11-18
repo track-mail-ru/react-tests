@@ -1,16 +1,27 @@
 import React from 'react';
+import { geoLocation } from '../lib/Geolocation';
+import { startRecord, stopRecord } from '../lib/Recording';
+import { onFillImages, onFillDocuments } from '../lib/onFillInput';
 import styles from '../static/styles/FormInput.module.css';
 import docImg from '../static/images/docImg.png';
 import geoImg from '../static/images/geoImg.png';
+import audioImg from '../static/images/audioImg.png';
 
 export function FormInput(props) {
-	const { placeholder, formEntered } = props;
+	const {
+		requireRecorder,
+		placeholder,
+		formEntered,
+		mediaRecorder,
+	} = props;
 
 	const input = React.useRef(null);
 	const doc = React.useRef(null);
 	const img = React.useRef(null);
 	const [menuStyle, setMenuStyle] = React.useState(null);
 	const [additions, setAdditions] = React.useState(null);
+	const [sendButtonType, setSendButtonType] = React.useState('mic');
+	const [recording, setRecording] = React.useState(false);
 	let additionsBoxStyles = null;
 	let list = null;
 
@@ -29,84 +40,6 @@ export function FormInput(props) {
 		}
 	};
 
-	const onFillImg = (event) => {
-		let additionsList = event.target.files;
-		if (!additionsList.length) {
-			return false;
-		}
-
-		let flag = false;
-		additionsList = [...additionsList].map((file) => {
-			if (file.size > 5 * 1024 * 1024) {
-				flag = true;
-			}
-			return {
-				name: file.name,
-				path: window.URL.createObjectURL(file),
-			};
-		});
-
-		if (flag) {
-			return false; // Поставить вывод ошибок
-		}
-
-		if (additions) {
-			additionsList = [...additions.list, ...additionsList];
-		}
-		if (
-			additionsList.length > 10 ||
-			(additions && additions.type !== 'images')
-		) {
-			return false;
-		}
-
-		setAdditions({
-			type: 'images',
-			list: additionsList,
-		});
-
-		return false;
-	};
-
-	const onFillDoc = (event) => {
-		let additionsList = event.target.files;
-		if (!additionsList.length) {
-			return false;
-		}
-
-		let flag = false;
-		additionsList = [...additionsList].map((file) => {
-			if (file.size > 5 * 1024 * 1024) {
-				flag = true;
-			}
-			return {
-				name: file.name,
-				path: window.URL.createObjectURL(file),
-			};
-		});
-
-		if (flag) {
-			return false; // Поставить вывод ошибок
-		}
-
-		if (additions) {
-			additionsList = [...additions.list, ...additionsList];
-		}
-		if (
-			additionsList.length > 10 ||
-			(additions && additions.type !== 'documents')
-		) {
-			return false;
-		}
-
-		setAdditions({
-			type: 'documents',
-			list: additionsList,
-		});
-
-		return false;
-	};
-
 	const removeFile = (i) => {
 		const additionsList = additions.list;
 		additionsList.splice(i, 1);
@@ -120,37 +53,10 @@ export function FormInput(props) {
 		}
 	};
 
-	const geoLocation = () => {
-		if ('geolocation' in navigator) {
-			const geoOptions = {
-				enableHighAccuracy: true,
-				maximumAge: 30000,
-				timeout: 27000,
-			};
-
-			navigator.geolocation.getCurrentPosition(
-				(pos) => {
-					const { latitude } = pos.coords;
-					const { longitude } = pos.coords;
-
-					setAdditions({
-						type: 'geolocation',
-						list: [
-							{
-								name: 'Геопозиция',
-								path: `https://yandex.ru/maps/?ll=${longitude}%2C${latitude}&z=15`,
-							},
-						],
-					});
-				},
-				console.log,
-				geoOptions,
-			);
-		} else {
-			return false; // Заменить на ошибку
+	const recordStatus = (status) => {
+		if (recording !== status) {
+			setRecording(status);
 		}
-
-		return false;
 	};
 
 	if (additions) {
@@ -158,39 +64,23 @@ export function FormInput(props) {
 			height: '100px',
 		};
 
-		list = additions.list.map((file, i) => {
-			const addStyle = {
-				backgroundRepeat: 'no-repeat',
-				backgroundSize: 'cover',
-				backgroundPosition: 'center center',
-				height: '65px',
-			};
-
-			switch (additions.type) {
-				case 'images':
-					addStyle.backgroundImage = `url(${file.path})`;
-					break;
-				case 'documents':
-					addStyle.backgroundImage = `url(${docImg})`;
-					break;
-				case 'geolocation':
-					addStyle.backgroundImage = `url(${geoImg})`;
-					break;
-				default:
-					break;
-			}
-
+		list = additions.list.map((addition, i) => {
 			return (
-				<li key={i}>
-					<div onClick={removeFile.bind(null, i)} className={styles.remove}>
-						-
-					</div>
-					<div style={addStyle} className={styles.image} />
-					<span className={styles.imageName}>{file.name}</span>
-				</li>
+				<Addition
+					key={i}
+					remove={removeFile.bind(null, i)}
+					type={additions.type}
+					addition={addition}
+				/>
 			);
 		});
 	}
+
+	if (recording) {
+		if (sendButtonType !== 'cancel') { setSendButtonType('cancel'); }
+	} else if ((input.current && input.current.value !== '') || additions){
+		if (sendButtonType !== 'send') { setSendButtonType('send'); }
+	} else if (sendButtonType !== 'mic') { setSendButtonType('mic'); }
 
 	return (
 		<div className={styles.wrap}>
@@ -200,10 +90,11 @@ export function FormInput(props) {
 			<div className={styles.formInput}>
 				<div
 					onClick={() => {
-						setMenuStyle({
+						!menuStyle && setMenuStyle({
 							height: '120px',
 							boxShadow: '0 0 60px 10px #151716',
 						});
+						menuStyle && setMenuStyle(null);
 					}}
 					className={`${styles.inputButton} ${styles.additionalButton}`}
 				/>
@@ -212,11 +103,45 @@ export function FormInput(props) {
 					onKeyPress={onKeyPress}
 					ref={input}
 					placeholder={placeholder}
+					onChange={(event) => {
+						if (sendButtonType !== 'cancel') {
+							if (event.target.value !== '') {
+								if (sendButtonType !== 'send') {
+									setSendButtonType('send');
+								}
+							} else if (sendButtonType !== 'mic') {
+								setSendButtonType('mic');
+							}
+						}
+					}}
 				/>
-				<div
-					onClick={onSubmit}
-					className={`${styles.inputButton} ${styles.sendButton}`}
-				/>
+				<SendButton
+					cancel={() => {
+						stopRecord(mediaRecorder, () => {
+							recordStatus(false);
+						});
+					}}
+					record={() => {
+						requireRecorder().then((media) => {
+							startRecord(media, () => {
+								recordStatus(true);
+							}, () => {
+								recordStatus(false);
+							}, (audioURL) => {
+								setAdditions({
+									type: 'audio',
+									list: [
+										{
+											name: 'Аудиозапись',
+											path: audioURL,
+										},
+									],
+								});
+							});
+						}).catch(console.log);
+					}}
+					submit={onSubmit}
+					type={sendButtonType}/>
 			</div>
 			<div style={menuStyle} className={styles.menu}>
 				<ul>
@@ -229,7 +154,14 @@ export function FormInput(props) {
 						<div className={`${styles.menuButton} ${styles.menuImage}`} />
 						<span className={styles.span}>изображение</span>
 						<input
-							onChange={onFillImg}
+							onChange={(event) => {
+								onFillImages(event, additions, (additionsList) => {
+									setAdditions({
+										type: 'images',
+										additionsList,
+									});
+								});
+							}}
 							ref={img}
 							type="file"
 							multiple
@@ -246,7 +178,14 @@ export function FormInput(props) {
 						<div className={`${styles.menuButton} ${styles.menuDocument}`} />
 						<span className={styles.span}>документ</span>
 						<input
-							onChange={onFillDoc}
+							onChange={(event) => {
+								onFillDocuments(event, additions, (additionsList) => {
+									setAdditions({
+										type: 'documents',
+										additionsList,
+									});
+								});
+							}}
 							ref={doc}
 							type="file"
 							multiple
@@ -256,7 +195,20 @@ export function FormInput(props) {
 					<li
 						onClick={() => {
 							setMenuStyle(null);
-							geoLocation();
+							geoLocation((pos) => {
+								const { latitude } = pos.coords;
+								const { longitude } = pos.coords;
+
+								setAdditions({
+									type: 'geolocation',
+									list: [
+										{
+											name: 'Геопозиция',
+											path: `https://yandex.ru/maps/?ll=${longitude}%2C${latitude}&z=15`,
+										},
+									],
+								});
+							});
 						}}
 					>
 						<div className={`${styles.menuButton} ${styles.menuGeo}`} />
@@ -266,4 +218,82 @@ export function FormInput(props) {
 			</div>
 		</div>
 	);
+}
+
+function Addition(props) {
+	const {
+		remove,
+		type,
+		addition,
+	} = props;
+
+	const addStyle = {
+		backgroundRepeat: 'no-repeat',
+		backgroundSize: 'cover',
+		backgroundPosition: 'center center',
+		height: '65px',
+	};
+
+	switch (type) {
+		case 'images':
+			addStyle.backgroundImage = `url(${addition.path})`;
+			break;
+		case 'documents':
+			addStyle.backgroundImage = `url(${docImg})`;
+			break;
+		case 'geolocation':
+			addStyle.backgroundImage = `url(${geoImg})`;
+			break;
+		case 'audio':
+			addStyle.backgroundImage = `url(${audioImg})`;
+			break;
+		default:
+			break;
+	}
+
+	return (
+		<li>
+			<div onClick={remove} className={styles.remove}>
+				-
+			</div>
+			<div style={addStyle} className={styles.image} />
+			<span className={styles.imageName}>{addition.name}</span>
+		</li>
+	);
+}
+
+function SendButton(props) {
+	const {
+		submit,
+		record,
+		cancel,
+		type,
+	} = props;
+
+	let content = null;
+
+	switch (type) {
+		case 'mic':
+			content = <div
+				onClick={record}
+				className={`${styles.inputButton} ${styles.micButton}`}
+			/>;
+			break;
+		case 'send':
+			content = <div
+				onClick={submit}
+				className={`${styles.inputButton} ${styles.sendButton}`}
+			/>;
+			break;
+		case 'cancel':
+			content = <div
+				onClick={cancel}
+				className={`${styles.inputButton} ${styles.cancelButton}`}
+			/>;
+			break;
+		default:
+			break;
+	}
+
+	return content;
 }

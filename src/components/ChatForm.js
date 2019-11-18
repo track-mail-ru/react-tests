@@ -54,6 +54,8 @@ export function ChatForm(props) {
 				<Parent.Consumer>
 					{(value) => (
 						<FormInput
+							requireRecorder={value.requireRecorder.bind(value)}
+							mediaRecorder={value.state.mediaRecorder}
 							formEntered={value.formEntered.bind(value)}
 							placeholder="Ваше сообщение"
 						/>

@@ -11,6 +11,7 @@
 	flex-direction: row;
 	background-color: #191919;
 	z-index: 1;
+	outline: 1px solid #242424;
 }
 
 input {
@@ -37,6 +38,16 @@ input {
 
 .sendButton {
 	background: url(../images/sprait_2.png) no-repeat center center;
+	background-size: 90%;
+}
+
+.micButton {
+	background: url(../images/mic.png) no-repeat center center;
+	background-size: 90%;
+}
+
+.cancelButton {
+	background: url(../images/cancel.png) no-repeat center center;
 	background-size: 90%;
 }
 
@@ -68,6 +79,7 @@ input {
 	left: 10px;
 	z-index: 1;
 	overflow: hidden;
+	box-shadow: 0 0 0 0 #151716;
 }
 
 .menu ul {

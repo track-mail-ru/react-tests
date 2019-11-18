@@ -1,4 +1,5 @@
 import React from 'react';
+import { InitializeRecordStream } from '../lib/InitializeRecordStrem';
 import { ChatList } from './ChatList';
 import { ChatForm } from './ChatForm';
 import { Profile } from './Profile';
@@ -9,10 +10,12 @@ export class Main extends React.Component {
 	constructor(props) {
 		super(props);
 		const info = this.getInfo();
+		this.mediaRecorder = null;
 		this.state = {
 			chatsList: info.chatsList,
 			messageList: info.messageList,
 			myInfo: info.messageList,
+			mediaRecorder: null,
 			activeChat: null,
 			frameStyles: {
 				ChatForm: null,
@@ -38,6 +41,19 @@ export class Main extends React.Component {
 			};
 		}
 		return info;
+	}
+
+	async requireRecorder() {
+		if (this.state.mediaRecorder) {
+			return this.state.mediaRecorder;
+		}
+
+		return InitializeRecordStream().then((value) => {
+			this.setState({mediaRecorder: value});
+			return value;
+		}).catch((err) => {
+			throw new Error(err);
+		});
 	}
 
 	apearFrame(framename, newState = null) {
@@ -109,6 +125,15 @@ export class Main extends React.Component {
 
 		if (additions) {
 			currentMessage.additions = additions;
+
+			/* console.log(additions);
+
+			if (additions.type === 'images') {
+				fetch('https://tt-front.now.sh/upload', {
+					method: 'POST',
+					body: file,
+				});
+			} */
 		}
 
 		messageList[activeChat - 1].push(currentMessage);
