@@ -11,6 +11,7 @@ export function onFillImages(event, additions, callbackSuccess, callbackError = 
 		return {
 			name: file.name,
 			path: window.URL.createObjectURL(file),
+			file,
 		};
 	});
 
@@ -50,6 +51,7 @@ export function onFillDocuments(event, additions, callbackSuccess, callbackError
 		return {
 			name: file.name,
 			path: window.URL.createObjectURL(file),
+			file,
 		};
 	});
 

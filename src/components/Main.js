@@ -126,14 +126,20 @@ export class Main extends React.Component {
 		if (additions) {
 			currentMessage.additions = additions;
 
-			/* console.log(additions);
-
 			if (additions.type === 'images') {
+				const data = new FormData();
+
+				additions.list.forEach((addition) => {
+					data.append(additions.type, addition.file);
+				});
+
 				fetch('https://tt-front.now.sh/upload', {
 					method: 'POST',
-					body: file,
-				});
-			} */
+					body: data,
+				}).then((event) => {
+					alert('Фотографии отправлены');
+				}).catch(console.log);
+			} 
 		}
 
 		messageList[activeChat - 1].push(currentMessage);

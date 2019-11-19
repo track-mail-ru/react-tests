@@ -158,7 +158,7 @@ export function FormInput(props) {
 								onFillImages(event, additions, (additionsList) => {
 									setAdditions({
 										type: 'images',
-										additionsList,
+										list: additionsList,
 									});
 								});
 							}}
@@ -182,7 +182,7 @@ export function FormInput(props) {
 								onFillDocuments(event, additions, (additionsList) => {
 									setAdditions({
 										type: 'documents',
-										additionsList,
+										list: additionsList,
 									});
 								});
 							}}

@@ -126,9 +126,9 @@
 }
 
 .image {
-	height: 100px;
+	/* height: 200px; */
+	max-width: calc(100% - 10px);
 	min-width: 50px;
-	max-width: 100px;
 	border-radius: 10px;
 	flex: auto;
 	flex-grow: 0;
