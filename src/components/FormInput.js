@@ -15,6 +15,8 @@ export function FormInput(props) {
 		mediaRecorder,
 	} = props;
 
+	const [dragFiles, setDragFiles] = props.dragFiles;
+
 	const input = React.useRef(null);
 	const doc = React.useRef(null);
 	const img = React.useRef(null);
@@ -62,6 +64,24 @@ export function FormInput(props) {
 			setRecording(status);
 		}
 	};
+
+	if (dragFiles) {
+		let additions_ = additions || {};
+		additions_.type = 'document';
+		additions_.list = [
+			{
+				name: dragFiles.name,
+				path: window.URL.createObjectURL(dragFiles),
+				file: dragFiles,
+			},
+		];
+		
+		if (additions_ !== additions) {
+			setAdditions(additions_);
+		}
+
+		setDragFiles(null);
+	}
 
 	if (additions) {
 		additionsBoxStyles = {
