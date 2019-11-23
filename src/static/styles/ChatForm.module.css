@@ -85,7 +85,8 @@
 	opacity: 0.9;
 }
 
-.DNDImage, .DNDSpan {
+.DNDImage,
+.DNDSpan {
 	flex: auto;
 	flex-grow: 0;
 }

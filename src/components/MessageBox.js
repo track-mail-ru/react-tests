@@ -52,7 +52,7 @@ function Addition(props) {
 	} = props.addition;
 
 	const [isPlaying, setPlayStatus] = React.useState(false);
-	let audio = React.useRef(null);
+	const audio = React.useRef(null);
 	let content = null;
 
 	switch (type) {
@@ -94,7 +94,7 @@ function Addition(props) {
 				setPlayStatus(false);
 			};
 
-			let statusStyle = !isPlaying ? styles.audioPlay : styles.audioStop;
+			const statusStyle = !isPlaying ? styles.audioPlay : styles.audioStop;
 
 			content = (
 				<div onClick={play}>

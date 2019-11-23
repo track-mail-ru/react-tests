@@ -17,7 +17,7 @@ export function ChatForm(props) {
 		/* myInfo, */
 	} = props;
 
-	let isImage = false;
+	const isImage = false;
 	const [dragActive, setDragActive] = React.useState(false);
 	const [dragFiles, setDragFiles] = React.useState(null);
 
@@ -46,12 +46,12 @@ export function ChatForm(props) {
 	});
 
 	const dragOver = (event) => {
-		/*console.log(event.dataTransfer.files);
+		/* console.log(event.dataTransfer.files);
 		if (event.dataTransfer.files[0].type.split('\\')[0] == 'image') {
 			isImage = true;
 		} else {
 			isImage = false;
-		}*/
+		} */
 		event.preventDefault();
 		event.stopPropagation();
 		setDragActive(true);
@@ -66,7 +66,7 @@ export function ChatForm(props) {
 		event.stopPropagation();
 		setDragActive(false);
 		setDragFiles(event.dataTransfer.files[0]);
-	}
+	};
 
 	return (
 		<div

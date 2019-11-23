@@ -66,7 +66,7 @@ export function FormInput(props) {
 	};
 
 	if (dragFiles) {
-		let additions_ = additions || {};
+		const additions_ = additions || {};
 		additions_.type = 'document';
 		additions_.list = [
 			{

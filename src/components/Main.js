@@ -120,7 +120,7 @@ export class Main extends React.Component {
 		} = this.state;
 
 		if (additions) {
-			const count_additions = additions.list.length;
+			const countAdditions = additions.list.length;
 			additions.list.forEach((addition, index) => {
 				const currentMessage = {
 					time: new Date().getTime(),
@@ -129,7 +129,7 @@ export class Main extends React.Component {
 					status: 0,
 				};
 
-				if (count_additions - 1 === index) {
+				if (countAdditions - 1 === index) {
 					currentMessage.text = value;
 				}
 
@@ -137,7 +137,7 @@ export class Main extends React.Component {
 					type: additions.type,
 					name: addition.name,
 					path: addition.path
-				}
+				};
 
 				messageList[activeChat - 1].push(currentMessage);
 
