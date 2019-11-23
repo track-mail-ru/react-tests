@@ -79,13 +79,13 @@ export function ChatForm(props) {
 			<div className={`${styles.DNDWrap} ${dragActive && styles.activeZone}`}>
 				<div className={styles.DNDChild}>
 					<img alt='' className={styles.DNDImage} src={docImg}/>
-					<span className={styles.DNDSpan}>Перетащите сюда как документы</span>
+					<span className={styles.DNDSpan}>Перетащите сюда файл<br/>для загрузки как документ</span>
 				</div>
 				{isImage && 
 					(
 						<div className={styles.DNDChild}>
 							<img alt='' className={styles.DNDImage} src={imgImg}/>
-							<span className={styles.DNDSpan}>Перетащите сюда как изображение</span>
+							<span className={styles.DNDSpan}>Перетащите сюда файл<br/>для загрузки как изображение</span>
 						</div>
 					)
 				}
