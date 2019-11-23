@@ -24,7 +24,7 @@ export function onFillImages(event, additions, callbackSuccess, callbackError = 
 		additionsList = [...additions.list, ...additionsList];
 	}
 
-	if (additions && additions.type !== 'images') {
+	if (additions && additions.type !== 'image') {
 		if (callbackError) { callbackError('Вы уже добавили другой тип файлов'); }
 		return false;
 	}
@@ -64,7 +64,7 @@ export function onFillDocuments(event, additions, callbackSuccess, callbackError
 		additionsList = [...additions.list, ...additionsList];
 	}
 
-	if (additions && additions.type !== 'documents') {
+	if (additions && additions.type !== 'document') {
 		if (callbackError) { callbackError('Вы уже добавили другой тип файлов'); }
 		return false;
 	}

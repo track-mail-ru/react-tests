@@ -28,8 +28,12 @@ export function FormInput(props) {
 	const onSubmit = () => {
 		const value = input.current.value.trim();
 		if (value !== '' || additions) {
-			input.current.value = '';
-			formEntered(value, additions);
+			if (!additions || additions.type !== 'audio') {
+				input.current.value = '';
+				formEntered(value, additions);
+			} else {
+				formEntered('', additions);
+			}
 			setAdditions(null);
 		}
 	};
@@ -158,7 +162,7 @@ export function FormInput(props) {
 							onChange={(event) => {
 								onFillImages(event, additions, (additionsList) => {
 									setAdditions({
-										type: 'images',
+										type: 'image',
 										list: additionsList,
 									});
 								});
@@ -182,7 +186,7 @@ export function FormInput(props) {
 							onChange={(event) => {
 								onFillDocuments(event, additions, (additionsList) => {
 									setAdditions({
-										type: 'documents',
+										type: 'document',
 										list: additionsList,
 									});
 								});
@@ -236,10 +240,10 @@ function Addition(props) {
 	};
 
 	switch (type) {
-		case 'images':
+		case 'image':
 			addStyle.backgroundImage = `url(${addition.path})`;
 			break;
-		case 'documents':
+		case 'document':
 			addStyle.backgroundImage = `url(${docImg})`;
 			break;
 		case 'geolocation':

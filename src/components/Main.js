@@ -114,38 +114,54 @@ export class Main extends React.Component {
 	}
 
 	formEntered(value, additions = null) {
-		const { activeChat, messageList } = this.state;
-
-		const currentMessage = {
-			time: new Date().getTime(),
-			text: value,
-			self: true,
-			status: 0,
-		};
+		const {
+			activeChat,
+			messageList
+		} = this.state;
 
 		if (additions) {
-			currentMessage.additions = additions;
+			const count_additions = additions.list.length;
+			additions.list.forEach((addition, index) => {
+				const currentMessage = {
+					time: new Date().getTime(),
+					text: '',
+					self: true,
+					status: 0,
+				};
 
-			if (additions.type === 'images' || additions.type === 'audio') {
+				if (count_additions - 1 === index) {
+					currentMessage.text = value;
+				}
+
+				currentMessage.addition = {
+					type: additions.type,
+					name: addition.name,
+					path: addition.path
+				}
+
+				messageList[activeChat - 1].push(currentMessage);
+
 				const data = new FormData();
-
-				additions.list.forEach((addition) => {
-					console.log(addition);
-					data.append('audio', addition.file, addition.path);
-				});
+				data.append(additions.type, addition.file);
 
 				fetch('https://tt-front.now.sh/upload', {
 					method: 'POST',
-					mode: 'cors',
-    				cache: 'default',
 					body: data,
 				}).then(() => {
-					alert('Фотографии отправлены');
+					alert('Вложение отправлено');
 				}).catch(console.log);
-			} 
+			});
+		} else {
+			const currentMessage = {
+				time: new Date().getTime(),
+				text: value,
+				self: true,
+				status: 0,
+			};
+
+			messageList[activeChat - 1].push(currentMessage);
 		}
 
-		messageList[activeChat - 1].push(currentMessage);
 		this.setState({
 			messageList,
 		});

@@ -35,7 +35,7 @@ export function MessageBox(props) {
 	return (
 		<div className={`${styles.messageConteiner} ${conteinerClass}`}>
 			<div className={`${styles.messageBox} ${boxStyle}`}>
-				{ ('additions' in info) && <Addition additions={info.additions} />}
+				{ ('addition' in info) && <Addition addition={info.addition} />}
 				<div className={styles.text}>{info.text}</div>
 				<div className={styles.time}>{TimeToTime(info.time)}</div>
 				<div style={{ backgroundColor: color }} className={styles.status} />
@@ -47,56 +47,68 @@ export function MessageBox(props) {
 function Addition(props) {
 	const {
 		type,
-		list,
-	} = props.additions;
+		name,
+		path,
+	} = props.addition;
 
+	const [isPlaying, setPlayStatus] = React.useState(false);
+	let audio = React.useRef(null);
 	let content = null;
 
 	switch (type) {
 		case 'geolocation':
 			content = (
 				<div>
-					<a href={list[0].path}>
+					<a href={path}>
 						<span className={styles.additionText}>Геолокация</span>
 						<div className={`${styles.defaultAddition} ${styles.geolocation}`} />
 					</a>
 				</div>
 			);
 			break;
-		case 'images':
-			content = list.map((elem, i) => {
-				const {
-					path,
-					name,
-				} = elem;
-
-				return <img key={i} alt={name} src={path} className={styles.image} />;
-			});
+		case 'image':
+			content = <img alt={name} src={path} className={styles.image} />;
 			break;
-		case 'documents':
-			content = list.map((elem, i) => {
-				const {
-					path,
-					name,
-				} = elem;
+		case 'document':
+			content = (
+				<div>
+					<a href={path}>
+						<span className={styles.additionText}>{name}</span>
+						<div className={`${styles.defaultAddition} ${styles.document}`} />
+					</a>
+				</div>
+			);
+			break;
+		case 'audio':
+			const play = () => {
+				if (!isPlaying) {
+					audio.current.play();
+					setPlayStatus(true);
+				} else {
+					audio.current.pause();
+					setPlayStatus(false);
+				}
+			};
 
-				return (
-					<div key={i} style={{margin: '10px 5px'}}>
-						<a href={path}>
-							<span className={styles.additionText}>{name}</span>
-							<div className={`${styles.defaultAddition} ${styles.document}`} />
-						</a>
+			const stop = () => {
+				setPlayStatus(false);
+			};
+
+			let statusStyle = !isPlaying ? styles.audioPlay : styles.audioStop;
+
+			content = (
+				<div onClick={play}>
+					<span className={styles.additionText}>Аудиосообщение</span>
+					<div className={styles.defaultAddition}>
+						<div className={`${styles.audioStatus} ${statusStyle}`}/>
 					</div>
-				);
-			});
+					<audio onEnded={stop} ref={audio} src={path}/>
+				</div>
+			);
 			break;
 		default:
 			break;
 	}
 
-	return (
-		<div className={styles.addition}>
-			{ content }
-		</div>
-	);
+	return content;
 }
