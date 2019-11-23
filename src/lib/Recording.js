@@ -10,7 +10,7 @@ export async function startRecord(mediaRecorder, callbackStart = null, callbackE
 			const audioURL = URL.createObjectURL(blob);
 			chunks = [];
 
-			if (callbackSuccess) { callbackSuccess(audioURL); }
+			if (callbackSuccess) { callbackSuccess(audioURL, blob); }
 		});
 
 		mediaRecorder.addEventListener('dataavailable', (event) => {

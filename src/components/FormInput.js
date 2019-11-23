@@ -127,13 +127,14 @@ export function FormInput(props) {
 								recordStatus(true);
 							}, () => {
 								recordStatus(false);
-							}, (audioURL) => {
+							}, (audioURL, blob) => {
 								setAdditions({
 									type: 'audio',
 									list: [
 										{
 											name: 'Аудиозапись',
 											path: audioURL,
+											file: blob,
 										},
 									],
 								});

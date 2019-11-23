@@ -126,17 +126,20 @@ export class Main extends React.Component {
 		if (additions) {
 			currentMessage.additions = additions;
 
-			if (additions.type === 'images') {
+			if (additions.type === 'images' || additions.type === 'audio') {
 				const data = new FormData();
 
 				additions.list.forEach((addition) => {
-					data.append(additions.type, addition.file);
+					console.log(addition);
+					data.append('audio', addition.file, addition.path);
 				});
 
 				fetch('https://tt-front.now.sh/upload', {
 					method: 'POST',
+					mode: 'cors',
+    				cache: 'default',
 					body: data,
-				}).then((event) => {
+				}).then(() => {
 					alert('Фотографии отправлены');
 				}).catch(console.log);
 			} 
