@@ -51,6 +51,31 @@ localStorage.setItem(
 			countUnredMessages: 1,
 			avatar: 'pie.png',
 			lastMessage: 'Приглашаю вас всех на моё ДР',
+			lastMessageTime: new Date().getTime() - 1002214,
+			messageStatus: 3, // 0 - отправляется, 1 - отправлено, 2 - прочитано, 3 - новое сообщение, 4 - ошибка
+		},
+		{
+			id: 3,
+			chatName: 'Общий чат FRONTEND',
+			isGroupChat: true,
+			mebmers: {
+				122: {
+					name: 'Виталик',
+					fullName: 'Виталик Кисель',
+					avatar: 'image.jpg',
+					status: 0, // 0 - online, что-то друго последнее время онлайн
+				},
+				133: {
+					name: 'Павел',
+					fullName: 'Павел Дуров',
+					avatar: '',
+					status: 0, // 0 - online, что-то друго последнее время онлайн
+				},
+			},
+			penPalLast: 133,
+			countUnredMessages: 1,
+			avatar: '',
+			lastMessage: 'Павел Дуров создал групповой чат',
 			lastMessageTime: new Date().getTime(),
 			messageStatus: 3, // 0 - отправляется, 1 - отправлено, 2 - прочитано, 3 - новое сообщение, 4 - ошибка
 		},
@@ -111,5 +136,6 @@ localStorage.setItem(
 				status: 3, // 0 - отправляется, 1 - отправлено, 2 - прочитано, 3 - новое сообщение, 4 - ошибка
 			},
 		],
+		2: [],
 	}),
 );

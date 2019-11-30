@@ -4,7 +4,7 @@ export async function InitializeRecordStream() {
 	try {
 		const constrains = { audio: true };
 		const stream = await navigator.mediaDevices.getUserMedia(constrains);
-		mediaRecorder = new MediaRecorder(stream); 
+		mediaRecorder = new MediaRecorder(stream);
 	} catch(err) {
 		throw new Error(err);
 	}

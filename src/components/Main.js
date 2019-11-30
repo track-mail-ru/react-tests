@@ -43,6 +43,43 @@ export class Main extends React.Component {
 		return info;
 	}
 
+	componentDidMount() {
+		const url = 'http://192.168.1.10:9000/events/';
+
+
+		/*let source = new EventSource(url);
+
+		source.onopen = (event) => {
+			console.log('Stream was opened');
+		}
+
+		source.onmessage = (event) => {
+			let data = JSON.parse(event.data);
+			if (data && 'text' in data) {
+				
+
+				const currentMessage = {
+					time: (new Date(data.timestamp)).getTime(),
+					text: data.text,
+					self: false,
+					status: 2,
+				};
+
+				const messageList = this.state.messageList;
+				messageList[2].push(currentMessage);
+
+				this.setState({
+					messageList,
+				});
+			}
+		}
+
+		source.onerror = (event) => {
+			console.log(event);
+			source = new EventSource(url);
+		}*/
+	}
+
 	async requireRecorder() {
 		if (this.state.mediaRecorder) {
 			return this.state.mediaRecorder;
@@ -113,11 +150,62 @@ export class Main extends React.Component {
 		}
 	}
 
+	async send_message(chat_id, attachment=null, attachment_type=null, message=null){
+		const data = new FormData();
+
+		if (attachment) {
+			data.append('attachment_type', attachment_type);
+			data.append('attachment', attachment);
+		}
+
+		if (message) {
+			data.append('text', message);
+		}
+
+		data.append('chat_id', chat_id);
+
+		return fetch('http://192.168.1.10/messages/add/', {
+			method: 'POST',
+			body: data,
+		});
+	}
+
 	formEntered(value, additions = null) {
 		const {
 			activeChat,
 			messageList
 		} = this.state;
+
+		if (additions) {
+			let last_addition = additions.list.shift();
+
+			additions.list.forEach((addition) => {
+				this.send_message(
+					activeChat,
+					addition.file,
+					additions.type
+				).then(() => {
+					console.log('Сообщение отправлено');
+				}).catch(console.log);
+			});
+
+			let message = null;
+			if (value === '') { message = value; }
+
+			this.send_message(
+				activeChat,
+				last_addition.file,
+				additions.type,
+				message
+			).then(() => {
+				console.log('Сообщение отправлено');
+			}).catch(console.log);
+		} else {
+			this.send_message(activeChat, null, null, value);
+		}
+		/*
+
+		
 
 		if (additions) {
 			const countAdditions = additions.list.length;
@@ -160,11 +248,22 @@ export class Main extends React.Component {
 			};
 
 			messageList[activeChat - 1].push(currentMessage);
+
+			const data = new FormData();
+			data.append('text', value);
+			data.append('author', "АЛёшка");
+
+			fetch('http://192.168.1.11:9000/add-message', {
+				method: 'POST',
+				body: data,
+			}).then(() => {
+				alert('сообщение отправлено');
+			}).catch(console.log);
 		}
 
 		this.setState({
 			messageList,
-		});
+		});*/
 	}
 
 	render() {
