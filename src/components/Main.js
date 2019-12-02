@@ -1,4 +1,5 @@
 import React from 'react';
+import { InitializeRecordStream } from '../lib/InitializeRecordStrem';
 import { ChatList } from './ChatList';
 import { ChatForm } from './ChatForm';
 import { Profile } from './Profile';
@@ -9,10 +10,12 @@ export class Main extends React.Component {
 	constructor(props) {
 		super(props);
 		const info = this.getInfo();
+		this.mediaRecorder = null;
 		this.state = {
 			chatsList: info.chatsList,
 			messageList: info.messageList,
 			myInfo: info.messageList,
+			mediaRecorder: null,
 			activeChat: null,
 			frameStyles: {
 				ChatForm: null,
@@ -40,6 +43,19 @@ export class Main extends React.Component {
 		return info;
 	}
 
+	async requireRecorder() {
+		if (this.state.mediaRecorder) {
+			return this.state.mediaRecorder;
+		}
+
+		return InitializeRecordStream().then((value) => {
+			this.setState({mediaRecorder: value});
+			return value;
+		}).catch((err) => {
+			throw new Error(err);
+		});
+	}
+
 	apearFrame(framename, newState = null) {
 		let { state } = this;
 		state.frameStyles[framename] = {
@@ -63,7 +79,7 @@ export class Main extends React.Component {
 		};
 
 		if (!framename) {
-			const {frameStyles} = state;
+			const { frameStyles } = state;
 			for (const frame in frameStyles) {
 				if (frameStyles[frame]) {
 					frameStyles[frame] = style;
@@ -80,9 +96,7 @@ export class Main extends React.Component {
 	}
 
 	myRouter() {
-		const { 
-			pathname,
-		} = this.props.location;
+		const { pathname } = this.props.location;
 		switch (true) {
 			case /chat\/\d\/?$/.test(pathname):
 				const chatId = parseInt(pathname.match(/\d+/));
@@ -99,14 +113,55 @@ export class Main extends React.Component {
 		}
 	}
 
-	formEntered(value) {
-		const { activeChat, messageList } = this.state;
-		messageList[activeChat - 1].push({
-			time: new Date().getTime(),
-			text: value,
-			self: true,
-			status: 0,
-		});
+	formEntered(value, additions = null) {
+		const {
+			activeChat,
+			messageList
+		} = this.state;
+
+		if (additions) {
+			const countAdditions = additions.list.length;
+			additions.list.forEach((addition, index) => {
+				const currentMessage = {
+					time: new Date().getTime(),
+					text: '',
+					self: true,
+					status: 0,
+				};
+
+				if (countAdditions - 1 === index) {
+					currentMessage.text = value;
+				}
+
+				currentMessage.addition = {
+					type: additions.type,
+					name: addition.name,
+					path: addition.path
+				};
+
+				messageList[activeChat - 1].push(currentMessage);
+
+				const data = new FormData();
+				data.append(additions.type, addition.file);
+
+				fetch('https://tt-front.now.sh/upload', {
+					method: 'POST',
+					body: data,
+				}).then(() => {
+					alert('Вложение отправлено');
+				}).catch(console.log);
+			});
+		} else {
+			const currentMessage = {
+				time: new Date().getTime(),
+				text: value,
+				self: true,
+				status: 0,
+			};
+
+			messageList[activeChat - 1].push(currentMessage);
+		}
+
 		this.setState({
 			messageList,
 		});

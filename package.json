@@ -78,11 +78,6 @@
 		"test:unit": "react-scripts test",
 		"ci": "npm run test && npm run build && npm run test:sec"
 	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "npm run lint && npm run format:staged"
-		}
-	},
 	"engines": {
 		"npm": ">=6",
 		"node": ">=8"

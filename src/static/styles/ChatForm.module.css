@@ -47,8 +47,51 @@
 
 .footer {
 	width: 100%;
-	background-color: #191919;
-	outline: 1px solid #242424;
-	box-shadow: 0 0 2px 0 #151716;
 	z-index: 1;
+}
+
+.DNDWrap {
+	width: 100%;
+	height: calc(100% - 110px);
+	position: absolute;
+	top: 60px;
+	z-index: 0;
+	opacity: 0;
+	background-color: #191919;
+	transition-duration: 0.2s;
+	padding: 15px;
+	display: flex;
+	flex-direction: column;
+}
+
+.DNDChild {
+	margin-top: 15px;
+	width: 100%;
+	flex: auto;
+	border: 5px dotted #2c2d2f;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+.DNDChild:nth-child(1) {
+	margin-top: 0 !important;
+}
+
+.activeZone {
+	z-index: 1;
+	opacity: 0.9;
+}
+
+.DNDImage,
+.DNDSpan {
+	flex: auto;
+	flex-grow: 0;
+}
+
+.DNDSpan {
+	margin-top: 20px;
+	font-size: var(--fontMinMinSize);
 }
