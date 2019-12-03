@@ -26,8 +26,13 @@ export function ChatForm(props) {
 	}
 
 	let lastTime = null;
-	const list = [];
+	let list = [];
 	let $i = 0;
+
+	if (!messageList) {
+		list = <DateMarker/>;
+	} 
+
 	Object.keys(messageList).forEach((index) => {
 		const elem = messageList[index];
 		const currentTime = elem.time;

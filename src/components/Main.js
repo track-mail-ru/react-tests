@@ -55,7 +55,7 @@ export class Main extends React.Component {
 					chatName: chat.chatName,
 					isGroupChat: chat.isGroupChat,
 					avatar: chat.avatar,
-					countUnredMessages: null,
+					countUnredMessages: chat.countUnredMessages,
 					lastMessage: chat.lastMessage,
 					penPals: chat.penPals,
 				}
@@ -80,9 +80,8 @@ export class Main extends React.Component {
 				.then((response) => {
 					info.messageList[index] = response.response;
 					if (keys.length === i) {
-						this.setState({
-							messageList: info.messageList,
-						});
+						this.setState(info);
+						if (callback) { callback(); }
 						console.log('Data was recieved');
 					}
 				})
@@ -93,9 +92,7 @@ export class Main extends React.Component {
 		})
 		.catch(console.log);
 
-		this.setState(info);
-
-		if (callback) { callback(); }
+		
 
 		/*try {
 
@@ -128,25 +125,40 @@ export class Main extends React.Component {
 				fetch(url, {
 					method: 'GET'
 				})
-				.then((response) => response.json())
-				.then((response) => {
-					let list = response.response;
+				.then((res) => res.json())
+				.then((res) => {
+					let list = res.response;
+					list.forEach((event) => {
+						console.log(event);
+						if ('newMessage' in event) {
+							let message = event.newMessage;
+							let attachment = message.addition;
 
-					list.forEach((message) => {
-						let attachment = message.addition;
-
-						this.addMessageToList(
-							message.chatID,
-							message.reference,
-							message.time,
-							(message.userID === myId),
-							message.status,
-							message.text,
-							attachment,
-						);
+							this.addMessageToList(
+								message.chatID,
+								message.reference,
+								message.time,
+								(message.userID === myId),
+								message.status,
+								message.text,
+								attachment,
+							);
+						} else if ('redMessage' in event) {
+							let {
+								chatID,
+								messageID,
+								reference,
+							} = event.redMessage;
+							this.updateStatusMessageList(
+								chatID,
+								messageID,
+								reference,
+								2
+							);
+						}
 					});
 				}).catch(console.log);
-			}, 200);
+			}, 5000);
 		});
 
 		/*let source = new EventSource(url);
@@ -252,6 +264,29 @@ export class Main extends React.Component {
 		}
 	}
 
+	updateStatusMessageList(chatId, messageID, reference, status) {
+		const {
+			messageList,
+			chatsList,
+		} = this.state;
+
+		const messages = messageList[chatId];
+
+		if (messages[reference]) {
+			messages[reference].status = status;
+		} else if (messages[messageID]) {
+			messages[messageID].status = status;
+		}
+
+		messageList[chatId] = messages;
+		chatsList[chatId].lastMessage.status = status;
+
+		this.setState({
+			messageList: messageList,
+			chatsList: chatsList,
+		});
+	}
+
 	addMessageToList(chatId, messageID, time, isSelf, status, text=null, attachment=null) {
 		const {
 			messageList,
@@ -273,10 +308,10 @@ export class Main extends React.Component {
 		chatsList[chatId].lastMessage.time = time;
 
 		if (isSelf) {
-			chatsList[chatId].lastMessage.status = 2;
+			chatsList[chatId].lastMessage.status = status;
 			chatsList[chatId].countUnredMessages = 0;
 		} else {
-			chatsList[chatId].lastMessage.status = 3;
+			chatsList[chatId].lastMessage.status = status;
 			chatsList[chatId].countUnredMessages ++;
 		}
 		
@@ -318,7 +353,7 @@ export class Main extends React.Component {
 			data.append('attachment', addition.file);
 		}
 
-		data.append('temp_id', tempID);
+		data.append('reference', tempID);
 		data.append('chat_id', chatID);
 
 		fetch('http://192.168.1.6/back/messages/add/', {
