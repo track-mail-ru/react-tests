@@ -14,7 +14,7 @@ export function ChatForm(props) {
 		style,
 		messageList,
 		chatInfo,
-		/* myInfo, */
+		myInfo,
 	} = props;
 
 	const isImage = false;
@@ -28,8 +28,11 @@ export function ChatForm(props) {
 	let lastTime = null;
 	const list = [];
 	let $i = 0;
-	messageList.forEach((elem) => {
+	Object.keys(messageList).forEach((index) => {
+		const elem = messageList[index];
 		const currentTime = elem.time;
+
+		elem.self = elem.self || elem.userID === myInfo.id;
 
 		const Message = <MessageBox key={$i++} info={elem} />;
 		let Marker = null;
@@ -95,7 +98,7 @@ export function ChatForm(props) {
 			</Parent.Consumer>
 			<div className={styles.content}>
 				<div className={styles.messageWrap}>
-					<DateMarker />
+					{() => !list.lenght && <DateMarker />}
 					{list}
 				</div>
 			</div>

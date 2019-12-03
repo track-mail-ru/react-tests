@@ -31,7 +31,6 @@ export function MessageBox(props) {
 			color = 'transparent';
 			break;
 	}
-
 	return (
 		<div className={`${styles.messageConteiner} ${conteinerClass}`}>
 			<div className={`${styles.messageBox} ${boxStyle}`}>
