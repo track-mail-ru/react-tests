@@ -24,93 +24,6 @@ export class Main extends React.Component {
 		};
 	}
 
-	async getInfo(callback=null) {
-		const info = {
-			chatsList: {},
-			messageList: {},
-			myInfo: null,
-		};
-
-		await fetch('http://192.168.1.6/back/users/', {
-			method: 'GET'
-		})
-		.then((response) => response.json())
-		.then((response) => {
-			info.myInfo = response.response;
-		});
-
-		await fetch('http://192.168.1.6/back/chats/', {
-			method: 'GET'
-		})
-		.then((response) => response.json())
-		.then((response) => {
-			response = response.response;
-			let i = 0;
-			const keys = Object.keys(response);
-			keys.forEach((index) => {
-				let chat = response[index];
-
-				let chatInfo = {
-					id: chat.id,
-					chatName: chat.chatName,
-					isGroupChat: chat.isGroupChat,
-					avatar: chat.avatar,
-					countUnredMessages: chat.countUnredMessages,
-					lastMessage: chat.lastMessage,
-					penPals: chat.penPals,
-				}
-
-				if (!chatInfo.isGroupChat) {
-					const penPalsIDs = Object.keys(chatInfo.penPals);
-					let penPalID = penPalsIDs.shift();
-					if (penPalID == info.myInfo.id) {
-						penPalID = penPalsIDs.shift();
-					}
-					chatInfo['penPal'] = chatInfo.penPals[penPalID];
-					chatInfo.chatName = chatInfo.penPal.fullName;
-					delete chatInfo['penPals'];
-				}
-
-				info.chatsList[index] = chatInfo;
-				
-				fetch(`http://192.168.1.6/back/messages/?chat_id=${index}`, {
-					method: 'GET'
-				})
-				.then((response) => response.json())
-				.then((response) => {
-					info.messageList[index] = response.response;
-					if (keys.length === i) {
-						this.setState(info);
-						if (callback) { callback(); }
-						console.log('Data was recieved');
-					}
-				})
-				.catch(console.log);
-
-				i++;
-			});
-		})
-		.catch(console.log);
-
-		
-
-		/*try {
-
-			info = {
-				chatsList: JSON.parse(localStorage.getItem('chatsList')),
-				messageList: JSON.parse(localStorage.getItem('messageList')),
-				myInfo: JSON.parse(localStorage.getItem('myInfo')),
-			};
-		} catch {
-			info = {
-				chatsList: null,
-				messageList: null,
-				myInfo: null,
-			};
-		}
-		return info;*/
-	}
-
 	componentDidMount() {
 		this.getInfo(() => {
 			const {
@@ -125,43 +38,43 @@ export class Main extends React.Component {
 				fetch(url, {
 					method: 'GET'
 				})
-				.then((res) => res.json())
-				.then((res) => {
-					let list = res.response;
-					list.forEach((event) => {
-						console.log(event);
-						if ('newMessage' in event) {
-							let message = event.newMessage;
-							let attachment = message.addition;
+					.then((res) => res.json())
+					.then((res) => {
+						const list = res.response;
+						list.forEach((event) => {
+							console.log(event);
+							if ('newMessage' in event) {
+								const message = event.newMessage;
+								const attachment = message.addition;
 
-							this.addMessageToList(
-								message.chatID,
-								message.reference,
-								message.time,
-								(message.userID === myId),
-								message.status,
-								message.text,
-								attachment,
-							);
-						} else if ('redMessage' in event) {
-							let {
-								chatID,
-								messageID,
-								reference,
-							} = event.redMessage;
-							this.updateStatusMessageList(
-								chatID,
-								messageID,
-								reference,
-								2
-							);
-						}
-					});
-				}).catch(console.log);
-			}, 5000);
+								this.addMessageToList(
+									message.chatID,
+									message.reference,
+									message.time,
+									(message.userID === myId),
+									message.status,
+									message.text,
+									attachment,
+								);
+							} else if ('redMessage' in event) {
+								const {
+									chatID,
+									messageID,
+									reference,
+								} = event.redMessage;
+								this.updateStatusMessageList(
+									chatID,
+									messageID,
+									reference,
+									2
+								);
+							}
+						});
+					}).catch(console.log);
+			}, 500);
 		});
 
-		/*let source = new EventSource(url);
+		/* let source = new EventSource(url);
 
 		source.onopen = (event) => {
 			console.log('Stream was opened');
@@ -191,7 +104,94 @@ export class Main extends React.Component {
 		source.onerror = (event) => {
 			console.log(event);
 			source = new EventSource(url);
-		}*/
+		} */
+	}
+
+	async getInfo(callback=null) {
+		const info = {
+			chatsList: {},
+			messageList: {},
+			myInfo: null,
+		};
+
+		await fetch('http://192.168.1.6/back/users/', {
+			method: 'GET'
+		})
+			.then((response) => response.json())
+			.then((response) => {
+				info.myInfo = response.response;
+			});
+
+		await fetch('http://192.168.1.6/back/chats/', {
+			method: 'GET'
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				const { response } = res;
+				let i = 0;
+				const keys = Object.keys(response);
+				keys.forEach((index) => {
+					const chat = response[index];
+
+					const chatInfo = {
+						id: chat.id,
+						chatName: chat.chatName,
+						isGroupChat: chat.isGroupChat,
+						avatar: chat.avatar,
+						countUnredMessages: chat.countUnredMessages,
+						lastMessage: chat.lastMessage,
+						penPals: chat.penPals,
+					};
+
+					if (!chatInfo.isGroupChat) {
+						const penPalsIDs = Object.keys(chatInfo.penPals);
+						let penPalID = penPalsIDs.shift();
+						if (parseInt(penPalID) === parseInt(info.myInfo.id)) {
+							penPalID = penPalsIDs.shift();
+						}
+						chatInfo.penPal = chatInfo.penPals[penPalID];
+						chatInfo.chatName = chatInfo.penPal.fullName;
+						delete chatInfo.penPals;
+					}
+
+					info.chatsList[index] = chatInfo;
+				
+					fetch(`http://192.168.1.6/back/messages/?chat_id=${index}`, {
+						method: 'GET'
+					})
+						.then((res_) => res_.json())
+						.then((res_) => {
+							info.messageList[index] = response.res_;
+							if (keys.length === i) {
+								this.setState(info);
+								if (callback) { callback(); }
+								console.log('Data was recieved');
+							}
+						})
+						.catch(console.log);
+
+					i++;
+				});
+			})
+			.catch(console.log);
+
+		
+
+		/* try {
+
+			info = {
+				chatsList: JSON.parse(localStorage.getItem('chatsList')),
+				messageList: JSON.parse(localStorage.getItem('messageList')),
+				myInfo: JSON.parse(localStorage.getItem('myInfo')),
+			};
+		} catch {
+			info = {
+				chatsList: null,
+				messageList: null,
+				myInfo: null,
+			};
+		}
+		return info; */
 	}
 
 	async requireRecorder() {
@@ -282,8 +282,8 @@ export class Main extends React.Component {
 		chatsList[chatId].lastMessage.status = status;
 
 		this.setState({
-			messageList: messageList,
-			chatsList: chatsList,
+			messageList,
+			chatsList,
 		});
 	}
 
@@ -294,36 +294,36 @@ export class Main extends React.Component {
 		} = this.state;
 
 		const info = {
-			time: time,
-			text: text,
+			time,
+			text,
 			self: isSelf,
-			status: status,
+			status,
 		};
 
 		if (attachment) {
-			info['addition'] = attachment;
+			info.addition = attachment;
 		}
+
+		messageList[chatId][messageID] = info;
 
 		chatsList[chatId].lastMessage.text = text;
 		chatsList[chatId].lastMessage.time = time;
+		chatsList[chatId].lastMessage.status = status;
+
 
 		if (isSelf) {
-			chatsList[chatId].lastMessage.status = status;
 			chatsList[chatId].countUnredMessages = 0;
 		} else {
-			chatsList[chatId].lastMessage.status = status;
 			chatsList[chatId].countUnredMessages ++;
 		}
 		
-		messageList[chatId][messageID] = info;
-
 		this.setState({
-			messageList: messageList,
-			chatsList: chatsList,
+			messageList,
+			chatsList,
 		});
 	}
 
-	async send_message(chatID, addition=null, additionType=null, message=null) {
+	async sendMessage(chatID, addition=null, additionType=null, message=null) {
 		const currentTime = new Date().getTime();
 		const random = parseInt(Math.random() * 1000);
 		const tempID = `${currentTime}_${random}`;
@@ -376,10 +376,10 @@ export class Main extends React.Component {
 		} = this.state;
 
 		if (additions) {
-			let last_addition = additions.list.shift();
+			const lastAddition = additions.list.shift();
 
 			additions.list.forEach((addition) => {
-				this.send_message(
+				this.sendMessage(
 					activeChat,
 					addition,
 					additions.type
@@ -389,14 +389,14 @@ export class Main extends React.Component {
 			let message = null;
 			if (value !== '') { message = value; }
 
-			this.send_message(
+			this.sendMessage(
 				activeChat,
-				last_addition,
+				lastAddition,
 				additions.type,
 				message
 			);
 		} else {
-			this.send_message(
+			this.sendMessage(
 				activeChat,
 				null,
 				null,
@@ -463,7 +463,7 @@ export class Main extends React.Component {
 
 		this.setState({
 			messageList,
-		});*/
+		}); */
 	}
 
 	render() {
