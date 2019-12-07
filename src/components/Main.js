@@ -30,7 +30,7 @@ export class Main extends React.Component {
 				myInfo,
 			} = this.state;
 
-			const url = 'http://192.168.1.6/back/events/';
+			const url = 'http://192.168.1.76/back/events/';
 
 			const myId = myInfo.id;
 
@@ -114,7 +114,7 @@ export class Main extends React.Component {
 			myInfo: null,
 		};
 
-		await fetch('http://192.168.1.6/back/users/', {
+		await fetch('http://192.168.1.76/back/users/', {
 			method: 'GET'
 		})
 			.then((response) => response.json())
@@ -122,7 +122,7 @@ export class Main extends React.Component {
 				info.myInfo = response.response;
 			});
 
-		await fetch('http://192.168.1.6/back/chats/', {
+		await fetch('http://192.168.1.76/back/chats/', {
 			method: 'GET'
 		})
 			.then((res) => res.json())
@@ -156,7 +156,7 @@ export class Main extends React.Component {
 
 					info.chatsList[index] = chatInfo;
 				
-					fetch(`http://192.168.1.6/back/messages/?chat_id=${index}`, {
+					fetch(`http://192.168.1.76/back/messages/?chat_id=${index}`, {
 						method: 'GET'
 					})
 						.then((res_) => res_.json())
@@ -356,7 +356,7 @@ export class Main extends React.Component {
 		data.append('reference', tempID);
 		data.append('chat_id', chatID);
 
-		fetch('http://192.168.1.6/back/messages/add/', {
+		fetch('http://192.168.1.76/back/messages/add/', {
 			method: 'POST',
 			body: data,
 		}).then((response) => {
