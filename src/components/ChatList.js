@@ -13,13 +13,18 @@ export function ChatList(props) {
 		let $i = 0;
 		Object.keys(chatsList).forEach((index) => {
 			const chat = chatsList[index];
+
+			if (chat.lastMessage.addition) {
+				chat.lastMessage.text = <a className={styles.addition}>Вложение</a>;
+			}
+
 			const block = <Chat key={$i++} chatInfo={chat} />;
-			if (chat.lastMessageTime > lastChatTime) {
+			if (chat.lastMessage.time > lastChatTime) {
 				list.unshift(block);
 			} else {
 				list.push(block);
 			}
-			lastChatTime = chat.lastMessageTime;
+			lastChatTime = chat.lastMessage.time;
 		});
 	}
 

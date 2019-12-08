@@ -3,12 +3,14 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { render } from 'react-dom';
 import { Main } from './components/Main';
 import './static/styles/index.css';
-
-import './components/testModule.js';
+import { Provider } from 'react-redux';
+import strore from './store';
 
 render(
-	<Router>
-		<Route path="/" component={Main} />
-	</Router>,
+	<Provider store={store}>
+		<Router>
+			<Route path="/" component={Main} />
+		</Router>
+	</Provider>,
 	document.getElementById('root'),
 );

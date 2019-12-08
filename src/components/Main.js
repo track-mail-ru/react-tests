@@ -159,18 +159,17 @@ export class Main extends React.Component {
 					fetch(`http://192.168.1.76/back/messages/?chat_id=${index}`, {
 						method: 'GET'
 					})
-						.then((res_) => res_.json())
-						.then((res_) => {
-							info.messageList[index] = response.res_;
-							if (keys.length === i) {
-								this.setState(info);
-								if (callback) { callback(); }
-								console.log('Data was recieved');
-							}
-						})
-						.catch(console.log);
-
-					i++;
+					.then((res_) => res_.json())
+					.then((res_) => {
+						i++;
+						info.messageList[index] = res_.response;
+						if (keys.length === i) {
+							this.setState(info);
+							if (callback) { callback(); }
+							console.log('Data was recieved');
+						}
+					})
+					.catch(console.log);
 				});
 			})
 			.catch(console.log);
