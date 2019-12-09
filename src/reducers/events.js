@@ -2,8 +2,6 @@ import {
 	GET_EVENTS_REQUEST,
 	GET_EVENTS_SUCCESS,
 	GET_EVENTS_FAILURE,
-
-	URL_REQUEST,
 } from '../constants/ActionTypes';
 
 const initialState = {

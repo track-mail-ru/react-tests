@@ -3,8 +3,14 @@ import { Chat } from './Chat.js';
 import styles from '../static/styles/ChatList.module.css';
 import BaseForm from '../static/styles/BaseForm.module.css';
 
-export function ChatList(props) {
-	const { style, chatsList } = props;
+import { connect } from 'react-redux';
+
+function ChatList(props) {
+	const {
+		style,
+		chatsList
+	} = props;
+
 	let list = [];
 	if (!chatsList || !Object.keys(chatsList).length) {
 		list = <div className={styles.noneMessages}>Сообщений пока нет (</div>;
@@ -41,3 +47,13 @@ export function ChatList(props) {
 		</div>
 	);
 }
+
+const mapStateToProps = (state, props) => ({
+  	chatsList: state.chatLoader.chatsList,
+  	...props,
+})
+
+export default connect(
+  	mapStateToProps,
+  	null,
+)(ChatList);

@@ -9,7 +9,9 @@ import styles from '../static/styles/ChatForm.module.css';
 import docImg from '../static/images/document.png';
 import imgImg from '../static/images/image.png';
 
-export function ChatForm(props) {
+import { connect } from 'react-redux';
+
+function ChatForm(props) {
 	const {
 		style,
 		messageList,
@@ -21,7 +23,7 @@ export function ChatForm(props) {
 	const [dragActive, setDragActive] = React.useState(false);
 	const [dragFiles, setDragFiles] = React.useState(null);
 
-	if (!chatInfo) {
+	if (!chatInfo || !messageList) {
 		return '';
 	}
 
@@ -31,7 +33,7 @@ export function ChatForm(props) {
 
 	if (!messageList) {
 		list = <DateMarker/>;
-	} 
+	}
 
 	Object.keys(messageList).forEach((index) => {
 		const elem = messageList[index];
@@ -123,3 +125,15 @@ export function ChatForm(props) {
 		</div>
 	);
 }
+
+const mapStateToProps = (state, props) => ({
+  	chatInfo: state.chatLoader.chatsList[props.activeChat],
+  	messageList: state.chatLoader.messagesList[props.activeChat],
+  	myInfo: state.chatLoader.myInfo,
+  	...props,
+});
+
+export default connect(
+  	mapStateToProps,
+  	null,
+)(ChatForm);

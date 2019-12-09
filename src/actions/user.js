@@ -6,36 +6,37 @@ import {
 	URL_REQUEST,
 } from '../constants/ActionTypes';
 
-const getUserSuccess = (info) => ({
+const getUserSuccess = () => ({
 	type: GET_USER_SUCCESS,
-	payload: info
 });
 
 const getUserStarted = () => ({
 	type: GET_USER_REQUEST,
 });
 
-const getUserFailure = (error) => ({
+const getUserFailure = (err) => ({
 	type: GET_USER_FAILURE,
 	payload: {
-		error  // error: error
+		error: err  // error: error
 	}
 });
 
-export function getUser() {
-	return (dispatch, getState) => {
-		console.log('state: ', getState());
-		dispatch(getUserStarted());
+export async function getUser(dispatch, getState) {
+	dispatch(getUserStarted());
+	let result = null;
 
-		fetch(`${URL_REQUEST}/users/`, {
-			method: 'GET'
-		})
-		.then(res => res.json())
-		.then(res => {
-			dispatch(getUserSuccess(res.response))
-		})
-		.catch(err => {
-			dispatch(getUserFailure(err))
-		});
-	}
+	await fetch(`${URL_REQUEST}/users/`, {
+		method: 'GET'
+	})
+	.then(res => res.json())
+	.then(res => {
+		let info = res.response;
+		dispatch(getUserSuccess());
+		result = info;
+	})
+	.catch(err => {
+		dispatch(getUserFailure(err));
+	});
+
+	return result;
 }

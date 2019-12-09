@@ -1,19 +1,29 @@
 import React from 'react';
 import { InitializeRecordStream } from '../lib/InitializeRecordStrem';
-import { ChatList } from './ChatList';
-import { ChatForm } from './ChatForm';
+import ChatList from './ChatList';
+import ChatForm from './ChatForm';
 import { Profile } from './Profile';
 import Parent from './Parent.Context';
 import styles from '../static/styles/Main.module.css';
 
-export class Main extends React.Component {
+import { connect } from 'react-redux';
+import chatLoader from '../actions/chatLoader';
+import getEvents from '../actions/events';
+import store from '../store';
+
+class Main extends React.Component {
 	constructor(props) {
 		super(props);
-		this.mediaRecorder = null;
+
+		const {
+			chatLoader,
+			getEvents,
+		} = props;
+
 		this.state = {
-			chatsList: {},
-			messageList: {},
-			myInfo: null,
+			chatLoader,
+			getEvents,
+
 			mediaRecorder: null,
 			activeChat: null,
 			frameStyles: {
@@ -25,7 +35,18 @@ export class Main extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getInfo(() => {
+		const {
+			chatLoader,
+			getEvents,
+		} = this.state;
+
+		chatLoader(() => {
+			setInterval(() => {
+				getEvents(this.checkEvents.bind(this));
+			}, 6000);
+		});
+
+		/*this.getInfo(() => {
 			const {
 				myInfo,
 			} = this.state;
@@ -107,7 +128,7 @@ export class Main extends React.Component {
 		} */
 	}
 
-	async getInfo(callback=null) {
+	/*async getInfo(callback=null) {
 		const info = {
 			chatsList: {},
 			messageList: {},
@@ -190,8 +211,8 @@ export class Main extends React.Component {
 				myInfo: null,
 			};
 		}
-		return info; */
-	}
+		return info;
+	}*/
 
 	async requireRecorder() {
 		if (this.state.mediaRecorder) {
@@ -261,6 +282,68 @@ export class Main extends React.Component {
 				this.disapearFrame();
 				break;
 		}
+	}
+
+	checkEvents(state) {
+		const {
+			events,
+			chatLoader
+		} = state.events;
+
+		const {
+			messageList,
+			chatsList,
+			myInfo,
+		} = chatLoader;
+
+		console.log(events);
+
+		events.forEach((event) => {
+			if ('newMessage' in event) {
+				const message = event.newMessage;
+				const attachment = message.addition;
+				const chatID = message.chatID;
+
+				const currentMessageList = messageList[chatID];
+
+				const myID = parseInt(myInfo.id);
+				const userID = parseInt(message.userID);
+				const ref = message.reference;
+
+				const newMessage = {
+					time: message.time,
+					text: message.text,
+					self: myID === userID,
+					status: message.status,
+				};
+
+				if (ref in currentMessageList){
+					currentMessageList[ref] = newMessage;
+				} else {
+					currentMessageList[message.id] = newMessage;
+				}
+				
+				chatsList[chatID].lastMessage = newMessage;
+				messageList[chatID] = currentMessageList;
+			} else if ('redMessage' in event) {
+				const {
+					chatID,
+					messageID,
+					reference,
+				} = event.redMessage;
+
+				const currentMessageList = messageList[chatID];
+
+				if (reference in currentMessageList){
+					currentMessageList[reference].status = 2;
+				} else {
+					currentMessageList[messageID].status = 2;
+				}
+
+				messageList[chatID] = currentMessageList;
+				chatsList[chatID].lastMessage.status = 2;
+			}
+		});
 	}
 
 	updateStatusMessageList(chatId, messageID, reference, status) {
@@ -470,21 +553,16 @@ export class Main extends React.Component {
 
 		const {
 			activeChat,
-			frameStyles,
-			chatsList,
-			messageList,
-			myInfo,
+			frameStyles
 		} = this.state;
 
 		return (
 			<Parent.Provider value={this}>
 				<div className={styles.wrap}>
-					<ChatList style={frameStyles.ChatList} chatsList={chatsList} />
+					<ChatList style={frameStyles.ChatList} />
 					<ChatForm
 						style={frameStyles.ChatForm}
-						myInfo={myInfo}
-						chatInfo={activeChat && activeChat in chatsList && chatsList[activeChat]}
-						messageList={activeChat && activeChat in messageList && messageList[activeChat]}
+						activeChat={activeChat}
 					/>
 					<Profile style={frameStyles.Profile} />
 				</div>
@@ -492,3 +570,14 @@ export class Main extends React.Component {
 		);
 	}
 }
+
+const mapDispatchToProps = {
+	chatLoader,
+	getEvents,
+};
+
+export default connect(
+  	null,
+  	mapDispatchToProps,
+)(Main);
+

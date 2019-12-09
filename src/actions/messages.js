@@ -6,36 +6,43 @@ import {
 	URL_REQUEST,
 } from '../constants/ActionTypes';
 
-const getMessagesSuccess = (messages) => ({
+const getMessagesSuccess = () => ({
 	type: GET_MESSAGES_SUCCESS,
-	payload: messages
 });
 
 const getMessagesStarted = () => ({
 	type: GET_MESSAGES_REQUEST,
 });
 
-const getMessagesFailure = (error) => ({
+const getMessagesFailure = (err) => ({
 	type: GET_MESSAGES_FAILURE,
 	payload: {
-		error  // error: error
-	}
+		error: err  // error: error
+	},
 });
 
-export function getMessages(chatID) {
-	return (dispatch, getState) => {
-		console.log('state: ', getState());
-		dispatch(getMessagesStarted());
+export async function getMessages(dispatch, getState, chatsIDs) {
+	dispatch(getMessagesStarted());
 
-		fetch(`${URL_REQUEST}/messages/?chat_id=${chatID}`, {
+	const messages = {};
+	let err_flag = false;
+
+	chatsIDs.forEach(async function(chatID) {
+		await fetch(`${URL_REQUEST}/messages/?chat_id=${chatID}`, {
 			method: 'GET'
 		})
 		.then(res => res.json())
 		.then(res => {
-			dispatch(getMessagesSuccess(res.response))
+			messages[chatID] = res.response;
 		})
 		.catch(err => {
-			dispatch(getMessagesFailure(err))
+			dispatch(getMessagesFailure(err));
+			err_flag = true;
 		});
-	}
+	});
+
+	if (err_flag) { return null; }
+
+	dispatch(getMessagesSuccess());
+	return messages;
 }

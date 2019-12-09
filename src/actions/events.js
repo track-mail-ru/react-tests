@@ -22,20 +22,21 @@ const getEventsFailure = (error) => ({
 	}
 });
 
-export function getEvents(myInfo) {
-	return (dispatch, getState) => {
+export default function(callback = null) {
+	return async (dispatch, getState) => {
 		console.log('state: ', getState());
-		dispatch(getUserStarted());
+		dispatch(getEventsStarted());
 
 		fetch(`${URL_REQUEST}/events/`, {
 			method: 'GET'
 		})
 		.then(res => res.json())
 		.then(res => {
-			dispatch(getUserSuccess(res.response))
+			dispatch(getEventsSuccess(res.response))
+			if (callback) { callback(getState()); }
 		})
 		.catch(err => {
-			dispatch(getUserFailure(err))
+			dispatch(getEventsFailure(err))
 		});
 	}
 }
