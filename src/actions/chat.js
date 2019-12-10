@@ -22,19 +22,19 @@ export function chatLoader(callback = null) {
 	return async function(dispatch, getState) {
 		dispatch(loadChatStarted());
 
-		let userInfo = await getUser(dispatch, getState);
+		const userInfo = await getUser(dispatch, getState);
 		if (!userInfo) {
 			console.log('Error: getUser()');
 			return false;
 		}
 
-		let chats = await getChats(dispatch, getState, userInfo);
+		const chats = await getChats(dispatch, getState, userInfo);
 		if (!chats) {
 			console.log('Error: getChats()');
 			return false;
 		}
 
-		let messages = await getMessages(dispatch, getState, Object.keys(chats));
+		const messages = await getMessages(dispatch, getState, Object.keys(chats));
 		if (!messages) {
 			console.log('Error: getMessages()');
 			return false;
@@ -49,7 +49,7 @@ export function chatLoader(callback = null) {
 		if (callback) {
 			callback();
 		}
-	}
+	};
 }
 
 export function updateChat(info) {
@@ -59,8 +59,8 @@ export function updateChat(info) {
 }
 
 function genUpdateChatState(chatState, chatID, messageID, reference, info) {
-	const messagesList = chatState.messagesList;
-	const chatsList = chatState.chatsList;
+	const {messagesList} = chatState;
+	const {chatsList} = chatState;
 	const messages = messagesList[chatID];
 
 	if (messages[messageID]) {
@@ -154,7 +154,7 @@ export function sendMessage(chatID, addition=null, additionType=null, message=nu
 
 export function sendForm(value = '', additions = null) {
 	return (dispatch, getState) => {
-		const activeChat = getState().globalState.state.activeChat;
+		const {activeChat} = getState().globalState.state;
 
 		if (!activeChat) { 
 			console.log('No activeChat');
@@ -189,5 +189,5 @@ export function sendForm(value = '', additions = null) {
 				value
 			)(dispatch, getState);
 		}
-	}
+	};
 }

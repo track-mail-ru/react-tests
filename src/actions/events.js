@@ -36,92 +36,92 @@ export function getEvents() {
 		fetch(`${URL_REQUEST}/events/`, {
 			method: 'GET'
 		})
-		.then(res => res.json())
-		.then(res => {
-			const events = res.response;
-			dispatch(getEventsSuccess(events));
-
-			const {
-				messagesList,
-				chatsList,
-				myInfo,
-			} = getState().chat;
-			
-			events.forEach((event) => {
-				const currentEvent = event.event;
+			.then(res => res.json())
+			.then(res => {
+				const events = res.response;
+				dispatch(getEventsSuccess(events));
 
 				const {
-					reference,
-					chatID,
-					id,
-				} = currentEvent;
+					messagesList,
+					chatsList,
+					myInfo,
+				} = getState().chat;
+			
+				events.forEach((event) => {
+					const currentEvent = event.event;
 
-				const currentMessageList = messagesList[chatID];
+					const {
+						reference,
+						chatID,
+						id,
+					} = currentEvent;
 
-				const attachment = currentEvent.addition;
-				const myID = parseInt(myInfo.id);
-				const userID = parseInt(currentEvent.userID);
+					const currentMessageList = messagesList[chatID];
 
-				switch (event.eventType) {
-					case 'newMessage':
-						const newMessage = {
-							time: currentEvent.time,
-							text: currentEvent.text,
-							self: myID === userID,
-							status: currentEvent.status,
-						};
+					const attachment = currentEvent.addition;
+					const myID = parseInt(myInfo.id);
+					const userID = parseInt(currentEvent.userID);
 
-						if (attachment) {
-							newMessage.addition = attachment;
-						}
+					switch (event.eventType) {
+						case 'newMessage':
+							const newMessage = {
+								time: currentEvent.time,
+								text: currentEvent.text,
+								self: myID === userID,
+								status: currentEvent.status,
+							};
+
+							if (attachment) {
+								newMessage.addition = attachment;
+							}
 						
-						chatsList[chatID].lastMessage = {
-							...newMessage,
-							reference,
-							id,
-						};
+							chatsList[chatID].lastMessage = {
+								...newMessage,
+								reference,
+								id,
+							};
 
-						if (newMessage.self) {
-							chatsList[chatID].countUnredMessages = 0;
-						} else if (!(reference in currentMessageList)) {
-							chatsList[chatID].countUnredMessages ++;
-						}
+							if (newMessage.self) {
+								chatsList[chatID].countUnredMessages = 0;
+							} else if (!(reference in currentMessageList)) {
+								chatsList[chatID].countUnredMessages ++;
+							}
 
-						currentMessageList[reference] = newMessage;
-						messagesList[chatID] = currentMessageList;
+							currentMessageList[reference] = newMessage;
+							messagesList[chatID] = currentMessageList;
 
-						break;
+							break;
 
-					case 'redMessage':
-						if (reference in currentMessageList){
-							currentMessageList[reference].status = 2;
-						} else {
-							currentMessageList[id].status = 2;
-						}
+						case 'redMessage':
+							if (reference in currentMessageList){
+								currentMessageList[reference].status = 2;
+							} else {
+								currentMessageList[id].status = 2;
+							}
 
-						messagesList[chatID] = currentMessageList;
+							messagesList[chatID] = currentMessageList;
 
-						if (chatsList[chatID].lastMessage.id === id
+							if (chatsList[chatID].lastMessage.id === id
 						|| chatsList[chatID].lastMessage.reference === reference) {
-							chatsList[chatID].lastMessage.status = 2;
-						}
+								chatsList[chatID].lastMessage.status = 2;
+							}
 
-						break;
-					default:
-						break;
-				}
+							break;
+						default:
+							break;
+					}
+				});
+
+				updateChat({
+					messagesList,
+					chatsList,
+					myInfo,
+				})(dispatch, getState);
+			})
+			.catch(err => {
+				console.log(err);
+				dispatch(getEventsFailure(err));
 			});
-
-			updateChat({
-				messagesList,
-				chatsList,
-				myInfo,
-			})(dispatch, getState);
-		})
-		.catch(err => {
-			console.log(err);
-			dispatch(getEventsFailure(err))
-		});
 	};
 }
 

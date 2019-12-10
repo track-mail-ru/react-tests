@@ -1,9 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Chat } from './Chat.js';
 import styles from '../static/styles/ChatList.module.css';
 import BaseForm from '../static/styles/BaseForm.module.css';
 
-import { connect } from 'react-redux';
 
 function ChatList(props) {
 	const {
@@ -49,11 +49,11 @@ function ChatList(props) {
 }
 
 const mapStateToProps = (state, props) => ({
-  	chatsList: state.chat.chatsList,
-  	...props,
-})
+	chatsList: state.chat.chatsList,
+	...props,
+});
 
 export default connect(
-  	mapStateToProps,
-  	null,
+	mapStateToProps,
+	null,
 )(ChatList);

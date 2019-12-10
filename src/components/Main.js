@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { InitializeRecordStream } from '../lib/InitializeRecordStrem';
 import ChatList from './ChatList';
 import ChatForm from './ChatForm';
@@ -6,7 +7,6 @@ import { Profile } from './Profile';
 import Parent from './Parent.Context';
 import styles from '../static/styles/Main.module.css';
 
-import { connect } from 'react-redux';
 import { chatLoader, updateChat } from '../actions/chat';
 import { getEvents, deleteEvents} from '../actions/events';
 import { updateState } from '../actions/globalState';
@@ -15,20 +15,10 @@ class Main extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const {
-			chatLoader,
-			getEvents,
-			deleteEvents,
-			updateState,
-			updateChat,
-		} = props;
-
 		this.state = {
-			chatLoader,
-			getEvents,
-			deleteEvents,
-			updateState,
-			updateChat,
+			chatLoader_: props.chatLoader,
+			getEvents_: props.getEvents,
+			updateState_: props.updateState,
 
 			mediaRecorder: null,
 			activeChat: null,
@@ -42,15 +32,15 @@ class Main extends React.Component {
 
 	componentDidMount() {
 		const {
-			chatLoader,
-			getEvents,
+			chatLoader_,
+			getEvents_,
 		} = this.state;
 
 		console.log('Loading...');
 
-		chatLoader(() => {
+		chatLoader_(() => {
 			setInterval(() => {
-				getEvents();
+				getEvents_();
 			}, 800);
 		});
 
@@ -114,7 +104,7 @@ class Main extends React.Component {
 		switch (true) {
 			case /chat\/\d+\/?$/.test(pathname):
 				const chatID = parseInt(pathname.match(/\d+/));
-				this.state.updateState({
+				this.state.updateState_({
 					activeChat: chatID,
 				});
 				this.apearFrame('ChatForm', {
@@ -156,13 +146,11 @@ class Main extends React.Component {
 const mapDispatchToProps = {
 	chatLoader,
 	getEvents,
-	deleteEvents,
 	updateState,
-	updateChat,
 };
 
 export default connect(
-  	null,
-  	mapDispatchToProps,
+	null,
+	mapDispatchToProps,
 )(Main);
 

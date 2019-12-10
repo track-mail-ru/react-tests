@@ -8,7 +8,7 @@ const initialState = {
 	state: {
 		activeChat: null,
 	},
-}
+};
 
 export default (state = initialState, action) => {
 	switch (action.type) {

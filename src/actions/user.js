@@ -28,15 +28,15 @@ export async function getUser(dispatch, getState) {
 	await fetch(`${URL_REQUEST}/users/`, {
 		method: 'GET'
 	})
-	.then(res => res.json())
-	.then(res => {
-		let info = res.response;
-		dispatch(getUserSuccess());
-		result = info;
-	})
-	.catch(err => {
-		dispatch(getUserFailure(err));
-	});
+		.then(res => res.json())
+		.then(res => {
+			const info = res.response;
+			dispatch(getUserSuccess());
+			result = info;
+		})
+		.catch(err => {
+			dispatch(getUserFailure(err));
+		});
 
 	return result;
 }

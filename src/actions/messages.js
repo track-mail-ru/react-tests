@@ -32,14 +32,14 @@ export async function getMessages(dispatch, getState, chatsIDs) {
 		errFlag = await fetch(`${URL_REQUEST}/messages/?chat_id=${chatID}`, {
 			method: 'GET'
 		})
-		.then(res => res.json())
-		.then(res => {
-			messages[chatID] = res.response;
-		})
-		.catch(err => {
-			dispatch(getMessagesFailure(err));
-			return true;
-		});
+			.then(res => res.json())
+			.then(res => {
+				messages[chatID] = res.response;
+			})
+			.catch(err => {
+				dispatch(getMessagesFailure(err));
+				return true;
+			});
 	}
 
 	if (errFlag) { return null; }

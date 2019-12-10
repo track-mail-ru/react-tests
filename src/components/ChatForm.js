@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import FormInput from './FormInput';
 import { DateMarker } from './DateMarker';
 import { MessageBox } from './MessageBox';
@@ -9,7 +10,6 @@ import styles from '../static/styles/ChatForm.module.css';
 import docImg from '../static/images/document.png';
 import imgImg from '../static/images/image.png';
 
-import { connect } from 'react-redux';
 
 function ChatForm(props) {
 	const {
@@ -126,13 +126,13 @@ function ChatForm(props) {
 }
 
 const mapStateToProps = (state, props) => ({
-  	chatInfo: state.chat.chatsList[props.activeChat],
-  	messageList: state.chat.messagesList[props.activeChat],
-  	myInfo: state.chat.myInfo,
-  	...props,
+	chatInfo: state.chat.chatsList[props.activeChat],
+	messageList: state.chat.messagesList[props.activeChat],
+	myInfo: state.chat.myInfo,
+	...props,
 });
 
 export default connect(
-  	mapStateToProps,
-  	null,
+	mapStateToProps,
+	null,
 )(ChatForm);

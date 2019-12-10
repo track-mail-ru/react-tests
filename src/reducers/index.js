@@ -4,7 +4,7 @@ import events from './events';
 import globalState from './globalState';
 
 export default combineReducers({
-  	chat,
-  	events,
-  	globalState,
+	chat,
+	events,
+	globalState,
 });

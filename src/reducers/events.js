@@ -9,7 +9,7 @@ const initialState = {
 	loading: false,
 	error: null,
 	events: [],
-}
+};
 
 export default (state = initialState, action) => {
 	switch (action.type) {

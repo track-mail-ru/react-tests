@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { geoLocation } from '../lib/Geolocation';
 import { startRecord, stopRecord } from '../lib/Recording';
 import { onFillImages, onFillDocuments } from '../lib/onFillInput';
@@ -6,7 +7,6 @@ import styles from '../static/styles/FormInput.module.css';
 import docImg from '../static/images/docImg.png';
 import geoImg from '../static/images/geoImg.png';
 import audioImg from '../static/images/audioImg.png';
-import { connect } from 'react-redux';
 import { sendForm } from '../actions/chat';
 
 function FormInput(props) {
@@ -14,7 +14,7 @@ function FormInput(props) {
 		requireRecorder,
 		placeholder,
 		mediaRecorder,
-		sendForm,
+		sendForm_,
 	} = props;
 
 	const [dragFiles, setDragFiles] = props.dragFiles;
@@ -34,9 +34,9 @@ function FormInput(props) {
 		if (value !== '' || additions) {
 			if (!additions || additions.type !== 'audio') {
 				input.current.value = '';
-				sendForm(value, additions);
+				sendForm_(value, additions);
 			} else {
-				sendForm('', additions);
+				sendForm_('', additions);
 			}
 			setAdditions(null);
 		}
@@ -325,18 +325,18 @@ function SendButton(props) {
 	return content;
 }
 
-/*const mapStateToProps = (state, props) => ({
-  	chatInfo: state.chat.chatsList[props.activeChat],
-  	messageList: state.chat.messagesList[props.activeChat],
-  	myInfo: state.chat.myInfo,
-  	...props,
-});*/
+/* const mapStateToProps = (state, props) => ({
+	chatInfo: state.chat.chatsList[props.activeChat],
+	messageList: state.chat.messagesList[props.activeChat],
+	myInfo: state.chat.myInfo,
+	...props,
+}); */
 
 const mapDispatchToProps = {
-	sendForm,
+	sendForm_: sendForm,
 };
 
 export default connect(
-  	null,
-  	mapDispatchToProps,
+	null,
+	mapDispatchToProps,
 )(FormInput);
