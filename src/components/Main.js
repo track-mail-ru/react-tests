@@ -7,8 +7,8 @@ import { Profile } from './Profile';
 import Parent from './Parent.Context';
 import styles from '../static/styles/Main.module.css';
 
-import { chatLoader, updateChat } from '../actions/chat';
-import { getEvents, deleteEvents} from '../actions/events';
+import { chatLoader } from '../actions/chat';
+import { getEvents } from '../actions/events';
 import { updateState } from '../actions/globalState';
 
 class Main extends React.Component {
