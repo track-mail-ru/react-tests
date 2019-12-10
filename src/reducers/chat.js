@@ -1,6 +1,6 @@
 import {
 	CHAT_LOAD_START,
-	CHAT_LOAD_SUCCESS,
+	UPLOAD_CHAT_INFO,
 	CHAT_LOAD_FAILURE,
 
 	GET_USER_FAILURE,
@@ -25,7 +25,7 @@ export default (state = initialState, action) => {
 				...state,
 				loading: true
 			};
-		case CHAT_LOAD_SUCCESS:
+		case UPLOAD_CHAT_INFO:
 			return {
 				loading: false,
 				error: null,

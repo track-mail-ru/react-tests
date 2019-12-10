@@ -2,6 +2,7 @@ import {
 	GET_EVENTS_REQUEST,
 	GET_EVENTS_SUCCESS,
 	GET_EVENTS_FAILURE,
+	DELETE_EVENTS,
 } from '../constants/ActionTypes';
 
 const initialState = {
@@ -29,7 +30,9 @@ export default (state = initialState, action) => {
 				loading: false,
 				error: action.payload.error
 			};
+		case DELETE_EVENTS:
+			return initialState;
 		default:
 			return state;
 	}
-}
+};

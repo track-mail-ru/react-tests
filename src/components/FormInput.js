@@ -6,13 +6,15 @@ import styles from '../static/styles/FormInput.module.css';
 import docImg from '../static/images/docImg.png';
 import geoImg from '../static/images/geoImg.png';
 import audioImg from '../static/images/audioImg.png';
+import { connect } from 'react-redux';
+import { sendForm } from '../actions/chat';
 
-export function FormInput(props) {
+function FormInput(props) {
 	const {
 		requireRecorder,
 		placeholder,
-		formEntered,
 		mediaRecorder,
+		sendForm,
 	} = props;
 
 	const [dragFiles, setDragFiles] = props.dragFiles;
@@ -32,9 +34,9 @@ export function FormInput(props) {
 		if (value !== '' || additions) {
 			if (!additions || additions.type !== 'audio') {
 				input.current.value = '';
-				formEntered(value, additions);
+				sendForm(value, additions);
 			} else {
-				formEntered('', additions);
+				sendForm('', additions);
 			}
 			setAdditions(null);
 		}
@@ -322,3 +324,19 @@ function SendButton(props) {
 
 	return content;
 }
+
+/*const mapStateToProps = (state, props) => ({
+  	chatInfo: state.chat.chatsList[props.activeChat],
+  	messageList: state.chat.messagesList[props.activeChat],
+  	myInfo: state.chat.myInfo,
+  	...props,
+});*/
+
+const mapDispatchToProps = {
+	sendForm,
+};
+
+export default connect(
+  	null,
+  	mapDispatchToProps,
+)(FormInput);

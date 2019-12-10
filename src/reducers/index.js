@@ -1,8 +1,10 @@
-import { combineReducers } from 'redux'
-import chatLoader from './chatLoader'
-import events from './events'
+import { combineReducers } from 'redux';
+import chat from './chat';
+import events from './events';
+import globalState from './globalState';
 
 export default combineReducers({
-  	chatLoader,
+  	chat,
   	events,
+  	globalState,
 });

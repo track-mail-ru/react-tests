@@ -25,10 +25,11 @@ export async function getMessages(dispatch, getState, chatsIDs) {
 	dispatch(getMessagesStarted());
 
 	const messages = {};
-	let err_flag = false;
+	let errFlag = false;
 
-	chatsIDs.forEach(async function(chatID) {
-		await fetch(`${URL_REQUEST}/messages/?chat_id=${chatID}`, {
+	for (const i in chatsIDs) {
+		const chatID = chatsIDs[i];
+		errFlag = await fetch(`${URL_REQUEST}/messages/?chat_id=${chatID}`, {
 			method: 'GET'
 		})
 		.then(res => res.json())
@@ -37,11 +38,11 @@ export async function getMessages(dispatch, getState, chatsIDs) {
 		})
 		.catch(err => {
 			dispatch(getMessagesFailure(err));
-			err_flag = true;
+			return true;
 		});
-	});
+	}
 
-	if (err_flag) { return null; }
+	if (errFlag) { return null; }
 
 	dispatch(getMessagesSuccess());
 	return messages;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormInput } from './FormInput';
+import FormInput from './FormInput';
 import { DateMarker } from './DateMarker';
 import { MessageBox } from './MessageBox';
 import { ChatHeader } from './ChatHeader';
@@ -115,7 +115,6 @@ function ChatForm(props) {
 						<FormInput
 							requireRecorder={value.requireRecorder.bind(value)}
 							mediaRecorder={value.state.mediaRecorder}
-							formEntered={value.formEntered.bind(value)}
 							dragFiles={[dragFiles, setDragFiles]}
 							placeholder="Ваше сообщение"
 						/>
@@ -127,9 +126,9 @@ function ChatForm(props) {
 }
 
 const mapStateToProps = (state, props) => ({
-  	chatInfo: state.chatLoader.chatsList[props.activeChat],
-  	messageList: state.chatLoader.messagesList[props.activeChat],
-  	myInfo: state.chatLoader.myInfo,
+  	chatInfo: state.chat.chatsList[props.activeChat],
+  	messageList: state.chat.messagesList[props.activeChat],
+  	myInfo: state.chat.myInfo,
   	...props,
 });
 

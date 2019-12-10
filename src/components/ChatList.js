@@ -21,7 +21,7 @@ function ChatList(props) {
 			const chat = chatsList[index];
 
 			if (chat.lastMessage.addition) {
-				chat.lastMessage.text = <a className={styles.addition}>Вложение</a>;
+				chat.lastMessage.text = <span className={styles.addition}>Вложение</span>;
 			}
 
 			const block = <Chat key={$i++} chatInfo={chat} />;
@@ -49,7 +49,7 @@ function ChatList(props) {
 }
 
 const mapStateToProps = (state, props) => ({
-  	chatsList: state.chatLoader.chatsList,
+  	chatsList: state.chat.chatsList,
   	...props,
 })
 
