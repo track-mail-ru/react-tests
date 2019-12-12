@@ -1,9 +1,12 @@
 import {
 	CHAT_LOAD_START,
 	UPLOAD_CHAT_INFO,
-
-	URL_REQUEST,
 } from '../constants/ActionTypes';
+
+import {
+	MESSAGE_STATUS,
+	URL_REQUEST,
+} from '../constants/helperConstant';
 
 import { getUser } from './user';
 import { getChats } from './chats';
@@ -95,7 +98,7 @@ export function sendMessage(chatID, addition=null, additionType=null, message=nu
 			time: currentTime,
 			text: message,
 			self: true,
-			status: 0,
+			status: MESSAGE_STATUS.sending,
 		};
 
 		const data = new FormData();
@@ -143,7 +146,7 @@ export function sendMessage(chatID, addition=null, additionType=null, message=nu
 				tempID,
 				{
 					...messageInfo,
-					status: 4,
+					status: MESSAGE_STATUS.error,
 				},
 			);
 
@@ -172,8 +175,8 @@ export function sendForm(value = '', additions = null) {
 				)(dispatch, getState);
 			});
 
-			let message = null;
-			if (value !== '') { message = value; }
+			let message;
+			if (!value) { message = value; }
 
 			sendMessage(
 				activeChat,

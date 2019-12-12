@@ -3,9 +3,12 @@ import {
 	GET_EVENTS_SUCCESS,
 	GET_EVENTS_FAILURE,
 	DELETE_EVENTS,
-
-	URL_REQUEST,
 } from '../constants/ActionTypes';
+
+import {
+	MESSAGE_STATUS,
+	URL_REQUEST,
+} from '../constants/helperConstant';
 
 import { updateChat } from './chat';
 
@@ -94,16 +97,16 @@ export function getEvents() {
 
 						case 'redMessage':
 							if (reference in currentMessageList){
-								currentMessageList[reference].status = 2;
+								currentMessageList[reference].status = MESSAGE_STATUS.read;
 							} else {
-								currentMessageList[id].status = 2;
+								currentMessageList[id].status = MESSAGE_STATUS.read;
 							}
 
 							messagesList[chatID] = currentMessageList;
 
 							if (chatsList[chatID].lastMessage.id === id
 						|| chatsList[chatID].lastMessage.reference === reference) {
-								chatsList[chatID].lastMessage.status = 2;
+								chatsList[chatID].lastMessage.status = MESSAGE_STATUS.read;
 							}
 
 							break;
@@ -119,7 +122,7 @@ export function getEvents() {
 				})(dispatch, getState);
 			})
 			.catch(err => {
-				console.log(err);
+				console.error(err);
 				dispatch(getEventsFailure(err));
 			});
 	};

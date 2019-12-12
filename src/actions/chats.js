@@ -2,9 +2,9 @@ import {
 	GET_CHATS_REQUEST,
 	GET_CHATS_SUCCESS,
 	GET_CHATS_FAILURE,
-
-	URL_REQUEST,
 } from '../constants/ActionTypes';
+
+import { URL_REQUEST } from '../constants/helperConstant';
 
 const getChatsSuccess = () => ({
 	type: GET_CHATS_SUCCESS,

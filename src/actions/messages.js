@@ -2,9 +2,9 @@ import {
 	GET_MESSAGES_REQUEST,
 	GET_MESSAGES_SUCCESS,
 	GET_MESSAGES_FAILURE,
-
-	URL_REQUEST,
 } from '../constants/ActionTypes';
+
+import { URL_REQUEST } from '../constants/helperConstant';
 
 const getMessagesSuccess = () => ({
 	type: GET_MESSAGES_SUCCESS,

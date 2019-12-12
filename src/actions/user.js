@@ -2,9 +2,9 @@ import {
 	GET_USER_REQUEST,
 	GET_USER_SUCCESS,
 	GET_USER_FAILURE,
-
-	URL_REQUEST,
 } from '../constants/ActionTypes';
+
+import { URL_REQUEST } from '../constants/helperConstant';
 
 const getUserSuccess = () => ({
 	type: GET_USER_SUCCESS,

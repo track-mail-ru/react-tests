@@ -1,5 +1,3 @@
-export const URL_REQUEST = 'http://192.168.1.76/back';
-
 export const CHAT_LOAD_START = '@@contacts/CHAT_LOAD_START';
 export const UPLOAD_CHAT_INFO = '@@contacts/UPLOAD_CHAT_INFO';
 export const CHAT_LOAD_FAILURE = '@@contacts/CHAT_LOAD_FAILURE';
