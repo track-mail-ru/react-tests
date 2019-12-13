@@ -28,6 +28,12 @@ export async function getUser(dispatch, getState) {
 	await fetch(`${URL_REQUEST}/users/`, {
 		method: 'GET'
 	})
+		.then(res => {
+			if (res.status !== 200) {
+				return Error('non auth');
+			}
+			return res;
+		})
 		.then(res => res.json())
 		.then(res => {
 			const info = res.response;

@@ -21,9 +21,25 @@ const loadChatStarted = () => ({
 	type: CHAT_LOAD_START,
 });
 
+export function checkAuth(success_callback = null, error_callback = null) {
+	return async function(dispatch, getState) {
+		const userInfo = await getUser(dispatch, getState);
+		if (!userInfo) {
+			console.log('Error: getUser()');
+			if (error_callback) { error_callback(); }
+			return false;
+		}
+
+		dispatch(uploadChatInfo({ myInfo: userInfo }));
+		if (success_callback) { success_callback(); }
+	};
+}
+
 export function chatLoader(callback = null) {
 	return async function(dispatch, getState) {
 		dispatch(loadChatStarted());
+
+		const userInfo = getState().chat.myInfo;
 
 		const chats = await getChats(dispatch, getState, userInfo);
 		if (!chats) {
