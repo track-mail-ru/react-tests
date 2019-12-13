@@ -1,0 +1,19 @@
+@font-face {
+    font-family: "VoiceoftheHighlander";
+    src: url("../fonts/VoiceoftheHighlander/VoiceoftheHighlander.eot");
+    src: url("../fonts/VoiceoftheHighlander/VoiceoftheHighlander.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/VoiceoftheHighlander/VoiceoftheHighlander.woff") format("woff"),
+    url("../fonts/VoiceoftheHighlander/VoiceoftheHighlander.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "AgoraSansProBold";
+    src: url("../fonts/AgoraSansProBold/AgoraSansProBold.eot");
+    src: url("../fonts/AgoraSansProBold/AgoraSansProBold.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/AgoraSansProBold/AgoraSansProBold.woff") format("woff"),
+    url("../fonts/AgoraSansProBold/AgoraSansProBold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}

@@ -1,10 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Chat } from './Chat.js';
 import styles from '../static/styles/ChatList.module.css';
 import BaseForm from '../static/styles/BaseForm.module.css';
 
-export function ChatList(props) {
-	const { style, chatsList } = props;
+function ChatList(props) {
+	const {
+		style,
+		chatsList
+	} = props;
+
 	let list = [];
 	if (!chatsList || !Object.keys(chatsList).length) {
 		list = <div className={styles.noneMessages}>Сообщений пока нет (</div>;
@@ -13,13 +18,18 @@ export function ChatList(props) {
 		let $i = 0;
 		Object.keys(chatsList).forEach((index) => {
 			const chat = chatsList[index];
+
+			if (chat.lastMessage.addition) {
+				chat.lastMessage.text = <span className={styles.addition}>Вложение</span>;
+			}
+
 			const block = <Chat key={$i++} chatInfo={chat} />;
-			if (chat.lastMessageTime > lastChatTime) {
+			if (chat.lastMessage.time > lastChatTime) {
 				list.unshift(block);
 			} else {
 				list.push(block);
 			}
-			lastChatTime = chat.lastMessageTime;
+			lastChatTime = chat.lastMessage.time;
 		});
 	}
 
@@ -36,3 +46,14 @@ export function ChatList(props) {
 		</div>
 	);
 }
+
+const mapStateToProps = (state, props) => ({
+	chatsList: state.chat.chatsList,
+	style: state.globalState.state.frameStyles.ChatList,
+	...props,
+});
+
+export default connect(
+	mapStateToProps,
+	null,
+)(ChatList);

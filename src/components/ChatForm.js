@@ -1,15 +1,16 @@
 import React from 'react';
-import { FormInput } from './FormInput';
+import { connect } from 'react-redux';
+import FormInput from './FormInput';
 import { DateMarker } from './DateMarker';
 import { MessageBox } from './MessageBox';
 import { ChatHeader } from './ChatHeader';
 import { ItIsThatDay } from '../lib/ItIsThatDay';
-import Parent from './Parent.Context';
 import styles from '../static/styles/ChatForm.module.css';
 import docImg from '../static/images/document.png';
 import imgImg from '../static/images/image.png';
 
-export function ChatForm(props) {
+
+function ChatForm(props) {
 	const {
 		style,
 		messageList,
@@ -21,7 +22,7 @@ export function ChatForm(props) {
 	const [dragActive, setDragActive] = React.useState(false);
 	const [dragFiles, setDragFiles] = React.useState(null);
 
-	if (!chatInfo) {
+	if (!chatInfo || !messageList) {
 		return '';
 	}
 
@@ -31,7 +32,7 @@ export function ChatForm(props) {
 
 	if (!messageList) {
 		list = <DateMarker/>;
-	} 
+	}
 
 	Object.keys(messageList).forEach((index) => {
 		const elem = messageList[index];
@@ -98,28 +99,38 @@ export function ChatForm(props) {
 					)
 				}
 			</div>
-			<Parent.Consumer>
-				{(value) => <ChatHeader chatInfo={chatInfo} />}
-			</Parent.Consumer>
+			<ChatHeader chatInfo={chatInfo} />
 			<div className={styles.content}>
 				<div className={styles.messageWrap}>
-					{() => !list.lenght && <DateMarker />}
-					{list}
+					{[
+						() => !list.lenght && <DateMarker />,
+						list,
+					]}
 				</div>
 			</div>
 			<div className={styles.footer}>
-				<Parent.Consumer>
-					{(value) => (
-						<FormInput
-							requireRecorder={value.requireRecorder.bind(value)}
-							mediaRecorder={value.state.mediaRecorder}
-							formEntered={value.formEntered.bind(value)}
-							dragFiles={[dragFiles, setDragFiles]}
-							placeholder="Ваше сообщение"
-						/>
-					)}
-				</Parent.Consumer>
+				<FormInput
+					dragFiles={[dragFiles, setDragFiles]}
+					placeholder="Ваше сообщение"
+				/>
 			</div>
 		</div>
 	);
 }
+
+const mapStateToProps = (state, props) => ({
+	chatInfo: state.chat.chatsList[
+		state.globalState.state.activeChat
+	],
+	messageList: state.chat.messagesList[
+		state.globalState.state.activeChat
+	],
+	myInfo: state.chat.myInfo,
+	style: state.globalState.state.frameStyles.ChatForm,
+	...props,
+});
+
+export default connect(
+	mapStateToProps,
+	null,
+)(ChatForm);

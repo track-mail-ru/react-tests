@@ -36,6 +36,10 @@
 		"DEBUG": false
 	},
 	"rules": {
+		"no-param-reassign": 1,
+		"consistent-return": 0,
+		"no-await-in-loop": 1,
+		"guard-for-in": 1,
 		"jsx-a11y/media-has-caption": 1,
 		"react/no-array-index-key": 1,
 		"jsx-a11y/no-noninteractive-element-interactions": 0,

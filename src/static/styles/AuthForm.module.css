@@ -1,0 +1,70 @@
+.wrap {
+	z-index: 2;
+}
+
+.content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.authForm {
+	width: 80%;
+	max-width: 300px;
+	display: flex;
+	flex-direction: column;
+}
+
+.logo {
+	font-size: 45px;
+	font-family: VoiceoftheHighlander;
+	color: #BBB;
+	text-align: center;
+	text-shadow: 2px 2px 1px #333;
+	margin-bottom: 20px;
+}
+
+.buttons {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.button {
+	width: 100%;
+	padding: 15px;
+	border-radius: 10px;
+	border: 1px solid #333;
+	background-color: #BBB;
+	text-align: center;
+	font-size: 18px;
+	font-family: AgoraSansProBold;
+	cursor: pointer;
+	margin-top: 10px;
+	text-shadow: 1px 1px 1px #444;
+	opacity: 0.8;
+	transition-duration: 0.2s;
+}
+
+.button:hover {
+	opacity: 1.0;
+}
+
+.button:active {
+	box-shadow: 0px 0px 5px 0 #444;
+}
+
+.vk {
+	background: linear-gradient(to bottom, #4A76A8, #416894);
+}
+
+.face {
+	background: linear-gradient(to bottom, #3C5A98, #334E82);
+}
+
+.inst {
+	background: linear-gradient(to bottom, #7243BA, #E53A6F);
+	font-family: VoiceoftheHighlander;
+	font-size: 25px;
+	padding: 10px;
+}
