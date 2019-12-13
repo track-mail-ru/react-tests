@@ -1,6 +1,7 @@
 import React from 'react';
 import { TimeToTime } from '../lib/TimeToTime';
 import styles from '../static/styles/MessageBox.module.css';
+import { MESSAGE_STATUS } from '../constants/helperConstant';
 
 export function MessageBox(props) {
 	const { info } = props;
@@ -12,19 +13,23 @@ export function MessageBox(props) {
 
 	let conteinerClass = null;
 	let color = null;
+
 	switch (info.status) {
-		case 0:
+		case MESSAGE_STATUS.sending:
 			conteinerClass = styles.newBox;
 			color = '#9DD4F3';
 			break;
-		case 1:
+		case MESSAGE_STATUS.sent:
 			color = '#3958F3';
 			break;
-		case 3:
+		case MESSAGE_STATUS.read:
+			color = 'transparent';
+			break;
+		case MESSAGE_STATUS.new:
 			color = '#3958F3';
 			conteinerClass = styles.newBox;
 			break;
-		case 4:
+		case MESSAGE_STATUS.error:
 			color = '#F32626';
 			break;
 		default:

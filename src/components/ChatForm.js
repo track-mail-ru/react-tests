@@ -18,7 +18,7 @@ function ChatForm(props) {
 		chatInfo,
 		myInfo,
 	} = props;
-
+	
 	const isImage = false;
 	const [dragActive, setDragActive] = React.useState(false);
 	const [dragFiles, setDragFiles] = React.useState(null);
