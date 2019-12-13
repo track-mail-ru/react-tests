@@ -21,17 +21,17 @@ const loadChatStarted = () => ({
 	type: CHAT_LOAD_START,
 });
 
-export function checkAuth(success_callback = null, error_callback = null) {
+export function checkAuth(successCallback = null, errorCallback = null) {
 	return async function(dispatch, getState) {
 		const userInfo = await getUser(dispatch, getState);
 		if (!userInfo) {
 			console.log('Error: getUser()');
-			if (error_callback) { error_callback(); }
+			if (errorCallback) { errorCallback(); }
 			return false;
 		}
 
 		dispatch(uploadChatInfo({ myInfo: userInfo }));
-		if (success_callback) { success_callback(); }
+		if (successCallback) { successCallback(); }
 	};
 }
 

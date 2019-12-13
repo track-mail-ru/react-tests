@@ -6,10 +6,10 @@ import Profile from './Profile';
 import AuthForm from './AuthForm';
 import styles from '../static/styles/Main.module.css';
 
-import { chatLoader } from '../actions/chat';
+import { chatLoader , checkAuth } from '../actions/chat';
 import { getEvents } from '../actions/events';
 import { updateState, setFrameStyle } from '../actions/globalState';
-import { checkAuth } from '../actions/chat';
+
 
 class Main extends React.Component {
 	constructor(props) {
