@@ -18,3 +18,4 @@ deploy:
       - master
       - devel
       - devel_new
+      - devel_2

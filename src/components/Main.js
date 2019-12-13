@@ -9,12 +9,11 @@ import styles from '../static/styles/Main.module.css';
 export class Main extends React.Component {
 	constructor(props) {
 		super(props);
-		const info = this.getInfo();
 		this.mediaRecorder = null;
 		this.state = {
-			chatsList: info.chatsList,
-			messageList: info.messageList,
-			myInfo: info.messageList,
+			chatsList: {},
+			messageList: {},
+			myInfo: null,
 			mediaRecorder: null,
 			activeChat: null,
 			frameStyles: {
@@ -25,9 +24,161 @@ export class Main extends React.Component {
 		};
 	}
 
-	getInfo() {
-		let info = null;
-		try {
+	componentDidMount() {
+		this.getInfo(() => {
+			const {
+				myInfo,
+			} = this.state;
+
+			const url = 'http://192.168.1.6/back/events/';
+
+			const myId = myInfo.id;
+
+			setInterval(() => {
+				fetch(url, {
+					method: 'GET'
+				})
+					.then((res) => res.json())
+					.then((res) => {
+						const list = res.response;
+						list.forEach((event) => {
+							console.log(event);
+							if ('newMessage' in event) {
+								const message = event.newMessage;
+								const attachment = message.addition;
+
+								this.addMessageToList(
+									message.chatID,
+									message.reference,
+									message.time,
+									(message.userID === myId),
+									message.status,
+									message.text,
+									attachment,
+								);
+							} else if ('redMessage' in event) {
+								const {
+									chatID,
+									messageID,
+									reference,
+								} = event.redMessage;
+								this.updateStatusMessageList(
+									chatID,
+									messageID,
+									reference,
+									2
+								);
+							}
+						});
+					}).catch(console.log);
+			}, 500);
+		});
+
+		/* let source = new EventSource(url);
+
+		source.onopen = (event) => {
+			console.log('Stream was opened');
+		}
+
+		source.onmessage = (event) => {
+			let data = JSON.parse(event.data);
+			if (data && 'text' in data) {
+				
+
+				const currentMessage = {
+					time: (new Date(data.timestamp)).getTime(),
+					text: data.text,
+					self: false,
+					status: 2,
+				};
+
+				const messageList = this.state.messageList;
+				messageList[2].push(currentMessage);
+
+				this.setState({
+					messageList,
+				});
+			}
+		}
+
+		source.onerror = (event) => {
+			console.log(event);
+			source = new EventSource(url);
+		} */
+	}
+
+	async getInfo(callback=null) {
+		const info = {
+			chatsList: {},
+			messageList: {},
+			myInfo: null,
+		};
+
+		await fetch('http://192.168.1.6/back/users/', {
+			method: 'GET'
+		})
+			.then((response) => response.json())
+			.then((response) => {
+				info.myInfo = response.response;
+			});
+
+		await fetch('http://192.168.1.6/back/chats/', {
+			method: 'GET'
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				const { response } = res;
+				let i = 0;
+				const keys = Object.keys(response);
+				keys.forEach((index) => {
+					const chat = response[index];
+
+					const chatInfo = {
+						id: chat.id,
+						chatName: chat.chatName,
+						isGroupChat: chat.isGroupChat,
+						avatar: chat.avatar,
+						countUnredMessages: chat.countUnredMessages,
+						lastMessage: chat.lastMessage,
+						penPals: chat.penPals,
+					};
+
+					if (!chatInfo.isGroupChat) {
+						const penPalsIDs = Object.keys(chatInfo.penPals);
+						let penPalID = penPalsIDs.shift();
+						if (parseInt(penPalID) === parseInt(info.myInfo.id)) {
+							penPalID = penPalsIDs.shift();
+						}
+						chatInfo.penPal = chatInfo.penPals[penPalID];
+						chatInfo.chatName = chatInfo.penPal.fullName;
+						delete chatInfo.penPals;
+					}
+
+					info.chatsList[index] = chatInfo;
+				
+					fetch(`http://192.168.1.6/back/messages/?chat_id=${index}`, {
+						method: 'GET'
+					})
+						.then((res_) => res_.json())
+						.then((res_) => {
+							info.messageList[index] = response.res_;
+							if (keys.length === i) {
+								this.setState(info);
+								if (callback) { callback(); }
+								console.log('Data was recieved');
+							}
+						})
+						.catch(console.log);
+
+					i++;
+				});
+			})
+			.catch(console.log);
+
+		
+
+		/* try {
+
 			info = {
 				chatsList: JSON.parse(localStorage.getItem('chatsList')),
 				messageList: JSON.parse(localStorage.getItem('messageList')),
@@ -40,7 +191,7 @@ export class Main extends React.Component {
 				myInfo: null,
 			};
 		}
-		return info;
+		return info; */
 	}
 
 	async requireRecorder() {
@@ -98,7 +249,7 @@ export class Main extends React.Component {
 	myRouter() {
 		const { pathname } = this.props.location;
 		switch (true) {
-			case /chat\/\d\/?$/.test(pathname):
+			case /chat\/\d+\/?$/.test(pathname):
 				const chatId = parseInt(pathname.match(/\d+/));
 				this.apearFrame('ChatForm', {
 					activeChat: chatId,
@@ -113,11 +264,148 @@ export class Main extends React.Component {
 		}
 	}
 
+	updateStatusMessageList(chatId, messageID, reference, status) {
+		const {
+			messageList,
+			chatsList,
+		} = this.state;
+
+		const messages = messageList[chatId];
+
+		if (messages[reference]) {
+			messages[reference].status = status;
+		} else if (messages[messageID]) {
+			messages[messageID].status = status;
+		}
+
+		messageList[chatId] = messages;
+		chatsList[chatId].lastMessage.status = status;
+
+		this.setState({
+			messageList,
+			chatsList,
+		});
+	}
+
+	addMessageToList(chatId, messageID, time, isSelf, status, text=null, attachment=null) {
+		const {
+			messageList,
+			chatsList,
+		} = this.state;
+
+		const info = {
+			time,
+			text,
+			self: isSelf,
+			status,
+		};
+
+		if (attachment) {
+			info.addition = attachment;
+		}
+
+		messageList[chatId][messageID] = info;
+
+		chatsList[chatId].lastMessage.text = text;
+		chatsList[chatId].lastMessage.time = time;
+		chatsList[chatId].lastMessage.status = status;
+
+
+		if (isSelf) {
+			chatsList[chatId].countUnredMessages = 0;
+		} else {
+			chatsList[chatId].countUnredMessages ++;
+		}
+		
+		this.setState({
+			messageList,
+			chatsList,
+		});
+	}
+
+	async sendMessage(chatID, addition=null, additionType=null, message=null) {
+		const currentTime = new Date().getTime();
+		const random = parseInt(Math.random() * 1000);
+		const tempID = `${currentTime}_${random}`;
+
+		const addMessage = (status) => {
+			this.addMessageToList(
+				chatID,
+				tempID,
+				currentTime,
+				true,
+				status,
+				message,
+				{...addition, type: additionType}
+			);
+		};
+
+		addMessage(0);
+
+		const data = new FormData();
+
+		if (message) {
+			data.append('text', message);
+		}
+
+		if (addition) {
+			data.append('attachment_type', additionType);
+			data.append('attachment', addition.file);
+		}
+
+		data.append('reference', tempID);
+		data.append('chat_id', chatID);
+
+		fetch('http://192.168.1.6/back/messages/add/', {
+			method: 'POST',
+			body: data,
+		}).then((response) => {
+			if (response.status !== 200) {
+				throw new Error(response.statusText);
+			} else {
+				console.log('Сообщение отправлено');
+			}
+		}).catch(() => {
+			addMessage(4);
+		});
+	}
+
 	formEntered(value, additions = null) {
 		const {
-			activeChat,
-			messageList
+			activeChat
 		} = this.state;
+
+		if (additions) {
+			const lastAddition = additions.list.shift();
+
+			additions.list.forEach((addition) => {
+				this.sendMessage(
+					activeChat,
+					addition,
+					additions.type
+				);
+			});
+
+			let message = null;
+			if (value !== '') { message = value; }
+
+			this.sendMessage(
+				activeChat,
+				lastAddition,
+				additions.type,
+				message
+			);
+		} else {
+			this.sendMessage(
+				activeChat,
+				null,
+				null,
+				value
+			);
+		}
+		/*
+
+		
 
 		if (additions) {
 			const countAdditions = additions.list.length;
@@ -160,11 +448,22 @@ export class Main extends React.Component {
 			};
 
 			messageList[activeChat - 1].push(currentMessage);
+
+			const data = new FormData();
+			data.append('text', value);
+			data.append('author', "АЛёшка");
+
+			fetch('http://192.168.1.11:9000/add-message', {
+				method: 'POST',
+				body: data,
+			}).then(() => {
+				alert('сообщение отправлено');
+			}).catch(console.log);
 		}
 
 		this.setState({
 			messageList,
-		});
+		}); */
 	}
 
 	render() {
@@ -185,8 +484,8 @@ export class Main extends React.Component {
 					<ChatForm
 						style={frameStyles.ChatForm}
 						myInfo={myInfo}
-						chatInfo={activeChat && chatsList[activeChat - 1]}
-						messageList={activeChat && messageList[activeChat - 1]}
+						chatInfo={activeChat && activeChat in chatsList && chatsList[activeChat]}
+						messageList={activeChat && activeChat in messageList && messageList[activeChat]}
 					/>
 					<Profile style={frameStyles.Profile} />
 				</div>
