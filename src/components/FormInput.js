@@ -8,12 +8,13 @@ import docImg from '../static/images/docImg.png';
 import geoImg from '../static/images/geoImg.png';
 import audioImg from '../static/images/audioImg.png';
 import { sendForm } from '../actions/chat';
+import { requireRecorder } from '../actions/globalState';
 
 function FormInput(props) {
 	const {
-		requireRecorder,
+		requireRecorder_,
 		placeholder,
-		mediaRecorder,
+		mediaRecorder_,
 		sendForm_,
 	} = props;
 
@@ -143,12 +144,12 @@ function FormInput(props) {
 				/>
 				<SendButton
 					cancel={() => {
-						stopRecord(mediaRecorder, () => {
+						stopRecord(mediaRecorder_, () => {
 							recordStatus(false);
 						});
 					}}
 					record={() => {
-						requireRecorder().then((media) => {
+						requireRecorder_().then((media) => {
 							startRecord(media, () => {
 								recordStatus(true);
 							}, () => {
@@ -325,18 +326,17 @@ function SendButton(props) {
 	return content;
 }
 
-/* const mapStateToProps = (state, props) => ({
-	chatInfo: state.chat.chatsList[props.activeChat],
-	messageList: state.chat.messagesList[props.activeChat],
-	myInfo: state.chat.myInfo,
+const mapStateToProps = (state, props) => ({
+	mediaRecorder_: state.globalState.state.mediaRecorder,
 	...props,
-}); */
+}); 
 
 const mapDispatchToProps = {
 	sendForm_: sendForm,
+	requireRecorder_: requireRecorder,
 };
 
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps,
 )(FormInput);

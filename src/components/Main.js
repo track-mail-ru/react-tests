@@ -1,32 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { InitializeRecordStream } from '../lib/InitializeRecordStrem';
 import ChatList from './ChatList';
 import ChatForm from './ChatForm';
-import { Profile } from './Profile';
-import Parent from './Parent.Context';
+import Profile from './Profile';
 import styles from '../static/styles/Main.module.css';
 
 import { chatLoader } from '../actions/chat';
 import { getEvents } from '../actions/events';
-import { updateState } from '../actions/globalState';
+import { updateState, setFrameStyle } from '../actions/globalState';
 
 class Main extends React.Component {
 	constructor(props) {
 		super(props);
-
 		this.state = {
 			chatLoader_: props.chatLoader,
 			getEvents_: props.getEvents,
 			updateState_: props.updateState,
-
-			mediaRecorder: null,
-			activeChat: null,
-			frameStyles: {
-				ChatForm: null,
-				ChatList: null,
-				Profile: null,
-			},
+			setFrameStyle_: props.setFrameStyle,
+			frameStyles: props.frameStyles,
 		};
 	}
 
@@ -47,55 +38,44 @@ class Main extends React.Component {
 		console.log('Load сomplete!');
 	}
 
-	async requireRecorder() {
-		if (this.state.mediaRecorder) {
-			return this.state.mediaRecorder;
+	apearFrame(framename, newState = null) {
+		const {
+			updateState_,
+			setFrameStyle_,
+		} = this.state;
+
+		if (newState) {
+			updateState_(newState);
 		}
 
-		return InitializeRecordStream().then((value) => {
-			this.setState({mediaRecorder: value});
-			return value;
-		}).catch((err) => {
-			throw new Error(err);
+		setFrameStyle_(framename, {
+			animationName: styles.chatApear,
 		});
 	}
 
-	apearFrame(framename, newState = null) {
-		let { state } = this;
-		state.frameStyles[framename] = {
-			animationName: styles.chatApear,
-		};
+	disapearFrame(framename = null, newState = null) {
+		const {
+			updateState_,
+			setFrameStyle_,
+			frameStyles,
+		} = this.state;
 
-		if (newState && newState instanceof Object) {
-			state = Object.assign(state, newState);
+		if (newState) {
+			updateState_(newState);
 		}
-
-		if (state !== this.state) {
-			this.setState(state);
-		}
-	}
-
-	disapearFrame(framename = null) {
-		const { state } = this;
-
-		const style = {
-			animationName: styles.chatDisapear,
-		};
 
 		if (!framename) {
-			const { frameStyles } = state;
-			for (const frame in frameStyles) {
-				if (frameStyles[frame]) {
-					frameStyles[frame] = style;
+			Object.keys(frameStyles).forEach((name) => {
+				if (frameStyles[name]) {
+					setFrameStyle_(name, {
+						animationName: styles.chatDisapear,
+					});
 				}
-			}
-			state.frameStyles = frameStyles;
-		} else if (state.frameStyles[framename]) {
-			state.frameStyles[framename] = style;
-		}
-
-		if (state !== this.state) {
-			this.setState(state);
+			});
+		} else {
+			setFrameStyle_(framename, {
+				animationName: styles.chatDisapear,
+			});
 		}
 	}
 
@@ -104,9 +84,6 @@ class Main extends React.Component {
 		switch (true) {
 			case /chat\/\d+\/?$/.test(pathname):
 				const chatID = parseInt(pathname.match(/\d+/));
-				this.state.updateState_({
-					activeChat: chatID,
-				});
 				this.apearFrame('ChatForm', {
 					activeChat: chatID,
 				});
@@ -123,34 +100,30 @@ class Main extends React.Component {
 	render() {
 		this.myRouter();
 
-		const {
-			activeChat,
-			frameStyles
-		} = this.state;
-
 		return (
-			<Parent.Provider value={this}>
-				<div className={styles.wrap}>
-					<ChatList style={frameStyles.ChatList} />
-					<ChatForm
-						style={frameStyles.ChatForm}
-						activeChat={activeChat}
-					/>
-					<Profile style={frameStyles.Profile} />
-				</div>
-			</Parent.Provider>
+			<div className={styles.wrap}>
+				<ChatList/>
+				<ChatForm/>
+				<Profile/>
+			</div>
 		);
 	}
 }
+
+const mapStateToProps = (state, props) => ({
+	frameStyles: state.globalState.state.frameStyles,
+	...props,
+}); 
 
 const mapDispatchToProps = {
 	chatLoader,
 	getEvents,
 	updateState,
+	setFrameStyle,
 };
 
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps,
 )(Main);
 

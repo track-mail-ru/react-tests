@@ -6,7 +6,13 @@ import {
 const initialState = {
 	error: null,
 	state: {
+		mediaRecorder: null,
 		activeChat: null,
+		frameStyles: {
+			ChatForm: null,
+			ChatList: null,
+			Profile: null,
+		}
 	},
 };
 

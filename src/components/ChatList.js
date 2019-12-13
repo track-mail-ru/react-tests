@@ -50,6 +50,7 @@ function ChatList(props) {
 
 const mapStateToProps = (state, props) => ({
 	chatsList: state.chat.chatsList,
+	style: state.globalState.state.frameStyles.ChatList,
 	...props,
 });
 

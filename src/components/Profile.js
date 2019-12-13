@@ -1,9 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { InfoInput } from './InfoInput';
 import styles from '../static/styles/Profile.module.css';
 import BaseForm from '../static/styles/BaseForm.module.css';
 
-export function Profile(props) {
+function Profile(props) {
 	const {
 		style,
 	} = props;
@@ -59,3 +60,14 @@ export function Profile(props) {
 		</div>
 	);
 }
+
+const mapStateToProps = (state, props) => ({
+	style: state.globalState.state.frameStyles.Profile,
+	...props,
+});
+
+export default connect(
+	mapStateToProps,
+	null,
+)(Profile);
+
