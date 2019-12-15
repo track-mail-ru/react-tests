@@ -10,8 +10,8 @@ export function Chat(props) {
 	const { lastMessage } = chatInfo;
 	const time = TimeToDate(lastMessage.time);
 
-	let statusContent = null;
-	let status = null;
+	let statusContent;
+	let status;
 	switch (lastMessage.status) {
 		case 0:
 			status = styles.sending;

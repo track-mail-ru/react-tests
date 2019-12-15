@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { geoLocation } from '../lib/Geolocation';
 import { startRecord, stopRecord } from '../lib/Recording';
 import { onFillImages, onFillDocuments } from '../lib/onFillInput';
@@ -6,13 +7,15 @@ import styles from '../static/styles/FormInput.module.css';
 import docImg from '../static/images/docImg.png';
 import geoImg from '../static/images/geoImg.png';
 import audioImg from '../static/images/audioImg.png';
+import { sendForm } from '../actions/chat';
+import { requireRecorder } from '../actions/globalState';
 
-export function FormInput(props) {
+function FormInput(props) {
 	const {
-		requireRecorder,
+		requireRecorder_,
 		placeholder,
-		formEntered,
-		mediaRecorder,
+		mediaRecorder_,
+		sendForm_,
 	} = props;
 
 	const [dragFiles, setDragFiles] = props.dragFiles;
@@ -32,9 +35,9 @@ export function FormInput(props) {
 		if (value !== '' || additions) {
 			if (!additions || additions.type !== 'audio') {
 				input.current.value = '';
-				formEntered(value, additions);
+				sendForm_(value, additions);
 			} else {
-				formEntered('', additions);
+				sendForm_('', additions);
 			}
 			setAdditions(null);
 		}
@@ -141,12 +144,12 @@ export function FormInput(props) {
 				/>
 				<SendButton
 					cancel={() => {
-						stopRecord(mediaRecorder, () => {
+						stopRecord(mediaRecorder_, () => {
 							recordStatus(false);
 						});
 					}}
 					record={() => {
-						requireRecorder().then((media) => {
+						requireRecorder_().then((media) => {
 							startRecord(media, () => {
 								recordStatus(true);
 							}, () => {
@@ -322,3 +325,18 @@ function SendButton(props) {
 
 	return content;
 }
+
+const mapStateToProps = (state, props) => ({
+	mediaRecorder_: state.globalState.state.mediaRecorder,
+	...props,
+}); 
+
+const mapDispatchToProps = {
+	sendForm_: sendForm,
+	requireRecorder_: requireRecorder,
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)(FormInput);
