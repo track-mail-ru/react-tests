@@ -13,22 +13,39 @@ class Main extends React.Component {
 		super(props);
 		this.state = {
 			getWeather_: props.getWeather,
+			citiesID: [
+				524901,
+				703448,
+				2643743,
+			]
 		};
 	}
 
 	componentDidMount() {
-		const { getWeather_ } = this.state;
+		const { 
+			getWeather_,
+			citiesID,
+		} = this.state;
 
-		const list = [
-			524901,
-			703448,
-			2643743
-		]; 
+		getWeather_(citiesID);
+	}
 
-		getWeather_(list);
+	generateList(weatherList) {
+		return weatherList.map((elem) => {
+			return <WheatherBox />;
+		});
 	}
 
 	render() {
+		const {
+			weather,
+		} = this.props;
+
+		let weatherList;
+		if (weather.list) {
+			weatherList = this.generateList(weather.list);
+		}
+		
 		return (
 			<Router>
 				<div className={styles.globalWrap}>
@@ -44,7 +61,7 @@ class Main extends React.Component {
 									</span>
 								</div>
 								<div className={styles.content}>
-									<WheatherBox />
+									{weatherList}
 								</div>
 							</div>
 							<Link to='/search'>
@@ -58,17 +75,17 @@ class Main extends React.Component {
 	}
 }
 
-/*const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state, props) => ({
 	weather: state.weather.state,
 	...props,
-}); */
+}); 
 
 const mapDispatchToProps = {
 	getWeather,
 };
 
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps,
 )(Main);
 
