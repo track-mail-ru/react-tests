@@ -32,7 +32,7 @@ class Main extends React.Component {
 
 	generateList(weatherList) {
 		return weatherList.map((elem) => {
-			return <WheatherBox />;
+			return <WheatherBox info={elem} />;
 		});
 	}
 
