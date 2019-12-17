@@ -40,7 +40,7 @@ export function chatLoader(callback = null) {
 		dispatch(loadChatStarted());
 
 		const userInfo = getState().chat.myInfo;
-
+    
 		const chats = await getChats(dispatch, getState, userInfo);
 		if (!chats) {
 			console.log('Error: getChats()');

@@ -10,7 +10,6 @@ import { chatLoader , checkAuth } from '../actions/chat';
 import { getEvents } from '../actions/events';
 import { updateState, setFrameStyle } from '../actions/globalState';
 
-
 class Main extends React.Component {
 	constructor(props) {
 		super(props);
