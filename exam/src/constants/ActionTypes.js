@@ -1,0 +1,3 @@
+export const GET_WEATHER_SUCCEESS = '@@contacts/GET_WEATHER_SUCCEESS';
+export const GET_WEATHER_FAILURE = '@@contacts/UGET_WEATHER_FAILUREPLOAD_CHAT_INFO';
+export const GET_WEATHER_REQUEST = '@@contacts/GET_WEATHER_START';
