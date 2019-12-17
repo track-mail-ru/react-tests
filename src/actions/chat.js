@@ -21,16 +21,26 @@ const loadChatStarted = () => ({
 	type: CHAT_LOAD_START,
 });
 
+export function checkAuth(successCallback = null, errorCallback = null) {
+	return async function(dispatch, getState) {
+		const userInfo = await getUser(dispatch, getState);
+		if (!userInfo) {
+			console.log('Error: getUser()');
+			if (errorCallback) { errorCallback(); }
+			return false;
+		}
+
+		dispatch(uploadChatInfo({ myInfo: userInfo }));
+		if (successCallback) { successCallback(); }
+	};
+}
+
 export function chatLoader(callback = null) {
 	return async function(dispatch, getState) {
 		dispatch(loadChatStarted());
 
-		const userInfo = await getUser(dispatch, getState);
-		if (!userInfo) {
-			console.log('Error: getUser()');
-			return false;
-		}
-
+		const userInfo = getState().chat.myInfo;
+    
 		const chats = await getChats(dispatch, getState, userInfo);
 		if (!chats) {
 			console.log('Error: getChats()');
@@ -45,7 +55,6 @@ export function chatLoader(callback = null) {
 
 		dispatch(uploadChatInfo({
 			messagesList: messages,
-			myInfo: userInfo,
 			chatsList: chats,
 		}));
 

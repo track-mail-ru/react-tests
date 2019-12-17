@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import ChatList from './ChatList';
 import ChatForm from './ChatForm';
 import Profile from './Profile';
+import AuthForm from './AuthForm';
 import styles from '../static/styles/Main.module.css';
 
-import { chatLoader } from '../actions/chat';
+import { chatLoader , checkAuth } from '../actions/chat';
 import { getEvents } from '../actions/events';
 import { updateState, setFrameStyle } from '../actions/globalState';
 
@@ -18,6 +19,9 @@ class Main extends React.Component {
 			updateState_: props.updateState,
 			setFrameStyle_: props.setFrameStyle,
 			frameStyles: props.frameStyles,
+			checkAuth_: props.checkAuth,
+			isAuth: false,
+			isLoad: false,
 		};
 	}
 
@@ -25,17 +29,25 @@ class Main extends React.Component {
 		const {
 			chatLoader_,
 			getEvents_,
+			checkAuth_,
 		} = this.state;
 
 		console.log('Loading...');
 
-		chatLoader_(() => {
-			setInterval(() => {
-				getEvents_();
-			}, 800);
-		});
+		checkAuth_(() => {
+			this.setState({ isAuth: true });
 
-		console.log('Load сomplete!');
+			chatLoader_(() => {
+				setInterval(() => {
+					getEvents_();
+				}, 800);
+			});
+
+			console.log('Load сomplete!');
+		}, () => {
+			console.log('Auth error');
+			return false;
+		});
 	}
 
 	apearFrame(framename, newState = null) {
@@ -79,8 +91,27 @@ class Main extends React.Component {
 		}
 	}
 
+	disloadAuthForm() {
+		const { setFrameStyle_ } = this.state;
+
+		setFrameStyle_('AuthForm', {
+			animationName: styles.chatDisapear,
+		});
+
+		this.setState({
+			isLoad: true,
+		});
+	}
+
 	myRouter() {
 		const { pathname } = this.props.location;
+		const {
+			isAuth,
+			isLoad,
+		} = this.state;
+
+		if (!isLoad && isAuth) { this.disloadAuthForm(); }
+
 		switch (true) {
 			case /chat\/\d+\/?$/.test(pathname):
 				const chatID = parseInt(pathname.match(/\d+/));
@@ -102,6 +133,7 @@ class Main extends React.Component {
 
 		return (
 			<div className={styles.wrap}>
+				<AuthForm/>
 				<ChatList/>
 				<ChatForm/>
 				<Profile/>
@@ -120,6 +152,7 @@ const mapDispatchToProps = {
 	getEvents,
 	updateState,
 	setFrameStyle,
+	checkAuth,
 };
 
 export default connect(

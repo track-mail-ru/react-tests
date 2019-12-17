@@ -4,7 +4,6 @@ import { Chat } from './Chat.js';
 import styles from '../static/styles/ChatList.module.css';
 import BaseForm from '../static/styles/BaseForm.module.css';
 
-
 function ChatList(props) {
 	const {
 		style,

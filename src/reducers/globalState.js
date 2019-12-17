@@ -12,6 +12,7 @@ const initialState = {
 			ChatForm: null,
 			ChatList: null,
 			Profile: null,
+			AuthForm: null,
 		}
 	},
 };
