@@ -1,9 +1,14 @@
 language: node_js
 node_js:
   - "stable"
+
+before_install:
+  - cd exam
+
 cache:
   directories:
   - node_modules
+
 script:
   - npm run test
   - npm run build
@@ -17,5 +22,4 @@ deploy:
     branch:
       - master
       - devel
-      - devel_new
-      - devel_2
+      - exam
