@@ -1,5 +1,6 @@
 import {
-	GET_WEATHER_SUCCEESS,
+	GET_WEATHER_SUCCESS,
+	ADD_WEATHER_SUCCESS,
 	GET_WEATHER_FAILURE,
 	GET_WEATHER_REQUEST,
 } from '../constants/ActionTypes';
@@ -7,7 +8,8 @@ import {
 const initialState = {
 	loading: false,
 	error: null,
-	state: [],
+	list: [],
+	tempWeather: {}
 };
 
 export default (state = initialState, action) => {
@@ -17,11 +19,19 @@ export default (state = initialState, action) => {
 				...state,
 				loading: true
 			};
-		case GET_WEATHER_SUCCEESS:
+		case GET_WEATHER_SUCCESS:
 			return {
+				...state,
 				loading: false,
 				error: null,
-				state: {...state.state, ...action.payload}
+				list: action.payload,
+			};
+		case ADD_WEATHER_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				error: null,
+				tempWeather: {...action.payload}
 			};
 		case GET_WEATHER_FAILURE:
 			return {

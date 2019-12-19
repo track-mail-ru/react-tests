@@ -4,35 +4,25 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import styles from '../static/styles/Main.module.css';
 
 import { WheatherBox } from './WeatherBox';
-import { SearchFor } from './SearchFor';
+import SearchFor from './SearchFor';
 
-import { getWeather } from '../actions/getWeather';
+import { getWeather, getWeatherByGPS } from '../actions/getWeather';
 
 class Main extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			getWeather_: props.getWeather,
-			citiesID: [
-				524901,
-				703448,
-				2643743,
-			]
-		};
+		this.getWeather_ = props.getWeather;
+		this.getWeatherByGPS_ = props.getWeatherByGPS;
 	}
 
 	componentDidMount() {
-		const { 
-			getWeather_,
-			citiesID,
-		} = this.state;
-
-		getWeather_(citiesID);
+		this.getWeather_();
+		this.getWeatherByGPS_();
 	}
 
 	generateList(weatherList) {
 		return weatherList.map((elem) => {
-			return <WheatherBox info={elem} />;
+			return <WheatherBox key={elem.id} info={elem} />;
 		});
 	}
 
@@ -42,8 +32,8 @@ class Main extends React.Component {
 		} = this.props;
 
 		let weatherList;
-		if (weather.list) {
-			weatherList = this.generateList(weather.list);
+		if (weather) {
+			weatherList = this.generateList(weather);
 		}
 		
 		return (
@@ -76,12 +66,14 @@ class Main extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-	weather: state.weather.state,
+	weather: state.weather.list,
+	IDs: state.state.IDs,
 	...props,
 }); 
 
 const mapDispatchToProps = {
 	getWeather,
+	getWeatherByGPS,
 };
 
 export default connect(
