@@ -1,6 +1,9 @@
 {
-  "name": "exam",
+  "name": "2019-2-Atom-Frontend-V-Kisel",
+  "homepage": "https://jellyb0y.github.io/2019-2-Atom-Frontend-V-Kisel/",
+  "description": "Mail.Ru Group Frontend Atom course, 2019",
   "version": "0.1.0",
+  "author": "V Kisel",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
