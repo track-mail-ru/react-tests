@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Redux Components renders somehow 1`] = `
+<div
+  className="conteiner"
+  style={Object {}}
+>
+  <div
+    className="header"
+  >
+    <div
+      className="menu"
+    />
+    <span
+      className="formName"
+    >
+      Профиль
+    </span>
+  </div>
+  <div
+    className="content"
+  >
+    <div
+      className="topInfo"
+    >
+      <div
+        className="photo"
+      >
+        <div
+          className="userConteiner"
+        >
+          <div
+            className="image"
+            style={
+              Object {
+                "backgroundImage": "url(image.jpg)",
+                "backgroundPosition": "cetner center",
+                "backgroundRepeat": "no-repeat",
+                "backgroundSize": "cover",
+              }
+            }
+          />
+          <div
+            className="loginConteiner"
+          >
+            <div
+              className="fullName"
+            >
+              Виталий Кисель
+            </div>
+            <div
+              className="status"
+            >
+              онлайн
+            </div>
+          </div>
+        </div>
+        <div
+          className="photoButton"
+        >
+          <div
+            className="phImage"
+          />
+        </div>
+      </div>
+      <div
+        className="info"
+      >
+        <div
+          className="InfoInput"
+        >
+          <div
+            className="inputBlock active"
+          >
+            <div
+              className="placeholder"
+            >
+              Никнейм
+            </div>
+            <input
+              className="input"
+              defaultValue="@jellyb0y"
+              onChange={[Function]}
+            />
+          </div>
+        </div>
+        <div
+          className="InfoInput"
+        >
+          <div
+            className="inputBlock active"
+          >
+            <div
+              className="placeholder"
+            >
+              Почта
+            </div>
+            <input
+              className="input"
+              defaultValue="test@mail.ru"
+              onChange={[Function]}
+            />
+          </div>
+        </div>
+        <div
+          className="InfoInput"
+        >
+          <div
+            className="inputBlock active"
+          >
+            <div
+              className="placeholder"
+            >
+              О себе
+            </div>
+            <input
+              className="input"
+              defaultValue="Разработчик этого приложения"
+              onChange={[Function]}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
