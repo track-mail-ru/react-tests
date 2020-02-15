@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test Redux Components renders somehow 1`] = `
+exports[`Test Redux Components matches snapshot 1`] = `
 <div
   className="conteiner"
   style={Object {}}

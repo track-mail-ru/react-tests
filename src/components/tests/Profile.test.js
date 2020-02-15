@@ -22,7 +22,7 @@ describe('Test Redux Components', () => {
 		);
 	});
 
-	it('renders somehow', () => {
+	it('matches snapshot', () => {
 		expect(component.toJSON()).toMatchSnapshot();
 	});
 });
