@@ -48,7 +48,7 @@
     "prettier": "^1.18.2",
     "pretty-quick": "^2.0.0",
     "rosie": "^2.0.1",
-    "stylelint": "^11.1.1",
+    "stylelint": "^15.10.1",
     "stylelint-a11y": "^1.2.2",
     "stylelint-config-css-modules": "^1.5.0",
     "stylelint-no-unsupported-browser-features": "^3.0.2",
